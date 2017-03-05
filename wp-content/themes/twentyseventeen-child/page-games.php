@@ -35,10 +35,54 @@ get_header(); ?>
 #       $args = array( 'posts_per_page' => 5, 'offset' => 1, 'category' => 'featured-games');
         $args = array( 'posts_per_page' => 100, 'offset' => 1, 'category_name' => 'featured-games', 'orderby' => 'title', 'order' => 'ASC');
         $myposts = get_posts($args);
+        ?>
+        <table>
+        <?php
+        $iGameNumber = 0;
         foreach( $myposts as $post) : setup_postdata( $post); ?>
-        <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a><br/>
-        <?php endforeach;
-        wp_reset_postdata();?>
+      
+        <?php
+          if ($iGameNumber % 2 == 0) {
+            echo "<tr class=\"even_row\">";
+          } else {
+            echo "<tr class=\"odd_row\">";
+          }
+        ?>
+          <td><?php echo $iGameNumber + 1 ?></td>
+          <td><strong><a href="<?php the_permalink();?>"><?php the_title();?></a></strong></td>
+
+          <td>
+<?php 
+        $itch_link = get_post_meta(get_the_ID(), 'itchio', true);
+        if ($itch_link != "") {
+          echo "<a href=\"" . $itch_link . "\">Itch.io</a>";
+        } 
+?>
+        </td>
+
+          <td>
+<?php 
+        $gamejolt_link = get_post_meta(get_the_ID(), 'gamejolt', true);
+        if ($gamejolt_link != "") {
+          echo "<a href=\"" . $gamejolt_link . "\">GameJolt</a>";
+        } 
+?>
+        </td>
+
+          <td>
+<?php 
+        $indiedb_link = get_post_meta(get_the_ID(), 'indiedb', true);
+        if ($indiedb_link != "") {
+          echo "<a href=\"" . $indiedb_link . "\">IndieDB</a>";
+        } 
+?>
+        </td>
+
+        </tr>   
+        <?php $iGameNumber += 1;?>
+        <?php endforeach;?>
+        <?php wp_reset_postdata();?>
+        </table>
 
 <!-- Game Listing ends here -->
 	</div><!-- #primary -->
