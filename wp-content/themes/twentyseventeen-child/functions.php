@@ -5,6 +5,7 @@
         if (in_category('featured-games')) {
           $itch_link = get_post_meta(get_the_ID(), 'itchio', true);
           $gamejolt_link = get_post_meta(get_the_ID(), 'gamejolt', true);
+          $microsoftstore_link = get_post_meta(get_the_ID(), 'microsoftstore', true);
           $indiedb_link = get_post_meta(get_the_ID(), 'indiedb', true);
           $youtube_playlist_link = get_post_meta(get_the_ID(), 'youtube_playlist', true);
 
@@ -24,6 +25,13 @@
               $strText .= "<a href=\"" . $gamejolt_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
                           "/assets/images/icon_gamejolt.jpg\" title=\"Download on GameJolt\"></a> ";
+            }
+
+            #Display Microsoft Store link 
+            if ($microsoftstore_link != "") {
+              $strText .= "<a href=\"" . $microsoftstore_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_microsoftstore.jpg\" title=\"Download on Microsoft Store\"></a> ";
             }
 
             #Display IndieDB link 

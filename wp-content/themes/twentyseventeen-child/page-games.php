@@ -126,6 +126,17 @@ get_header(); ?>
         echo '</td>';
 ?>
 
+<?php 
+#Display Microsoft Store link 
+        echo '<td width="40">';
+        $microsoftstore_link = get_post_meta(get_the_ID(), 'microsoftstore', true);
+        if ($microsoftstore_link != "") {
+          echo "<a href=\"" . $microsoftstore_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_small_microsoftstore.jpg\" title=\"Play " . get_the_title() . " on Microsoft Store\"></a>";
+        } 
+        echo '</td>';
+?>
 
 <?php 
 #Display IndieDB link 
