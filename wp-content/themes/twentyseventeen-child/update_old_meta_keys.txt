@@ -1,0 +1,57 @@
+SELECT *
+FROM wp_postmeta
+WHERE meta_key LIKE 'itchio'
+
+UPDATE wp_postmeta
+SET meta_key = '_games_itchio'
+WHERE meta_key LIKE 'itchio';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_gamejolt'
+WHERE meta_key LIKE 'gamejolt';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_microsoftstore'
+WHERE meta_key LIKE 'microsoftstore';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_indiedb'
+WHERE meta_key LIKE 'indiedb';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_youtube_playlist'
+WHERE meta_key LIKE 'youtube_playlist';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_ludumdare'
+WHERE meta_key LIKE 'ludumdare';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_minild'
+WHERE meta_key LIKE 'minild';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_warmup'
+WHERE meta_key LIKE 'warmup';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_gm48'
+WHERE meta_key LIKE 'gm48';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_timelapse'
+WHERE meta_key LIKE 'timelapse';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_soundcloud'
+WHERE meta_key LIKE 'soundcloud';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_unityconnect'
+WHERE meta_key LIKE 'unityconnect';
+
+UPDATE wp_postmeta
+SET meta_key = '_games_engine'
+WHERE meta_key LIKE 'engine';
+
+

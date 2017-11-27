@@ -21,8 +21,8 @@ get_header(); ?>
 				while ( have_posts() ) : the_post();
 
 
-echo display_game_links();
-echo display_game_metadata();
+#echo display_game_links();
+#echo display_game_metadata();
 
 					get_template_part( 'template-parts/post/content', get_post_format() );
 
