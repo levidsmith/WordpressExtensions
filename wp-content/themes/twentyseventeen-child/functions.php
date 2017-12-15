@@ -7,9 +7,11 @@ function create_posttype() {
     array(
       'labels' => array(
         'name' => __('Games'),
-        'singular_name' => __('Game')
+        'singular_name' => __('Game'),
+        'edit' => 'Edit'
       ),
       'description' => 'Games created by Levi D. Smith',
+      'taxonomies' => array('post_tag'),
       'public' => true,
       'has_archive' => true,
       'rewrite' => array('slug' => 'games'),
@@ -500,6 +502,15 @@ function games_pre_posts($q) {
     return;
   }
   $q->set('post_type', array('post', 'games'));
+#  $q->set('year', '2015');
 
 }
+
+#Add games to the listing of posts by tag
+add_action('parse_tax_query', 'games_tax_query');
+function games_tax_query($q) {
+  $q->set('post_type', array('post', 'games'));
+}
+
+
 ?>

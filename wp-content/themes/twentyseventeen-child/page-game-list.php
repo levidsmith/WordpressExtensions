@@ -75,15 +75,18 @@ get_header(); ?>
         <?php
         $args = array( 'posts_per_page' => 100, 'offset' => 0, 'order' => 'DESC');
 
+        $showDate = false;
         if ($orderby == 'name') {
           $args['orderby'] = 'title'; 
           $args['order'] = 'ASC'; 
         } else if ($orderby == 'newest') {
           $args['orderby'] = 'date'; 
           $args['order'] = 'DESC'; 
+          $showDate = true;
         } else if ($orderby == 'oldest') {
           $args['orderby'] = 'date'; 
           $args['order'] = 'ASC'; 
+          $showDate = true;
         } else {
           $args['orderby'] = 'title'; 
           $args['order'] = 'ASC'; 
@@ -105,7 +108,9 @@ get_header(); ?>
         <?php
         $iGameNumber = 0;
         foreach( $myposts as $post) : setup_postdata( $post); 
-          if ( display_game_row($post, $jam, $iGameNumber) ) {
+
+          $doIncrementNumber = display_game_row($post, $jam, $showDate, $iGameNumber);
+          if ($doIncrementNumber) {
             $iGameNumber += 1;
           }
         ?>
@@ -122,7 +127,7 @@ get_header(); ?>
 
 <?php
 ### Display game list ###
-function display_game_row($post, $jam, $iGameNumber) {
+function display_game_row($post, $jam, $showDate, $iGameNumber) {
 ?>
 
 
@@ -230,7 +235,7 @@ function display_game_row($post, $jam, $iGameNumber) {
 
 <?php
 #Display post date
-        if ($orderby == 'newest' || $orderby == 'oldest') {
+        if ($showDate) {
 ?>
         <td><?php the_date('M Y');?></td> 
 <?php
@@ -310,7 +315,7 @@ function display_game_row($post, $jam, $iGameNumber) {
     if ($unityconnect_link != "") {
       echo "<a href=\"" . $unityconnect_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_unityconnect.jpg\" title=\"Listen to " . get_the_title() . " music\"></a>";
+                          "/assets/images/icon_small_unityconnect.jpg\" title=\"View " . get_the_title() . " on Unity Connect\"></a>";
         } 
     echo '</td>';
   }
