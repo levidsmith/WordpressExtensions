@@ -103,6 +103,9 @@ function game_save_post_class_meta($post_id, $post) {
 # Update Kongregate 
   game_update_meta_value('_games_kongregate', $post_id);
 
+# Update Display Web Game 
+  game_update_meta_value('_games_displaywebgame', $post_id);
+
 
 }
 
@@ -217,6 +220,10 @@ function game_post_class_meta_box( $post ) {
   echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
   echo '<br/>';
 
+  echo 'Display Web Game';
+  $meta_key = '_games_displaywebgame';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
 
 
 }
@@ -251,7 +258,8 @@ function get_engines() {
 
 
 ### DISPLAY GAME LINKS ###
-  function display_game_links( $content ) {
+  function display_game_links($content) {
+#       $strText .= '<div>';
 
        if (get_post_type(get_the_ID()) == 'games') {
 
@@ -415,17 +423,30 @@ function get_engines() {
 
 
 
-#        if (get_post_type(get_the_ID()) == 'games') {
+  #      if (get_post_type(get_the_ID()) == 'games') {
 #          return "game content";
-          $strText .= '<div class="entry-meta"><time class="entry-date published" datetime="' . get_the_date('c') . '">' . get_the_date() . '</time></div><br/>';
 
-          $content = $strText . '<br/>' . $content;
+
+# LDS - Uncomment below to display date published for game
+#          $strText .= '<div class="entry-meta"><time class="entry-date published" datetime="' . get_the_date('c') . '">' . get_the_date() . '</time></div><br/>';
+
+#          $content = $strText . '<br/>' . $content;
         }
 
-        return $content;
+#        return $content;
+#    $strText .= '</div>';
+
+    return $strText . '<br/>' . $content;
+#    return "foo";
   }
 
-add_action('the_content', 'display_game_links');
+add_filter('the_content', 'display_game_links', 3);
+
+#  function display_content($content) {
+
+#    echo $content;
+#  }
+#add_action('the_content', 'display_content', 1);
 
 
 ### END DISPLAY GAME LINKS ###
@@ -509,8 +530,96 @@ function games_pre_posts($q) {
 #Add games to the listing of posts by tag
 add_action('parse_tax_query', 'games_tax_query');
 function games_tax_query($q) {
-  $q->set('post_type', array('post', 'games'));
+#  if (is_admin() || !$q->is_main_query() || !is_home()) {
+#    return;
+#  }
+#  if ($q['tag'] == 'dream build play') {
+#    $q->set('post_type', array('post', 'games'));
+#  }
+  if ($q->is_main_query()) {
+    if ($q->query_vars['tag'] == 'dream-build-play') {
+#    echo $q->query_vars['tag'];
+#    echo "parse_tax_query";
+      $q->set('post_type', array('post', 'games'));
+    }
+  }
 }
 
+/*
+add_action('pre_get_posts', 'popular_games');
+function popular_games($q) {
+  echo "<div>popular games</div>";
+}
+*/
+
+
+function my_body_class($class) {
+#  $class[] = 'foo';
+  return "";
+}
+add_filter('body_class', 'my_body_class');
+
+function get_featured_game_blurbs() {
+
+  if (!is_home()) {
+#    echo "<div>Home Page</div>";
+    return;
+  }
+
+  echo '<div class="featured_games">';
+
+  $game_name = 'Kitty\'s Adventure';
+  $game_url = 'http://levidsmith.com/games/kittys-adventure/'; 
+  $game_img = 'http://levidsmith.com/blog/wp-content/uploads/2018/03/kittysadventure_256x144.jpg';
+  $game_blurb = 'Popular on XBox One';
+  echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
+
+
+  $game_name = 'Turn Back the Clocks 4';
+  $game_url = 'http://levidsmith.com/games/turn-back-clocks-4/'; 
+  $game_img = 'http://levidsmith.com/blog/wp-content/uploads/2018/03/turnbacktheclocks4_256x144.jpg';
+  $game_blurb = 'Latest on XBox One';
+  echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
+
+
+  $game_name = 'TTY GFX ADVNTR';
+  $game_url = 'http://levidsmith.com/games/tty-gfx-advntr/'; 
+  $game_img = 'http://levidsmith.com/blog/wp-content/uploads/2018/03/tty_gfx_advntr_256x144.jpg';
+  $game_blurb = 'Classic Favorite';
+  echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
+
+  echo '</div>';
+
+
+
+}
+
+
+function display_embed_game($content) {
+  $strText = "";
+  $strText .= get_the_ID();
+
+  $meta_key = '_games_displaywebgame';
+  $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $strText .= $displaywebgame;
+
+  if ($displaywebgame == 'true') {
+  $strText .= '<div>';
+  $strText .= 'Display embed game: ' . get_post(get_the_ID())->post_name;
+  $strText .= '</div>';
+
+#  echo '<iframe src="http://levidsmith.com/web-games/' . $game_identifier . '" width="1500" height="760" frameborder="0" allowfullscreen="allowfullscreen">';
+
+#  echo '<span style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" data-mce-type="bookmark" class="mce_SELRES_start">﻿</sp';
+#  echo '</iframe>';
+  } else {
+    $strText .= 'Do not display web game';
+  }
+  
+  return $strText . $content;
+
+}
+#add_filter('the_content', 'display_embed_game', 2);
 
 ?>
