@@ -106,6 +106,9 @@ function game_save_post_class_meta($post_id, $post) {
 # Update Display Web Game 
   game_update_meta_value('_games_displaywebgame', $post_id);
 
+# Update blurb 
+  game_update_meta_value('_games_blurb', $post_id);
+
 
 }
 
@@ -225,6 +228,11 @@ function game_post_class_meta_box( $post ) {
   echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
   echo '<br/>';
 
+  echo 'Blurb';
+  $meta_key = '_games_blurb';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
 
 }
 
@@ -258,7 +266,7 @@ function get_engines() {
 
 
 ### DISPLAY GAME LINKS ###
-  function display_game_links($content) {
+  function display_game_links() {
 #       $strText .= '<div>';
 
        if (get_post_type(get_the_ID()) == 'games') {
@@ -302,11 +310,9 @@ function get_engines() {
           $meta_key = '_games_unityconnect';
           $unityconnect_link = get_post_meta(get_the_ID(), $meta_key, true);
 
-          $meta_key = '_games_engine';
-          $engine_value = get_post_meta(get_the_ID(), $meta_key, true);
 
           $meta_key = '_games_thumbnail';
-          $engine_value = get_post_meta(get_the_ID(), $meta_key, true);
+          $thumbnail_value = get_post_meta(get_the_ID(), $meta_key, true);
 
           $meta_key = '_games_kongregate';
           $kongregate_link = get_post_meta(get_the_ID(), $meta_key, true);
@@ -414,13 +420,6 @@ function get_engines() {
                           "/assets/images/icon_gm48.jpg\" title=\"GM48 Entry\"></a> ";
             }
 
-            #Display Engine value 
-            if ($engine_value != "") {
-              $engines = get_engines();
-              $strText .= "<br/>Engine: " . $engines[$engine_value] . "<br/>";
-            }
-
-
 
 
   #      if (get_post_type(get_the_ID()) == 'games') {
@@ -436,11 +435,10 @@ function get_engines() {
 #        return $content;
 #    $strText .= '</div>';
 
-    return $strText . '<br/>' . $content;
-#    return "foo";
+#    return $strText . '<br/>' . $content;
+    return $strText;
   }
 
-add_filter('the_content', 'display_game_links', 3);
 
 #  function display_content($content) {
 
@@ -462,6 +460,26 @@ add_filter('the_content', 'display_game_links', 3);
 
 ### END DISPLAY GAME TITLE ###
 
+### START DISPLAY GAME APPENDIX ###
+  function display_game_appendix() {
+       $strText = "";
+
+       if (get_post_type(get_the_ID()) == 'games') {
+          $meta_key = '_games_engine';
+          $engine_value = get_post_meta(get_the_ID(), $meta_key, true);
+
+            #Display Engine value 
+            if ($engine_value != "") {
+              $engines = get_engines();
+              $strText .= "<br/>Built with: " . $engines[$engine_value] . "<br/>";
+            }
+
+       }
+       return $strText;
+  }
+
+
+### END DISPLAY GAME APPENDIX ###
 
 ### DISPLAY GAME METADATA ###
   function display_game_metadata() {
@@ -569,22 +587,22 @@ function get_featured_game_blurbs() {
   echo '<div class="featured_games">';
 
   $game_name = 'Kitty\'s Adventure';
-  $game_url = 'http://levidsmith.com/games/kittys-adventure/'; 
-  $game_img = 'http://levidsmith.com/blog/wp-content/uploads/2018/03/kittysadventure_256x144.jpg';
+  $game_url = 'https://levidsmith.com/games/kittys-adventure/'; 
+  $game_img = 'https://levidsmith.com/blog/wp-content/uploads/2018/03/kittysadventure_256x144.jpg';
   $game_blurb = 'Popular on XBox One';
   echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
 
 
   $game_name = 'Turn Back the Clocks 4';
-  $game_url = 'http://levidsmith.com/games/turn-back-clocks-4/'; 
-  $game_img = 'http://levidsmith.com/blog/wp-content/uploads/2018/03/turnbacktheclocks4_256x144.jpg';
+  $game_url = 'https://levidsmith.com/games/turn-back-clocks-4/'; 
+  $game_img = 'https://levidsmith.com/blog/wp-content/uploads/2018/03/turnbacktheclocks4_256x144.jpg';
   $game_blurb = 'Latest on XBox One';
   echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
 
 
   $game_name = 'TTY GFX ADVNTR';
-  $game_url = 'http://levidsmith.com/games/tty-gfx-advntr/'; 
-  $game_img = 'http://levidsmith.com/blog/wp-content/uploads/2018/03/tty_gfx_advntr_256x144.jpg';
+  $game_url = 'https://levidsmith.com/games/tty-gfx-advntr/'; 
+  $game_img = 'https://levidsmith.com/blog/wp-content/uploads/2018/03/tty_gfx_advntr_256x144.jpg';
   $game_blurb = 'Classic Favorite';
   echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
 
@@ -595,31 +613,70 @@ function get_featured_game_blurbs() {
 }
 
 
-function display_embed_game($content) {
-  $strText = "";
-  $strText .= get_the_ID();
+function display_embed_game() {
+  $strText = '' . "\n";
+#  $strText .= get_the_ID();
 
   $meta_key = '_games_displaywebgame';
   $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
 
-  $strText .= $displaywebgame;
 
   if ($displaywebgame == 'true') {
+  $game_identifier = get_post(get_the_ID())->post_name;
+
+  $strText .= '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
   $strText .= '<div>';
-  $strText .= 'Display embed game: ' . get_post(get_the_ID())->post_name;
+  $strText .= '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="1500" height="760" frameborder="0" allowfullscreen="allowfullscreen">';
+  $strText .= '</iframe>';
   $strText .= '</div>';
+  $strText .= '<!-- LDS - END - Embed Unity WebGL game using iframe -->' . "\n";
 
-#  echo '<iframe src="http://levidsmith.com/web-games/' . $game_identifier . '" width="1500" height="760" frameborder="0" allowfullscreen="allowfullscreen">';
+#  $strText .= '<!-- LDS - START - Embed Unity WebGL game information in the body -->' . "\n";
+#     $strText .= '    <div class="webgl-content">';
+#     $strText .= '     <div class="footer">';
+#     $strText .= '       <div class="webgl-logo"></div>';
+#     $strText .= '       <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>';
+#     $strText .= '       <div class="title">AmishBrothers</div>';
+#     $strText .= '     </div>';
+#     $strText .= '   </div>';
+#  $strText .= '<!-- LDS - END - Embed Unity WebGL game information in body -->' . "\n";
 
-#  echo '<span style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" data-mce-type="bookmark" class="mce_SELRES_start">﻿</sp';
-#  echo '</iframe>';
+
   } else {
-    $strText .= 'Do not display web game';
+#    $strText .= 'Do not display web game';
   }
   
-  return $strText . $content;
+  return $strText;
 
 }
-#add_filter('the_content', 'display_embed_game', 2);
+
+
+#function display_embed_game_head($head) {
+#  $strText = '' . "\n";
+#  $strText .= '<!-- LDS - START - Embed Unity WebGL game information in the head tag -->' . "\n";
+#   $strText .= '   <link rel="stylesheet" href="/web-games/amish-brothers/TemplateData/style.css">' . "\n";
+#   $strText .= '   <script src="/web-games/amish-brothers/TemplateData/UnityProgress.js"></script>' . "\n";
+#   $strText .= '   <script src="/web-games/amish-brothers/Build/UnityLoader.js"></script>' . "\n";
+#   $strText .= '   <script>' . "\n";
+#   $strText .= '     var gameInstance = UnityLoader.instantiate("gameContainer", "/web-games/amish-brothers/Build/AmishBrothersWebGL.json", {onProgress: UnityProgress});' . "\n";
+#   $strText .= '   </script>' . "\n";
+
+
+#  $strText .= '<!-- LDS - END Embed Unity WebGL game information in the head tag -->'. "\n";
+#  $strText .= '' . "\n";
+#  echo $strText;
+#}
+#add_action('wp_head', 'display_embed_game_head');
+
+
+
+
+function add_custom_game_content($content) {
+
+  return display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
+
+}
+add_filter('the_content', 'add_custom_game_content', 5);
+
 
 ?>

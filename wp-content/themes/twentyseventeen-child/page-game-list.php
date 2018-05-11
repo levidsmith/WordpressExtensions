@@ -29,6 +29,7 @@ get_header(); ?>
 
         <?php
         echo 'Game Index<br/><br/>';
+        echo '<a href="?web=true&layout=thumbnail">Web Games</a><br/>';
         echo 'Order all by: ';
         echo '<a href="?orderby=name">Name</a> | ';
         echo '<a href="?orderby=newest">Newest</a> |';
@@ -101,27 +102,95 @@ get_header(); ?>
         $args['post_type'] = 'games';
 
         $myposts = get_posts($args);
-?>
 
-        <table>
 
-        <?php
+        $layout = $_GET['layout'];
+        if ($layout == 'thumbnail') {
+          display_layout_thumbnail($myposts, true);
+
+        } elseif ($layout == 'list') {
+          display_layout_list($myposts, $jam, $showDate);
+        } else {
+          display_layout_list($myposts, $jam, $showDate);
+        }
+
+
+
+
+
+  function display_layout_thumbnail($myposts, $webgame_only) {
+#    echo 'Thumnails displayed here';
+    echo '<div class="thumbnail_games">';
+        foreach( $myposts as $thepost) : setup_postdata( $thepost); 
+
+        if (!$thepost->_games_displaywebgame) {
+          continue;
+        }
+
+
+    $game_name = get_the_title($thepost->ID); 
+    $game_url = get_the_permalink($thepost->ID);
+#    $game_img = '';
+#    $game_img = get_post_meta($post->ID, '_games_thumbnail', true);
+    $game_img = $thepost->_games_thumbnail;
+    $game_blurb = $thepost->_games_blurb;
+    echo '<div class="featured_game"><a href="' . $game_url . '">';
+    if ($game_img != '') {
+      echo '<img src="' . $game_img . '">';
+    }
+    echo '</a>';
+    if ($game_blurb != '') {
+      echo '<div class="featured_game_blurb">' . $game_blurb . '</div>';
+    }
+
+
+#    if (strlen($game_name) < 20) {
+      echo  '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
+#    } else {
+#      echo  '<div class="featured_game_name_small"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
+
+#    }
+
+
+
+        endforeach;
+        wp_reset_postdata();
+    echo '</div>';
+ 
+#    echo '<div style="float: left; clear: both;">bar</div>';
+  }
+
+
+
+
+  function display_layout_list($myposts, $jam, $showDate) {
+    echo "Display layout list<br/>";
+    echo '<table>';
+
         $iGameNumber = 0;
-        foreach( $myposts as $post) : setup_postdata( $post); 
+        foreach( $myposts as $thepost) : setup_postdata( $thepost); 
 
-          $doIncrementNumber = display_game_row($post, $jam, $showDate, $iGameNumber);
+          $doIncrementNumber = display_game_row($thepost, $jam, $showDate, $iGameNumber);
+#          $doIncrementNumber = display_game_text($thepost, $jam, $showDate, $iGameNumber);
           if ($doIncrementNumber) {
             $iGameNumber += 1;
           }
-        ?>
 
-        <?php endforeach;?>
-        <?php wp_reset_postdata();?>
-        </table>
+        endforeach;
+        wp_reset_postdata();
+        echo '</table>';
+
+  }
+?>
 
 
-
-
+<?php
+### Display game text ###
+function display_game_text($post, $jam, $showDate, $iGameNumber) {
+#  echo "Game: " . $post->post_title . " " . $post->ID . "<br/>";
+  echo "Game: " . get_the_title($post->ID) . "<br/>";
+}
+?>
 
 
 
@@ -136,14 +205,14 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Filter by game jam
 
 
-          if ($jam == 'ludumdare' && get_post_meta(get_the_ID(), '_games_ludumdare', true) == '') {
+          if ($jam == 'ludumdare' && get_post_meta($post->ID, '_games_ludumdare', true) == '') {
              return;
             
-          } elseif ($jam == 'gm48' && get_post_meta(get_the_ID(), '_games_gm48', true) == '') {
+          } elseif ($jam == 'gm48' && get_post_meta($post->ID, '_games_gm48', true) == '') {
              return;
-          } elseif ($jam == 'minild' && get_post_meta(get_the_ID(), '_games_minild', true) == '') {
+          } elseif ($jam == 'minild' && get_post_meta($post->ID, '_games_minild', true) == '') {
              return;
-          } elseif ($jam == 'warmup' && get_post_meta(get_the_ID(), '_games_warmup', true) == '') {
+          } elseif ($jam == 'warmup' && get_post_meta($post->ID, '_games_warmup', true) == '') {
              return;
           }
 
@@ -152,37 +221,37 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Filter by engine 
           $engine = $_GET['engine'];
           $meta_key = '_games_engine';
-          if ($engine == 'unity' && get_post_meta(get_the_ID(), $meta_key, true) != 'unity') {
+          if ($engine == 'unity' && get_post_meta($post->ID, $meta_key, true) != 'unity') {
              return;
 
-          } elseif ($engine == 'gamemaker' && get_post_meta(get_the_ID(), $meta_key, true) != 'gamemaker') {
+          } elseif ($engine == 'gamemaker' && get_post_meta($post->ID, $meta_key, true) != 'gamemaker') {
              return;
 
-          } elseif ($engine == 'xna_monogame' && get_post_meta(get_the_ID(), $meta_key, true) != 'xna_monogame') {
+          } elseif ($engine == 'xna_monogame' && get_post_meta($post->ID, $meta_key, true) != 'xna_monogame') {
              return;
 
-          } elseif ($engine == 'sdl' && get_post_meta(get_the_ID(), $meta_key, true) != 'sdl') {
+          } elseif ($engine == 'sdl' && get_post_meta($post->ID, $meta_key, true) != 'sdl') {
              return;
 
-          } elseif ($engine == 'stencyl' && get_post_meta(get_the_ID(), $meta_key, true) != 'stencyl') {
+          } elseif ($engine == 'stencyl' && get_post_meta($post->ID, $meta_key, true) != 'stencyl') {
              return;
 
-          } elseif ($engine == '6502' && get_post_meta(get_the_ID(), $meta_key, true) != '6502') {
+          } elseif ($engine == '6502' && get_post_meta($post->ID, $meta_key, true) != '6502') {
              return;
 
-          } elseif ($engine == 'godot' && get_post_meta(get_the_ID(), $meta_key, true) != 'godot') {
+          } elseif ($engine == 'godot' && get_post_meta($post->ID, $meta_key, true) != 'godot') {
              return;
 
-          } elseif ($engine == 'construct' && get_post_meta(get_the_ID(), $meta_key, true) != 'construct') {
+          } elseif ($engine == 'construct' && get_post_meta($post->ID, $meta_key, true) != 'construct') {
              return;
 
-          } elseif ($engine == 'unreal' && get_post_meta(get_the_ID(), $meta_key, true) != 'unreal') {
+          } elseif ($engine == 'unreal' && get_post_meta($post->ID, $meta_key, true) != 'unreal') {
              return;
 
-          } elseif ($engine == 'scratch' && get_post_meta(get_the_ID(), $meta_key, true) != 'scratch') {
+          } elseif ($engine == 'scratch' && get_post_meta($post->ID, $meta_key, true) != 'scratch') {
             return;
 
-          } elseif ($engine == 'pico8' && get_post_meta(get_the_ID(), $meta_key, true) != 'pico8') {
+          } elseif ($engine == 'pico8' && get_post_meta($post->ID, $meta_key, true) != 'pico8') {
              return;
 
 
@@ -193,14 +262,14 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Filter by time lapse
           $timelapse = $_GET['timelapse'];
           $meta_key = '_games_timelapse';
-          if ($timelapse == 'true' && get_post_meta(get_the_ID(), $meta_key, true) == '') {
+          if ($timelapse == 'true' && get_post_meta($post->ID, $meta_key, true) == '') {
              return;
           }
 
 #Filter by SoundCloud 
           $soundcloud = $_GET['soundcloud'];
           $meta_key = '_games_soundcloud';
-          if ($soundcloud == 'true' && get_post_meta(get_the_ID(), $meta_key, true) == '') {
+          if ($soundcloud == 'true' && get_post_meta($post->ID, $meta_key, true) == '') {
              return;
           }
 
@@ -208,7 +277,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Filter by Unity Connect 
           $unityconnect = $_GET['unityconnect'];
           $meta_key = '_games_unityconnect';
-          if ($unityconnect == 'true' && get_post_meta(get_the_ID(), $meta_key, true) == '') {
+          if ($unityconnect == 'true' && get_post_meta($post->ID, $meta_key, true) == '') {
              return;
           }
 
@@ -228,8 +297,11 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
           }
         ?>
           <td><?php echo $iGameNumber + 1 ?></td>
-          <td><strong><a href="<?php the_permalink();?>"><?php the_title();?></a></strong></td>
+        
+<?php
+          echo '<td><strong><a href="' . get_the_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></strong></td>';
 
+?>
 
 
 
@@ -247,7 +319,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   if ($jam == 'ludumdare') {
     echo '<td width="40">';
     $meta_key = '_games_ludumdare';
-    $ludumdare_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $ludumdare_link = get_post_meta($post->ID, $meta_key, true);
     if ($ludumdare_link != "") {
       echo "<a href=\"" . $ludumdare_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -263,7 +335,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   if ($jam == 'gm48') {
     echo '<td width="40">';
     $meta_key = '_games_gm48';
-    $gm48_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $gm48_link = get_post_meta($post->ID, $meta_key, true);
     if ($gm48_link != "") {
       echo "<a href=\"" . $gm48_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -279,7 +351,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   if ($jam == 'minild') {
     echo '<td width="40">';
     $meta_key = '_games_minild';
-    $minild_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $minild_link = get_post_meta($post->ID, $meta_key, true);
     if ($minild_link != "") {
       echo "<a href=\"" . $minild_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -295,7 +367,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   if ($jam == 'warmup') {
     echo '<td width="40">';
     $meta_key = '_games_warmup';
-    $warmup_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $warmup_link = get_post_meta($post->ID, $meta_key, true);
     if ($warmup_link != "") {
       echo "<a href=\"" . $warmup_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -311,7 +383,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   if ($unityconnect == 'true') {
     echo '<td width="40">';
     $meta_key = '_games_unityconnect';
-    $unityconnect_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $unityconnect_link = get_post_meta($post->ID, $meta_key, true);
     if ($unityconnect_link != "") {
       echo "<a href=\"" . $unityconnect_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -328,7 +400,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display Itch.io link 
         echo '<td width="40">';
         $meta_key = '_games_itchio';
-        $itch_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $itch_link = get_post_meta($post->ID, $meta_key, true);
         if ($itch_link != "") {
           echo "<a href=\"" . $itch_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -342,7 +414,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display GameJolt link 
         echo '<td width="40">';
         $meta_key = '_games_gamejolt';
-        $gamejolt_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $gamejolt_link = get_post_meta($post->ID, $meta_key, true);
         if ($gamejolt_link != "") {
           echo "<a href=\"" . $gamejolt_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -355,7 +427,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display Microsoft Store link 
         echo '<td width="40">';
         $meta_key = '_games_microsoftstore';
-        $microsoftstore_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $microsoftstore_link = get_post_meta($post->ID, $meta_key, true);
         if ($microsoftstore_link != "") {
           echo "<a href=\"" . $microsoftstore_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -368,7 +440,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display Google Play link 
         echo '<td width="40">';
         $meta_key = '_games_googleplay';
-        $googleplay_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $googleplay_link = get_post_meta($post->ID, $meta_key, true);
         if ($googleplay_link != "") {
           echo "<a href=\"" . $googleplay_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -381,7 +453,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display Kongregate link 
         echo '<td width="40">';
         $meta_key = '_games_kongregate';
-        $kongregate_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $kongregate_link = get_post_meta($post->ID, $meta_key, true);
         if ($kongregate_link != "") {
           echo "<a href=\"" . $kongregate_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -395,7 +467,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display IndieDB link 
         echo '<td width="40">';
         $meta_key = '_games_indiedb';
-        $indiedb_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $indiedb_link = get_post_meta($post->ID, $meta_key, true);
         if ($indiedb_link != "") {
           #echo "<a href=\"" . $indiedb_link . "\">IndieDB</a>";
           echo "<a href=\"" . $indiedb_link . "\"><img src=\"" .
@@ -411,7 +483,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #  if ($timelapse == 'true') {
     echo '<td width="40">';
     $meta_key = '_games_timelapse';
-    $timelapse_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $timelapse_link = get_post_meta($post->ID, $meta_key, true);
     if ($timelapse_link != "") {
       echo "<a href=\"" . $timelapse_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -427,7 +499,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #  if ($soundcloud == 'true') {
     echo '<td width="40">';
     $meta_key = '_games_soundcloud';
-    $soundcloud_link = get_post_meta(get_the_ID(), $meta_key, true);
+    $soundcloud_link = get_post_meta($post->ID, $meta_key, true);
     if ($soundcloud_link != "") {
       echo "<a href=\"" . $soundcloud_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
@@ -443,7 +515,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 #Display YouTube Playlist link 
         echo '<td width="40">';
         $meta_key = '_games_youtube_playlist';
-        $youtube_playlist_link = get_post_meta(get_the_ID(), $meta_key, true);
+        $youtube_playlist_link = get_post_meta($post->ID, $meta_key, true);
         if ($youtube_playlist_link != "") {
           #echo "<a href=\"" . $youtube_playlist_link . "\">Playlist</a>";
           echo "<a href=\"" . $youtube_playlist_link . "\"><img src=\"" .
@@ -456,7 +528,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 
 <?php 
 #Display Edit link
-        $edit_link = get_edit_post_link(get_the_ID());
+        $edit_link = get_edit_post_link($post->ID);
         if ($edit_link != "") {
           echo "<td><a href=\"" . $edit_link . "\">Edit</a></td>";
         } 
@@ -466,7 +538,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   #Missing engine value
   if (current_user_can("administrator")) {
     $meta_key = '_games_engine';
-    if (get_post_meta(get_the_ID(), $meta_key, true) == '') {
+    if (get_post_meta($post->ID, $meta_key, true) == '') {
           echo "<td>No engine</td>";
     } else {
       echo "<td></td>";
