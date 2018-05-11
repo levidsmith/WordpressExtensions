@@ -621,7 +621,7 @@ function display_embed_game() {
   $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
 
 
-  if ($displaywebgame == 'true') {
+  if (!wp_is_mobile() && $displaywebgame == 'true') {
   $game_identifier = get_post(get_the_ID())->post_name;
 
   $strText .= '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
