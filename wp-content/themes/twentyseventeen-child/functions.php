@@ -15,7 +15,7 @@ function create_posttype() {
       'public' => true,
       'has_archive' => true,
       'rewrite' => array('slug' => 'games'),
-      'supports' => array('title', 'editor', 'custom-fields', 'publicize')
+      'supports' => array('title', 'editor', 'custom-fields', 'publicize', 'comments')
     )
   );
 }
