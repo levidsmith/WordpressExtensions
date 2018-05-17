@@ -56,96 +56,110 @@ function game_save_post_class_meta($post_id, $post) {
 ## This could be done better with an array of keys and a loop -LDS ##
 
 # Update Itch
-  game_update_meta_value('_games_itchio', $post_id);
+  game_update_text_meta_value('_games_itchio', $post_id);
 
 # Update GameJolt 
-  game_update_meta_value('_games_gamejolt', $post_id);
+  game_update_text_meta_value('_games_gamejolt', $post_id);
 
 # Update Microsoft Store 
-  game_update_meta_value('_games_microsoftstore', $post_id);
+  game_update_text_meta_value('_games_microsoftstore', $post_id);
 
 # Update IndieDB 
-  game_update_meta_value('_games_indiedb', $post_id);
+  game_update_text_meta_value('_games_indiedb', $post_id);
 
 # Update YouTube Playlist 
-  game_update_meta_value('_games_youtube_playlist', $post_id);
+  game_update_text_meta_value('_games_youtube_playlist', $post_id);
 
 # Update Google Play 
-  game_update_meta_value('_games_googleplay', $post_id);
+  game_update_text_meta_value('_games_googleplay', $post_id);
 
 # Update Time Lapse 
-  game_update_meta_value('_games_timelapse', $post_id);
+  game_update_text_meta_value('_games_timelapse', $post_id);
 
 # Update SoundCloud 
-  game_update_meta_value('_games_soundcloud', $post_id);
+  game_update_text_meta_value('_games_soundcloud', $post_id);
 
 # Update Unity Connect 
-  game_update_meta_value('_games_unityconnect', $post_id);
+  game_update_text_meta_value('_games_unityconnect', $post_id);
 
 # Update Ludum Dare 
-  game_update_meta_value('_games_ludumdare', $post_id);
+  game_update_text_meta_value('_games_ludumdare', $post_id);
 
 # Update MiniLD 
-  game_update_meta_value('_games_minild', $post_id);
+  game_update_text_meta_value('_games_minild', $post_id);
 
 # Update Warmup 
-  game_update_meta_value('_games_warmup', $post_id);
+  game_update_text_meta_value('_games_warmup', $post_id);
 
 # Update GM48 
-  game_update_meta_value('_games_gm48', $post_id);
+  game_update_text_meta_value('_games_gm48', $post_id);
 
 # Update engine 
-  game_update_meta_value('_games_engine', $post_id);
+  game_update_text_meta_value('_games_engine', $post_id);
 
 # Update thumbnail 
-  game_update_meta_value('_games_thumbnail', $post_id);
+  game_update_text_meta_value('_games_thumbnail', $post_id);
 
 # Update Kongregate 
-  game_update_meta_value('_games_kongregate', $post_id);
+  game_update_text_meta_value('_games_kongregate', $post_id);
 
 # Update Display Web Game 
-  game_update_meta_value('_games_displaywebgame', $post_id);
+  game_update_checkbox_meta_value('_games_displaywebgame', $post_id);
 
 # Update blurb 
-  game_update_meta_value('_games_blurb', $post_id);
+  game_update_text_meta_value('_games_blurb', $post_id);
 
 
 # VideoGame Structured Data
 # Update structured enabled 
-  game_update_meta_value('_games_structured_enabled', $post_id);
+  game_update_checkbox_meta_value('_games_structured_enabled', $post_id);
 
 # Update structured descriptoin 
-  game_update_meta_value('_games_structured_description', $post_id);
+  game_update_text_meta_value('_games_structured_description', $post_id);
 
 # Update structured genre 
-  game_update_meta_value('_games_structured_genre', $post_id);
+  game_update_text_meta_value('_games_structured_genre', $post_id);
 
 # Update structured image 
-  game_update_meta_value('_games_structured_image', $post_id);
+  game_update_text_meta_value('_games_structured_image', $post_id);
 
 # Update structured screenshot 
-  game_update_meta_value('_games_structured_screenshot', $post_id);
+  game_update_text_meta_value('_games_structured_screenshot', $post_id);
 
 # Update structured platform 
-  game_update_meta_value('_games_structured_platform', $post_id);
+  game_update_text_meta_value('_games_structured_platform', $post_id);
 
 # Update structured operating system 
-  game_update_meta_value('_games_structured_operatingsystem', $post_id);
+  game_update_text_meta_value('_games_structured_operatingsystem', $post_id);
 
 # Update structured price 
-  game_update_meta_value('_games_structured_price', $post_id);
+  game_update_text_meta_value('_games_structured_price', $post_id);
 
 # Update structured trailer url 
-  game_update_meta_value('_games_structured_trailer_url', $post_id);
+  game_update_text_meta_value('_games_structured_trailer_url', $post_id);
 
 # Update structured trailer date 
-  game_update_meta_value('_games_structured_trailer_date', $post_id);
+  game_update_text_meta_value('_games_structured_trailer_date', $post_id);
 
 
 }
 
-function game_update_meta_value($meta_key, $post_id) {
+
+function game_update_text_meta_value($meta_key, $post_id) {
   $new_meta_value = ( isset( $_POST[$meta_key] ) ? sanitize_text_field( $_POST[$meta_key]) : '');
+  game_update_meta_value($meta_key, $post_id, $new_meta_value);
+}
+
+function game_update_checkbox_meta_value($meta_key, $post_id) {
+  $new_meta_value = 'false';
+  if (isset($_POST[$meta_key])) {
+    $new_meta_value = 'true';
+  }
+  game_update_meta_value($meta_key, $post_id, $new_meta_value);
+
+}
+
+function game_update_meta_value($meta_key, $post_id, $new_meta_value) {
 
 
   $meta_value = get_post_meta($post_id, $meta_key, true);
@@ -165,75 +179,20 @@ function game_update_meta_value($meta_key, $post_id) {
 function game_post_class_meta_box( $post ) {
   wp_nonce_field( basename( __FILE__ ), 'game_post_class_nonce' );
 
-  echo 'Itch.io';
-  $meta_key = '_games_itchio';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'GameJolt';
-  $meta_key = '_games_gamejolt';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Microsoft';
-  $meta_key = '_games_microsoftstore';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Kongregate';
-  $meta_key = '_games_kongregate';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'IndieDB';
-  $meta_key = '_games_indiedb';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'YouTube Playlist';
-  $meta_key = '_games_youtube_playlist';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Google Play';
-  $meta_key = '_games_googleplay';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Time Lapse Video';
-  $meta_key = '_games_timelapse';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'SoundCloud';
-  $meta_key = '_games_soundcloud';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Unity Connect';
-  $meta_key = '_games_unityconnect';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Ludum Dare Entry';
-  $meta_key = '_games_ludumdare';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'MiniLD';
-  $meta_key = '_games_minild';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Warmup';
-  $meta_key = '_games_warmup';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'GM48 Entry';
-  $meta_key = '_games_gm48';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+  create_text_meta_field('Itch.io', '_games_itchio');
+  create_text_meta_field('GameJolt', '_games_gamejolt');
+  create_text_meta_field('Microsoft', '_games_microsoftstore');
+  create_text_meta_field('Kongregate', '_games_kongregate');
+  create_text_meta_field('IndieDB', '_games_indiedb');
+  create_text_meta_field('YouTube Playlist', '_games_youtube_playlist');
+  create_text_meta_field('Google Play', '_games_googleplay');
+  create_text_meta_field('Time Lapse Video', '_games_timelapse');
+  create_text_meta_field('SoundCloud', '_games_soundcloud');
+  create_text_meta_field('Unity Connect', '_games_unityconnect');
+  create_text_meta_field('Ludum Dare Entry', '_games_ludumdare');
+  create_text_meta_field('MiniLD', '_games_minild');
+  create_text_meta_field('Warmup', '_games_warmup');
+  create_text_meta_field('GM48 Entry', '_games_gm48');
 
   $meta_key = '_games_engine';
   echo 'Engine';
@@ -250,81 +209,61 @@ function game_post_class_meta_box( $post ) {
   echo '</select>';
   echo '<br/>';
 
-  echo 'Thumbnail ';
-  $meta_key = '_games_thumbnail';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+  create_text_meta_field('Thumbnail (256x144 pixels)', '_games_thumbnail');
 
-  echo 'Display Web Game';
-  $meta_key = '_games_displaywebgame';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
 
-  echo 'Blurb';
-  $meta_key = '_games_blurb';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+  create_checkbox_meta_field('Display Web Game (game files must be in /web-games/' . $post->post_name . ') ', '_games_displaywebgame');
+
+  create_text_meta_field('Blurb', '_games_blurb');
 
 
   echo '&nbsp;<br/>&nbsp;<br/>';
   echo '<strong>VideoGame Structured Data (https://schema.org/VideoGame)</strong><br/>';
+  echo '<strong>Product Structured Data (http://schema.org/Product)</strong><br/>';
 
-  echo 'Structured Data - enabled';
-  $meta_key = '_games_structured_enabled';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+  create_checkbox_meta_field('Structured Data - enabled', '_games_structured_enabled');
 
+  create_text_meta_field('Structured Data - description', '_games_structured_description');
 
-  echo 'Structured Data - description';
-  $meta_key = '_games_structured_description';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+#  echo 'Structured Data - description';
+#  $meta_key = '_games_structured_description';
+#  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+#  echo '<br/>';
 
+  create_text_meta_field('Structured Data - genre', '_games_structured_genre');
 
-  echo 'Structured Data - genre';
-  $meta_key = '_games_structured_genre';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+  create_text_meta_field('Structured Data - image (cover image?)', '_games_structured_image');
 
-  echo 'Structured Data - image (cover image?)';
-  $meta_key = '_games_structured_image';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Structured Data - screenshot';
-  $meta_key = '_games_structured_screenshot';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Structured Data - platform';
-  $meta_key = '_games_structured_platform';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Structured Data - operating system';
-  $meta_key = '_games_structured_operatingsystem';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Structured Data - price (USD)';
-  $meta_key = '_games_structured_price';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Structured Data - trailer url';
-  $meta_key = '_games_structured_trailer_url';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
-
-  echo 'Structured Data - trailer date';
-  $meta_key = '_games_structured_trailer_date';
-  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-  echo '<br/>';
+  create_text_meta_field('Structured Data - screenshot', '_games_structured_screenshot');
+  create_text_meta_field('Structured Data - platform', '_games_structured_platform');
+  create_text_meta_field('Structured Data - operating system', '_games_structured_operatingsystem');
+  create_text_meta_field('Structured Data - price (USD)', '_games_structured_price');
+  create_text_meta_field('Structured Data - trailer url', '_games_structured_trailer_url');
+  create_text_meta_field('Structured Data - trailer date', '_games_structured_trailer_date');
 
 
 
 }
 
+function create_text_meta_field($label, $meta_key) {
+  echo $label; 
+
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+
+}
+
+function create_checkbox_meta_field($label, $meta_key) {
+  echo $label; 
+
+  echo '<input type="checkbox" name="' . $meta_key . '" id="' . $meta_key . '"';
+  if (get_post_meta(get_the_ID(), $meta_key, true) == 'true') {
+    echo ' checked';
+  }  
+  echo '>';
+  echo '<br/>';
+}
 
 function display_option($strDisplay, $strValue, $strCurrent) {
   echo '  <option value="' . $strValue . '"'; 
