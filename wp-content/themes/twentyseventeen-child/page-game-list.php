@@ -18,7 +18,7 @@
 get_header(); ?>
 
 <div class="wrap">
-	<div id="primary" class="content-area">
+	<div id="primary-game-list" class="content-area">
 		<main id="main" class="site-main" role="main">
 
 
@@ -197,13 +197,8 @@ function display_game_text($post, $jam, $showDate, $iGameNumber) {
 <?php
 ### Display game list ###
 function display_game_row($post, $jam, $showDate, $iGameNumber) {
-?>
 
-
-
-        <?php
 #Filter by game jam
-
 
           if ($jam == 'ludumdare' && get_post_meta($post->ID, '_games_ludumdare', true) == '') {
              return;
@@ -308,13 +303,9 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 <?php
 #Display post date
         if ($showDate) {
-?>
-        <td><?php the_date('M Y');?></td> 
-<?php
+          echo '<td>' . get_the_date('M Y', $post->ID) . '</td>'; 
         }
-?>
 
-<?php
 #Display Ludum Dare icon
   if ($jam == 'ludumdare') {
     echo '<td width="40">';

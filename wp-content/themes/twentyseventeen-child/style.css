@@ -4258,6 +4258,10 @@ object {
         width: 70% !important;
     }
 
+    #primary-game-list {
+        width: 100% !important;
+    }
+
     .has-sidebar #secondary {
         width: 26% !important;
     }

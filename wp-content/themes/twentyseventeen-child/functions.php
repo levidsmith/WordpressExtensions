@@ -15,7 +15,7 @@ function create_posttype() {
       'public' => true,
       'has_archive' => true,
       'rewrite' => array('slug' => 'games'),
-      'supports' => array('title', 'editor', 'custom-fields', 'publicize', 'comments')
+      'supports' => array('title', 'editor', 'custom-fields', 'publicize', 'comments', 'author' )
     )
   );
 }
@@ -108,6 +108,38 @@ function game_save_post_class_meta($post_id, $post) {
 
 # Update blurb 
   game_update_meta_value('_games_blurb', $post_id);
+
+
+# VideoGame Structured Data
+# Update structured enabled 
+  game_update_meta_value('_games_structured_enabled', $post_id);
+
+# Update structured descriptoin 
+  game_update_meta_value('_games_structured_description', $post_id);
+
+# Update structured genre 
+  game_update_meta_value('_games_structured_genre', $post_id);
+
+# Update structured image 
+  game_update_meta_value('_games_structured_image', $post_id);
+
+# Update structured screenshot 
+  game_update_meta_value('_games_structured_screenshot', $post_id);
+
+# Update structured platform 
+  game_update_meta_value('_games_structured_platform', $post_id);
+
+# Update structured operating system 
+  game_update_meta_value('_games_structured_operatingsystem', $post_id);
+
+# Update structured price 
+  game_update_meta_value('_games_structured_price', $post_id);
+
+# Update structured trailer url 
+  game_update_meta_value('_games_structured_trailer_url', $post_id);
+
+# Update structured trailer date 
+  game_update_meta_value('_games_structured_trailer_date', $post_id);
 
 
 }
@@ -234,6 +266,63 @@ function game_post_class_meta_box( $post ) {
   echo '<br/>';
 
 
+  echo '&nbsp;<br/>&nbsp;<br/>';
+  echo '<strong>VideoGame Structured Data (https://schema.org/VideoGame)</strong><br/>';
+
+  echo 'Structured Data - enabled';
+  $meta_key = '_games_structured_enabled';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+
+  echo 'Structured Data - description';
+  $meta_key = '_games_structured_description';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+
+  echo 'Structured Data - genre';
+  $meta_key = '_games_structured_genre';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - image (cover image?)';
+  $meta_key = '_games_structured_image';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - screenshot';
+  $meta_key = '_games_structured_screenshot';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - platform';
+  $meta_key = '_games_structured_platform';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - operating system';
+  $meta_key = '_games_structured_operatingsystem';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - price (USD)';
+  $meta_key = '_games_structured_price';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - trailer url';
+  $meta_key = '_games_structured_trailer_url';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+  echo 'Structured Data - trailer date';
+  $meta_key = '_games_structured_trailer_date';
+  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
+  echo '<br/>';
+
+
+
 }
 
 
@@ -264,6 +353,173 @@ function get_engines() {
 
 ### END CUSTOM GAME TYPE ###
 
+### START GAME STRUCTURED DATA ###
+function get_game_structured_data() {
+  $strText = '';
+
+
+  $structured_title = get_the_title();
+
+  $meta_key = '_games_structured_enabled';
+  $structured_enabled = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_description';
+  $structured_description = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_genre';
+  $structured_genre = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_image';
+  $structured_image = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_screenshot';
+  $structured_screenshot = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $structured_org_name = 'Levi D. Smith Games';
+  $structured_org_url = 'https://levidsmith.com';
+
+  $meta_key = '_games_indiedb';
+  $indiedb_link = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_platform';
+  $structured_platform = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_operatingsystem';
+  $structured_operatingsystem = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_price';
+  $structured_price = get_post_meta(get_the_ID(), $meta_key, true);
+
+
+  $structured_rating_count = 1;
+  $structured_rating_value = 5;
+  $structured_rating_best = 5;
+  $structured_rating_worst = 1;
+
+
+  $structured_releasedate = get_the_date('Y-m-d', get_the_ID()); 
+
+  $structured_contentrating = 'Not Rated';
+
+  $meta_key = '_games_structured_trailer_url';
+  $structured_trailer_url = get_post_meta(get_the_ID(), $meta_key, true);
+
+  $meta_key = '_games_structured_trailer_date';
+  $structured_trailer_date = get_post_meta(get_the_ID(), $meta_key, true);
+
+
+  if ($structured_enabled == 'true') {
+
+  $strText .= '<script type="application/ld+json">';
+  $strText .= '{  ';
+  $strText .= '  "@context": "http://schema.org",';
+  $strText .= '  "@type":"VideoGame",';
+  $strText .= '  "name":[';
+  $strText .= '    {';
+  $strText .= '      "@language":"en",';
+  $strText .= '      "@value":"' . $structured_title . '"';
+  $strText .= '    }';
+  $strText .= '  ],';
+  $strText .= '  "description":[';
+  $strText .= '    {';
+  $strText .= '      "@language":"en",';
+  $strText .= '      "@value":"' . $structured_description . '"';
+  $strText .= '    }';
+  $strText .= '  ],';
+  $strText .= '  "genre":[';
+  $strText .= '    "' . $structured_genre . '"';
+  $strText .= '  ],';
+  $strText .= '  "url":"' . get_permalink() . '",';
+  $strText .= '  "image":"' . $structured_image . '",';
+  $strText .= '  "screenshot":"' . $structured_screenshot . '",';
+  $strText .= '  "author":{';
+  $strText .= '    "@type":"Organization",';
+  $strText .= '    "name":"' . $structured_org_name . '",';
+  $strText .= '    "url":"' . $structured_org_url . '"';
+  $strText .= '  },';
+  $strText .= '  "sameAs": [';
+  if ($indiedb_link != '') {
+    $strText .= '    "' . $indiedb_link . '"';
+  }
+#  $strText .= '    "http://www.indiedb.com/games/slowbot",';
+#  $strText .= '    "https://gatechgrad.itch.io/slowbot",';
+#  $strText .= '    "http://gamejolt.com/games/slowbot/274288"';
+  $strText .= '  ],';
+  $strText .= '  "trailer":{';
+  $strText .= '    "@type":"VideoObject",';
+  $strText .= '    "name":"' . $structured_title . ' Trailer",';
+  $strText .= '    "url":"' . $structured_trailer_url . '",';
+  $strText .= '    "description":"' . $structured_title . ' Trailer",';
+  $strText .= '    "uploadDate":"' . $structured_trailer_date . '",';
+  $strText .= '    "thumbnailUrl":"' . $structured_image . '",';
+  $strText .= '    "inLanguage":"en"';
+  $strText .= '  },';
+  $strText .= '  "exampleOfWork":[';
+  $strText .= '    {';
+  $strText .= '      "@type":"VideoGame",';
+  $strText .= '      "name":"' . $structured_title . '",';
+  $strText .= '      "gamePlatform":"' . $structured_platform . '",';
+  $strText .= '      "operatingSystem":"' . $structured_operatingsystem . '",';
+  $strText .= '      "contentRating":"' . $structured_contentrating . '",';
+  $strText .= '      "aggregateRating": {';
+  $strText .= '        "@type":"AggregateRating",';
+  $strText .= '        "name":"rating",';
+  $strText .= '        "ratingValue":"' . $structured_rating_value . '",';
+  $strText .= '        "reviewCount":"' . $structured_rating_count . '"';
+  $strText .= '      },';
+  $strText .= '      "applicationCategory":"game",';
+  $strText .= '      "offers": {';
+  $strText .= '        "@type":"Offer",';
+  $strText .= '        "price":"' . $structured_price . '",';
+  $strText .= '        "priceCurrency":"USD"';
+  $strText .= '      },';
+  $strText .= '      "releasedEvent":{';
+  $strText .= '        "@type":"PublicationEvent",';
+  $strText .= '        "startDate":"' . $structured_releasedate . '",';
+  $strText .= '        "location":{';
+  $strText .= '          "@type":"Place",';
+  $strText .= '          "name":"NA"';
+  $strText .= '        }';
+  $strText .= '      }';
+  $strText .= '    }';
+  $strText .= '  ],';
+  $strText .= '  "aggregateRating": {';
+  $strText .= '        "@type":"AggregateRating",';
+  $strText .= '        "name":"rating",';
+  $strText .= '        "ratingValue":"' . $structured_rating_value . '",';
+  $strText .= '        "reviewCount":"' . $structured_rating_count . '"';
+  $strText .= '  },';
+  $strText .= '   "operatingSystem":"' . $structured_operatingsystem . '"';
+  $strText .= '}';
+  $strText .= '</script>';
+
+
+
+# Start product type
+  $strText .= '<script type="application/ld+json">';
+  $strText .= '{  ';
+  $strText .= '  "@context": "http://schema.org",';
+  $strText .= '  "@type":"Product",';
+  $strText .= '  "name":"' . $structured_title . '",';
+  $strText .= '  "url":"' . get_permalink() . '",';
+  $strText .= '  "description":"' . $structured_description . '",';
+  $strText .= '  "image":"' . $structured_image . '",';
+  $strText .= '  "aggregateRating": {';
+  $strText .= '        "@type":"AggregateRating",';
+  $strText .= '        "ratingValue":"' . $structured_rating_value . '",';
+  $strText .= '        "ratingCount":"' . $structured_rating_count . '",';
+  $strText .= '        "bestRating":"' . $structured_rating_best . '",';
+  $strText .= '        "worstRating":"' . $structured_rating_worst . '"';
+  $strText .= '  }';
+  $strText .= '}';
+  $strText .= '</script>';
+
+  }
+
+  return $strText;
+
+}
+### END GAME STRUCTURED DATA ###
 
 ### DISPLAY GAME LINKS ###
   function display_game_links() {
@@ -481,49 +737,12 @@ function get_engines() {
 
 ### END DISPLAY GAME APPENDIX ###
 
-### DISPLAY GAME METADATA ###
-  function display_game_metadata() {
-    $strText = "\n";
-    $display_metadata = get_post_meta(get_the_ID(), 'vg_display_metadata', true);
-    if (in_category('featured-games') && $display_metadata == "true") {
-      $strText .= "<script type=\"application/ld+json\">{";
-      $strText .= '"@context": "http://schema.org",';
-      $strText .= '"@type":"VideoGame",';
-      $strText .= '"name":[ { "@language":"en", "@value":"' . get_the_title() . '" }],';
-      $strText .= '"description":[ { "@language":"en", "@value":"' . get_post_meta(get_the_ID(), 'vg_description', true) . '" }],';
-  
-      $strText .= '"genre":"' . get_post_meta(get_the_ID(), 'vg_genre', true) . '",';
-      $strText .= '"url":"' . get_permalink() . '",';
-      $strText .= '"image":"' . get_post_meta(get_the_ID(), 'vg_image', true) . '",';
-      $strText .= '"screenshot":"' . get_post_meta(get_the_ID(), 'vg_screenshot', true) . '",';
-      $strText .= '"sameAs":"' . 'https://www.youtube.com/levidsmith' . '",';
-      $strText .= '"exampleOfWork": {';
-      $strText .= '"@type":"' . 'VideoGame' . '",';
-      $strText .= '"name":"' . get_the_title() . '",';
-      $strText .= '"gamePlatform":"' . 'https://en.wikipedia.org/wiki/Microsoft_Windows' . '",';
-      $strText .= '"operatingSystem":[';
-      $strText .= '"https://en.wikipedia.org/wiki/Microsoft_Windows",';
-      $strText .= '"https://en.wikipedia.org/wiki/MacOS",';
-      $strText .= '"https://en.wikipedia.org/wiki/Linux"';
-      $strText .= '],';
-      $strText .= '"applicationCategory":"' . 'game' . '",';
-      $strText .= '"contentRating":"' . 'ESRB Not Rated' . '",';
-      $strText .= '"releasedEvent": {';
-      $strText .= '"@type":"' . 'PublicationEvent' . '",';
-      $strText .= '"startDate":"' . get_the_date('Y-m-d', get_the_ID()) . '",';
-      $strText .= '"location": {';
-      $strText .= '"@type":"' . 'Place' . '",';
-      $strText .= '"name":"' . 'WW' . '"';
-      $strText .= '}';
-      $strText .= '}';
-      $strText .= '},';
-      $strText .= '"applicationCategory":"game",';
-      $strText .= '"operatingSystem":"' . 'https://en.wikipedia.org/wiki/Microsoft_Windows' . '"';
-      $strText .= '}</script>';
-    }
-    return $strText;
-  }
-### END DISPLAY GAME METADATA ###
+
+### START FIX HENTRY ###
+function fix_hentry() {
+
+}
+### END FIX HENTRY ###
 
 /*
 function custom_game_feed($query) {
@@ -621,7 +840,7 @@ function display_embed_game() {
   $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
 
 
-  if (!wp_is_mobile() && $displaywebgame == 'true') {
+  if (!wp_is_mobile() && !is_home() && $displaywebgame == 'true') {
   $game_identifier = get_post(get_the_ID())->post_name;
 
   $strText .= '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
@@ -673,10 +892,17 @@ function display_embed_game() {
 
 function add_custom_game_content($content) {
 
-  return display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
+  return get_game_structured_data() . display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
 
 }
 add_filter('the_content', 'add_custom_game_content', 5);
 
+#function add_custom_game_title($title) {
+#       if (get_post_type(get_the_ID()) == 'games') {
+#         $title = 'abc';
+#       }
+#  return $title; 
+#}
+#add_filter('the_title', 'add_custom_game_title', 10); 
 
 ?>
