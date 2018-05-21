@@ -28,6 +28,10 @@
 
 </script>
 <!-- End Google Analytics -->
+	
+	<!-- Start Google Font -->
+	<link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet"> 
+	<!-- End Google Font -->
 
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">

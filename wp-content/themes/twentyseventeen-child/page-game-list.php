@@ -28,7 +28,7 @@ get_header(); ?>
 <!-- Game Listing starts here -->
 
         <?php
-        echo 'Game Index<br/><br/>';
+#        echo 'Game Index<br/><br/>';
         echo '<a href="?web=true&layout=thumbnail">Web Games</a><br/>';
         echo 'Order all by: ';
         echo '<a href="?orderby=name">Name</a> | ';
@@ -44,7 +44,7 @@ get_header(); ?>
         echo '<br/>';
 
         echo 'Videos: ';
-        echo '<a href="?timelapse=true">Time lapse development</a>';
+        echo '<a href="?layout=videos&video_type=timelapse">Time lapse development</a>';
         echo '<br/>';
 
         echo 'Music: ';
@@ -66,7 +66,8 @@ get_header(); ?>
         echo '<br/>';
 
         echo 'Promotion: ';
-        echo '<a href="?unityconnect=true">Unity Connect</a>';
+        echo '<a href="?unityconnect=true">Unity Connect | </a>';
+        echo '<a href="?indiedb=true">IndieDB</a>';
         echo '<br/>';
 
         echo '<br/>';
@@ -110,6 +111,8 @@ get_header(); ?>
 
         } elseif ($layout == 'list') {
           display_layout_list($myposts, $jam, $showDate);
+        } elseif ($layout == 'videos') {
+          display_layout_videos($myposts, $args['video_type']);
         } else {
           display_layout_list($myposts, $jam, $showDate);
         }
@@ -119,19 +122,16 @@ get_header(); ?>
 
 
   function display_layout_thumbnail($myposts, $webgame_only) {
-#    echo 'Thumnails displayed here';
     echo '<div class="thumbnail_games">';
         foreach( $myposts as $thepost) : setup_postdata( $thepost); 
 
-        if (!$thepost->_games_displaywebgame) {
+        if (!$thepost->_games_displaywebgame || $thepost->_games_displaywebgame == 'false') {
           continue;
         }
 
 
     $game_name = get_the_title($thepost->ID); 
     $game_url = get_the_permalink($thepost->ID);
-#    $game_img = '';
-#    $game_img = get_post_meta($post->ID, '_games_thumbnail', true);
     $game_img = $thepost->_games_thumbnail;
     $game_blurb = $thepost->_games_blurb;
     echo '<div class="featured_game"><a href="' . $game_url . '">';
@@ -144,12 +144,7 @@ get_header(); ?>
     }
 
 
-#    if (strlen($game_name) < 20) {
       echo  '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
-#    } else {
-#      echo  '<div class="featured_game_name_small"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
-
-#    }
 
 
 
@@ -157,14 +152,44 @@ get_header(); ?>
         wp_reset_postdata();
     echo '</div>';
  
-#    echo '<div style="float: left; clear: both;">bar</div>';
+  }
+
+
+  function display_layout_videos($myposts, $video_type) {
+        foreach( $myposts as $thepost) : setup_postdata( $thepost); 
+
+        if (!$thepost->_games_timelapse) {
+          continue;
+        }
+    echo '<div class="game_list_video">';
+
+
+    $game_name = get_the_title($thepost->ID); 
+    $game_url = get_the_permalink($thepost->ID);
+    $meta_key = '_games_timelapse';
+    $timelapse_youtube_id = get_post_meta($thepost->ID, $meta_key, true);
+    $timelapse_youtube_id = substr($timelapse_youtube_id, strpos($timelapse_youtube_id, "=") + 1);
+    echo '<div class="game_list_video_name"><a href="' . $game_url . '">' . $game_name . '</a>';
+    echo '</div>';
+
+    echo '<div class="game_list_video_embed">';
+#    echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $timelapse_youtube_id . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+    echo '<iframe width="256" height="144" src="https://www.youtube.com/embed/' . $timelapse_youtube_id . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+    echo '</div>';
+
+    echo '</div>';
+
+
+        endforeach;
+        wp_reset_postdata();
+ 
   }
 
 
 
 
   function display_layout_list($myposts, $jam, $showDate) {
-    echo "Display layout list<br/>";
+#    echo "Display layout list<br/>";
     echo '<table>';
 
         $iGameNumber = 0;
@@ -253,14 +278,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
          }
             
 
-
-#Filter by time lapse
-          $timelapse = $_GET['timelapse'];
-          $meta_key = '_games_timelapse';
-          if ($timelapse == 'true' && get_post_meta($post->ID, $meta_key, true) == '') {
-             return;
-          }
-
 #Filter by SoundCloud 
           $soundcloud = $_GET['soundcloud'];
           $meta_key = '_games_soundcloud';
@@ -276,6 +293,12 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
              return;
           }
 
+#Filter by IndieDB 
+          $indiedb = $_GET['indiedb'];
+          $meta_key = '_games_indiedb';
+          if ($indiedb == 'true' && get_post_meta($post->ID, $meta_key, true) == '') {
+             return;
+          }
 
 
         ?>
@@ -294,7 +317,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
           <td><?php echo $iGameNumber + 1 ?></td>
         
 <?php
-          echo '<td><strong><a href="' . get_the_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></strong></td>';
+          echo '<td><span class="game_list"><a href="' . get_the_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></span></td>';
 
 ?>
 
@@ -385,6 +408,46 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 
 ?>
 
+<?php 
+#Display IndieDB link 
+  if ($indiedb == 'true') {
+        echo '<td width="40">';
+        $meta_key = '_games_indiedb';
+        $indiedb_link = get_post_meta($post->ID, $meta_key, true);
+        if ($indiedb_link != "") {
+          #echo "<a href=\"" . $indiedb_link . "\">IndieDB</a>";
+          echo "<a href=\"" . $indiedb_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_small_indiedb.jpg\" title=\"View " . get_the_title() . " on IndieDB\"></a>";
+        } 
+        echo '</td>';
+  }
+?>
+
+
+
+<?php
+#Display SoundCloud icon
+  if ($soundcloud == 'true') {
+    echo '<td width="40">';
+    $meta_key = '_games_soundcloud';
+    $soundcloud_link = get_post_meta($post->ID, $meta_key, true);
+    if ($soundcloud_link != "") {
+      echo "<a href=\"" . $soundcloud_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_small_soundcloud.jpg\" title=\"Listen to " . get_the_title() . " music\"></a>";
+        } 
+    echo '</td>';
+  }
+?>
+
+
+<?php
+# Start Download links
+  if (! isset($soundcloud) && $jam != 'ludumdare' && 
+       $jam != 'gm48' && $jam != 'minild' &&
+       $jam != 'warmup' && !isset($unityconnect) && !isset($indiedb)) {
+?>
 
 
 <?php 
@@ -454,20 +517,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 ?>
 
 
-<?php 
-#Display IndieDB link 
-        echo '<td width="40">';
-        $meta_key = '_games_indiedb';
-        $indiedb_link = get_post_meta($post->ID, $meta_key, true);
-        if ($indiedb_link != "") {
-          #echo "<a href=\"" . $indiedb_link . "\">IndieDB</a>";
-          echo "<a href=\"" . $indiedb_link . "\"><img src=\"" .
-                          get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_indiedb.jpg\" title=\"View " . get_the_title() . " on IndieDB\"></a>";
-        } 
-        echo '</td>';
-?>
-
 
 <?php
 #Display time lapse icon
@@ -479,22 +528,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
       echo "<a href=\"" . $timelapse_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
                           "/assets/images/icon_small_timelapse.jpg\" title=\"Wathc " . get_the_title() . " time lapse development video\"></a>";
-        } 
-    echo '</td>';
-#  }
-
-?>
-
-<?php
-#Display SoundCloud icon
-#  if ($soundcloud == 'true') {
-    echo '<td width="40">';
-    $meta_key = '_games_soundcloud';
-    $soundcloud_link = get_post_meta($post->ID, $meta_key, true);
-    if ($soundcloud_link != "") {
-      echo "<a href=\"" . $soundcloud_link . "\"><img src=\"" .
-                          get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_soundcloud.jpg\" title=\"Listen to " . get_the_title() . " music\"></a>";
         } 
     echo '</td>';
 #  }
@@ -515,6 +548,12 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         } 
         echo '</td>';
 ?>
+
+<?php
+### End Download Links
+  }
+?>
+
 
 
 <?php 

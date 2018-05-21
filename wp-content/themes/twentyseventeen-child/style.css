@@ -1517,6 +1517,7 @@ html {
 body {
 	background: #fff;
 	/* Fallback for when there is no custom background color defined. */
+        font-family: 'Share Tech', sans-serif;
 }
 
 #page {
@@ -4305,15 +4306,6 @@ object {
     padding-right: 3em;
 }
 
-.even_row {
-  background-color: #d1fbfb;
-}
-
-.odd_row {
-/*  background-color: #cffacf; */
-  background-color: #d1fbe2;
-}
-
 
 /*
 .site-branding {
@@ -4378,7 +4370,6 @@ object {
   left: 0;
   color: #ffff00;
   background: rgba(0, 0, 0, 0.5);
-/*  padding: 0px 0px 0px 16px;  */
   font-style: italic;
   text-shadow: 2px 2px #000000;
   text-align: center;
@@ -4392,6 +4383,30 @@ object {
 .featured_game_name a {
   color: #ffff00;
 }
+
+.even_row {
+    background-color: #beeded;
+    height: 40px;
+}
+
+.odd_row {
+    background-color: #beedbe;
+    height: 40px;
+}
+
+.game_list a {
+  color: #ffff00;
+  font-weight: bold;  
+  text-shadow: 0px 0px 1px #000000, 2px 2px 4px #000000; 
+}
+
+.game_list a:hover {
+  color: #ffffff;
+/*  font-weight: bold;  */
+  text-shadow: 0px 0px 1px #000000, 0px 0px 2px #000000;
+  font-style: italic;
+}
+
 
 .featured_game_blurb  {
   position: absolute; 
@@ -4408,4 +4423,46 @@ object {
 
 .featured_game_name a:hover {
   color: #ffffff;
+}
+
+
+/* Video styles */
+
+.game_list_video {
+  background-color: #73ad73; 
+/*  background-color: #ff0000;  */
+/*  width: 560px; */
+  width: 256px; 
+  padding: 8px;
+  float: left;
+
+  margin-left: 4px;
+  margin-bottom: 4px;
+
+}
+
+.game_list_video_name {
+/*  background-color: #00ffff;  */
+  font-weight: bold; 
+  text-shadow: 2px 2px #000000;
+
+/*  max-width: 200px;
+*/
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.game_list_video_name a {
+  color: #ffff00;
+  font-weight: bold; 
+  text-shadow: 0px 0px 1px #000000, 0px 0px 2px #000000;
+}
+
+.game_list_video_name a:hover {
+  color: #ffffff;
+  font-weight: bold; 
+  text-shadow: 0px 0px 1px #000000, 0px 0px 2px #000000;
+  font-style: italic;
 }
