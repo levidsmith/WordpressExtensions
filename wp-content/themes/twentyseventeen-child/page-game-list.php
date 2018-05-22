@@ -30,6 +30,7 @@ get_header(); ?>
         <?php
 #        echo 'Game Index<br/><br/>';
         echo '<a href="?web=true&layout=thumbnail">Web Games</a><br/>';
+        echo '<a href="?layout=popular">Popularity</a><br/>';
         echo 'Order all by: ';
         echo '<a href="?orderby=name">Name</a> | ';
         echo '<a href="?orderby=newest">Newest</a> |';
@@ -113,6 +114,8 @@ get_header(); ?>
           display_layout_list($myposts, $jam, $showDate);
         } elseif ($layout == 'videos') {
           display_layout_videos($myposts, $args['video_type']);
+        } elseif ($layout == 'popular') {
+          display_layout_popular($myposts);
         } else {
           display_layout_list($myposts, $jam, $showDate);
         }
@@ -207,6 +210,107 @@ get_header(); ?>
 
   }
 ?>
+
+
+<?php
+### Display games by views ###
+function display_layout_popular($myposts) {
+  $game_ids = '';
+  $game_count = 0;
+  foreach( $myposts as $thepost) : setup_postdata( $thepost); 
+    if ($game_ids != '') {
+    $game_ids .= ',';
+    }
+    $game_ids .= $thepost->ID;
+    $game_count += 1; 
+  endforeach;
+  echo '<div style="width: 100%;">';
+
+#    echo "Game: " . get_the_title($thepost->ID);
+    if (function_exists('stats_get_csv')) {
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 7, 'limit' => $game_count));
+      echo '<div class="even_popular">';
+      echo 'Popular this week<br/>';  
+        foreach( $response as &$response_entry) {
+          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
+                $response_entry['post_title'] . '</a>';
+          if (current_user_can('administrator')) {
+            echo ' ' . $response_entry['views'];
+          }
+          echo "<br/>";
+        }
+      echo '</div>';
+
+
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 30, 'limit' => $game_count));
+      echo '<div class="odd_popular">';
+      echo 'Popular this month<br/>';  
+        foreach( $response as &$response_entry) {
+          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
+                $response_entry['post_title'] . '</a>';
+          if (current_user_can('administrator')) {
+            echo ' ' . $response_entry['views'];
+          }
+          echo "<br/>";
+        }
+      echo '</div>';
+
+
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 365, 'limit' => $game_count));
+      echo '<div class="even_popular">';
+      echo 'Popular this year<br/>';  
+        foreach( $response as &$response_entry) {
+          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
+                $response_entry['post_title'] . '</a>';
+          if (current_user_can('administrator')) {
+            echo ' ' . $response_entry['views'];
+          }
+          echo "<br/>";
+        }
+      echo '</div>';
+
+
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => -1, 'limit' => $game_count));
+      echo '<div class="odd_popular">';
+      echo 'Popular all time<br/>';  
+        foreach( $response as &$response_entry) {
+          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
+                $response_entry['post_title'] . '</a>';
+          if (current_user_can('administrator')) {
+            echo ' ' . $response_entry['views'];
+          }
+          echo "<br/>";
+        }
+      echo '</div>';
+
+
+  echo '</div>';
+
+
+#      $month_count = absint($response[0]['views']);
+
+      
+
+#      $response = stats_get_csv('postviews', array('post_id' => $thepost->ID, 
+#      'days' => 365, 'limit' => 1));
+#      $year_count = absint($response[0]['views']);
+
+#      $response = stats_get_csv('postviews', array('post_id' => $thepost->ID, 
+#      'days' => -1, 'limit' => 1));
+#      $alltime_count = absint($response[0]['views']);
+
+#      echo ' Views: ' . $month_count . ', ' . $year_count . ', ' . $all_time;
+#      echo ' Views: ' . $month_count;
+    }
+    echo "<br/>";
+#  endforeach;    
+}
+?>
+
 
 
 <?php

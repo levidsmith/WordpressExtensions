@@ -1208,8 +1208,8 @@ a .nav-title,
 .widget ul li a,
 .site-footer .widget-area ul li a,
 .site-footer .widget-area ul li a {
-	-webkit-box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 1);
-	box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 1);
+/*	-webkit-box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 1);*/
+/*	box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 1); */
 	text-decoration: none;
 	-webkit-transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
 	transition: color 80ms ease-in, -webkit-box-shadow 130ms ease-in-out;
@@ -4395,13 +4395,13 @@ object {
 }
 
 .game_list a {
-  color: #ffff00;
+  color: #ffffff;
   font-weight: bold;  
   text-shadow: 0px 0px 1px #000000, 2px 2px 4px #000000; 
 }
 
 .game_list a:hover {
-  color: #ffffff;
+  color: #ffff00;
 /*  font-weight: bold;  */
   text-shadow: 0px 0px 1px #000000, 0px 0px 2px #000000;
   font-style: italic;
@@ -4465,4 +4465,48 @@ object {
   font-weight: bold; 
   text-shadow: 0px 0px 1px #000000, 0px 0px 2px #000000;
   font-style: italic;
+}
+
+.even_popular {
+    background-color: #beeded;
+    float: left; 
+    padding: 8px 8px;
+}
+
+.odd_popular {
+    background-color: #beedbe;
+    float: left;
+    padding: 8px 8px;
+}
+
+
+.even_popular a {
+  color: #2c4566;
+}
+
+.even_popular a:hover {
+  color: #FFFF00;
+  text-shadow: 0px 0px 1px #000000, 2px 2px 4px #000000; 
+}
+
+.odd_popular a {
+  color: #296629;
+}
+
+.odd_popular a:hover {
+  color: #FFFF00;
+  text-shadow: 0px 0px 1px #000000, 2px 2px 4px #000000; 
+}
+
+.entry-header {
+  clear: both; 
+}
+
+h3.entry-title {
+    background-color: #beeded;
+    padding: 4px 8px;
+}
+
+li {
+  margin: 0px 0px 0px 32px;
 }

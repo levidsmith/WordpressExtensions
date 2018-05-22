@@ -11,7 +11,7 @@ function create_posttype() {
         'edit' => 'Edit'
       ),
       'description' => 'Games created by Levi D. Smith',
-      'taxonomies' => array('post_tag'),
+      'taxonomies' => array('category', 'post_tag'),
       'public' => true,
       'has_archive' => true,
       'rewrite' => array('slug' => 'games'),
@@ -706,18 +706,10 @@ function games_pre_posts($q) {
 #Add games to the listing of posts by tag
 add_action('parse_tax_query', 'games_tax_query');
 function games_tax_query($q) {
-#  if (is_admin() || !$q->is_main_query() || !is_home()) {
-#    return;
-#  }
-#  if ($q['tag'] == 'dream build play') {
-#    $q->set('post_type', array('post', 'games'));
-#  }
   if ($q->is_main_query()) {
-    if ($q->query_vars['tag'] == 'dream-build-play') {
-#    echo $q->query_vars['tag'];
-#    echo "parse_tax_query";
+#    if ($q->query_vars['tag'] == 'dream-build-play') {
       $q->set('post_type', array('post', 'games'));
-    }
+#    }
   }
 }
 
