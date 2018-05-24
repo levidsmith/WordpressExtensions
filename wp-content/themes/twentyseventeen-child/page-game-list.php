@@ -30,7 +30,12 @@ get_header(); ?>
         <?php
 #        echo 'Game Index<br/><br/>';
         echo '<a href="?web=true&layout=thumbnail">Web Games</a><br/>';
-        echo '<a href="?layout=popular">Popularity</a><br/>';
+        echo 'Popularity ';
+        echo '<a href="?layout=popular&order=week">Week</a> |';
+        echo '<a href="?layout=popular&order=month">Month</a> |';
+        echo '<a href="?layout=popular&order=year">Year</a> |';
+        echo '<a href="?layout=popular&order=alltime">All Time</a>';
+        echo '<br/>';
         echo 'Order all by: ';
         echo '<a href="?orderby=name">Name</a> | ';
         echo '<a href="?orderby=newest">Newest</a> |';
@@ -215,6 +220,8 @@ get_header(); ?>
 <?php
 ### Display games by views ###
 function display_layout_popular($myposts) {
+  $ranked_games_array = array();
+  
   $game_ids = '';
   $game_count = 0;
   foreach( $myposts as $thepost) : setup_postdata( $thepost); 
@@ -223,69 +230,188 @@ function display_layout_popular($myposts) {
     }
     $game_ids .= $thepost->ID;
     $game_count += 1; 
+
+    $ranked_games_array[$thepost->ID]['post_title'] = $thepost->post_title;
+    $ranked_games_array[$thepost->ID]['post_permalink'] = get_permalink($thepost);
   endforeach;
-  echo '<div style="width: 100%;">';
+  echo '<div style="width: 800px;">';
 
 #    echo "Game: " . get_the_title($thepost->ID);
     if (function_exists('stats_get_csv')) {
 
-      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 7, 'limit' => $game_count));
-      echo '<div class="even_popular">';
-      echo 'Popular this week<br/>';  
-        foreach( $response as &$response_entry) {
-          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
-                $response_entry['post_title'] . '</a>';
-          if (current_user_can('administrator')) {
-            echo ' ' . $response_entry['views'];
-          }
-          echo "<br/>";
+      #All Time Views
+      $current_rank = 1;
+      $current_views = -1;
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => -1, 'limit' => $game_count));
+      foreach ($response as &$response_entry) {
+#          $ranked_games_array[$response_entry['post_id']]['post_title'] = $response_entry['post_title'];
+#          $ranked_games_array[$response_entry['post_id']]['post_permalink'] = $response_entry['post_permalink'];
+        $ranked_games_array[$response_entry['post_id']]['alltime'] = $response_entry['views'];
+        if ($current_views == -1) {
+          $current_views = $response_entry['views'];
+        } elseif  ($response_entry['views'] < $current_views) {
+          $current_views = $response_entry['views'];
+          $current_rank += 1;
         }
-      echo '</div>';
-
-
-
-      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 30, 'limit' => $game_count));
-      echo '<div class="odd_popular">';
-      echo 'Popular this month<br/>';  
-        foreach( $response as &$response_entry) {
-          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
-                $response_entry['post_title'] . '</a>';
-          if (current_user_can('administrator')) {
-            echo ' ' . $response_entry['views'];
-          }
-          echo "<br/>";
+        $ranked_games_array[$response_entry['post_id']]['alltime_rank'] = $current_rank;
+        
+      }
+      #Set the rank for games wilth null (zero) views
+      foreach (explode(',', $game_ids) as $id) {
+        if (is_null($ranked_games_array[$id]['alltime_rank'])) {
+          $ranked_games_array[$id]['alltime_rank'] = $current_rank + 1;
         }
-      echo '</div>';
+      }
 
+
+
+      #Year Views
+      $current_rank = 1;
+      $current_views = -1;
 
 
       $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 365, 'limit' => $game_count));
-      echo '<div class="even_popular">';
-      echo 'Popular this year<br/>';  
-        foreach( $response as &$response_entry) {
-          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
-                $response_entry['post_title'] . '</a>';
-          if (current_user_can('administrator')) {
-            echo ' ' . $response_entry['views'];
-          }
-          echo "<br/>";
+      foreach ($response as &$response_entry) {
+        $ranked_games_array[$response_entry['post_id']]['year'] = $response_entry['views'];
+        if ($current_views == -1) {
+          $current_views = $response_entry['views'];
+        } elseif  ($response_entry['views'] < $current_views) {
+          $current_views = $response_entry['views'];
+          $current_rank += 1;
         }
-      echo '</div>';
-
-
-
-      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => -1, 'limit' => $game_count));
-      echo '<div class="odd_popular">';
-      echo 'Popular all time<br/>';  
-        foreach( $response as &$response_entry) {
-          echo  '<a href="' . $response_entry['post_permalink'] . '">' . 
-                $response_entry['post_title'] . '</a>';
-          if (current_user_can('administrator')) {
-            echo ' ' . $response_entry['views'];
-          }
-          echo "<br/>";
+        $ranked_games_array[$response_entry['post_id']]['year_rank'] = $current_rank;
+        
+      }
+      #Set the rank for games wilth null (zero) views
+      foreach (explode(',', $game_ids) as $id) {
+        if (is_null($ranked_games_array[$id]['year_rank'])) {
+          $ranked_games_array[$id]['year_rank'] = $current_rank + 1;
         }
-      echo '</div>';
+      }
+
+
+
+      #Month Views
+      $current_rank = 1;
+      $current_views = -1;
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 30, 'limit' => $game_count));
+      foreach ($response as &$response_entry) {
+        $ranked_games_array[$response_entry['post_id']]['month'] = $response_entry['views'];
+        if ($current_views == -1) {
+          $current_views = $response_entry['views'];
+        } elseif  ($response_entry['views'] < $current_views) {
+          $current_views = $response_entry['views'];
+          $current_rank += 1;
+        }
+        $ranked_games_array[$response_entry['post_id']]['month_rank'] = $current_rank;
+        
+      }
+      #Set the rank for games wilth null (zero) views
+      foreach (explode(',', $game_ids) as $id) {
+        if (is_null($ranked_games_array[$id]['month_rank'])) {
+          $ranked_games_array[$id]['month_rank'] = $current_rank + 1;
+        }
+      }
+
+
+
+      #Week Views
+      $current_rank = 1;
+      $current_views = -1;
+
+      $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => 7, 'limit' => $game_count));
+      foreach ($response as &$response_entry) {
+        $ranked_games_array[$response_entry['post_id']]['week'] = $response_entry['views'];
+        if ($current_views == -1) {
+          $current_views = $response_entry['views'];
+        } elseif  ($response_entry['views'] < $current_views) {
+          $current_views = $response_entry['views'];
+          $current_rank += 1;
+        }
+        $ranked_games_array[$response_entry['post_id']]['week_rank'] = $current_rank;
+      }
+      #Set the rank for games wilth null (zero) views
+      foreach (explode(',', $game_ids) as $id) {
+        if (is_null($ranked_games_array[$id]['week_rank'])) {
+          $ranked_games_array[$id]['week_rank'] = $current_rank + 1;
+        }
+      }
+
+
+    if ($_GET['order'] == 'week') {
+      usort($ranked_games_array, function($a, $b) {
+          return $a['week_rank'] - $b['week_rank'];
+      });
+    }
+
+    if ($_GET['order'] == 'month') {
+      usort($ranked_games_array, function($a, $b) {
+        return $a['month_rank'] - $b['month_rank'];
+      });
+    }
+
+    if ($_GET['order'] == 'year') {
+      usort($ranked_games_array, function($a, $b) {
+        return $a['year_rank'] - $b['year_rank'];
+      });
+    }
+
+    if ($_GET['order'] == 'alltime') {
+      usort($ranked_games_array, function($a, $b) {
+        return $a['alltime_rank'] - $b['alltime_rank'];
+      });
+    }
+
+    #Table Headers
+    echo '<div class="popularity_title">&nbsp;</div>';
+    echo '<div class="popularity_rank"><a href="?layout=popular&order=week">Week</a></div>';
+    echo '<div class="popularity_rank"><a href="?layout=popular&order=month">Month</a></div>';
+    echo '<div class="popularity_rank"><a href="?layout=popular&order=year">Year</a></div>';
+    echo '<div class="popularity_rank"><a href="?layout=popular&order=alltime">All Time</a></div>';
+    echo '<div style="clear: both"></div>';
+  
+    #Table data
+    $num_row = 0;
+    foreach ($ranked_games_array as $key => $value) {
+        if ($num_row % 2 == 0) {
+          $row_style = 'odd_row';
+        } else {
+          $row_style = 'even_row';
+        }
+
+        echo '<div class="' . $row_style . '">';
+        echo '<div class="popularity_title"><a href="' . $value['post_permalink'] . '">' . $value['post_title'] . '</a></div>';
+
+        echo '<div class="popularity_rank">' . $value['week_rank'];
+        if (current_user_can("administrator")) {
+          echo ':' . number_format($value['week']);
+        }
+        echo '</div>';
+
+        echo '<div class="popularity_rank">' . $value['month_rank'];
+        if (current_user_can("administrator")) {
+          echo ':' . number_format($value['month']);
+        }
+        echo '</div>';
+
+        echo '<div class="popularity_rank">' . $value['year_rank'];
+        if (current_user_can("administrator")) {
+          echo ':' . number_format($value['year']);
+        }
+        echo '</div>';
+
+        echo '<div class="popularity_rank">' . $value['alltime_rank'];
+        if (current_user_can("administrator")) {
+          echo ':' . number_format($value['alltime']);
+        }
+        echo '</div>';
+        echo '</div>';
+
+        $num_row += 1;
+   
+    }
 
 
   echo '</div>';

@@ -4510,3 +4510,18 @@ h3.entry-title {
 li {
   margin: 0px 0px 0px 32px;
 }
+
+.popularity_title {
+     width: 400px; 
+     float: left; 
+     clear: left;
+     padding: 4px 4px;
+}
+
+
+.popularity_rank {
+      width: 64px; 
+      float: left;
+      padding: 4px 4px;
+
+}

@@ -836,4 +836,5 @@ add_filter('the_content', 'add_custom_game_content', 5);
 #}
 #add_filter('the_title', 'add_custom_game_title', 10); 
 
+
 ?>
