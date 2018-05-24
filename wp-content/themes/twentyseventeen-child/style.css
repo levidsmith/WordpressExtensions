@@ -4511,6 +4511,26 @@ li {
   margin: 0px 0px 0px 32px;
 }
 
+.popularity_table {
+  display: table;
+}
+
+.popularity_row {
+  display: table-row;
+}
+
+.popularity_row:nth-child(even) {
+    background-color: #beeded;
+}
+
+.popularity_row:nth-child(2n+3) {
+    background-color: #beedbe;
+}
+
+.popularity_cell {
+  display: table-cell;
+}
+
 .popularity_title {
      width: 400px; 
      float: left; 

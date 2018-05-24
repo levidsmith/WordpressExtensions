@@ -234,7 +234,7 @@ function display_layout_popular($myposts) {
     $ranked_games_array[$thepost->ID]['post_title'] = $thepost->post_title;
     $ranked_games_array[$thepost->ID]['post_permalink'] = get_permalink($thepost);
   endforeach;
-  echo '<div style="width: 800px;">';
+  echo '<div class="popularity_table">';
 
 #    echo "Game: " . get_the_title($thepost->ID);
     if (function_exists('stats_get_csv')) {
@@ -365,12 +365,13 @@ function display_layout_popular($myposts) {
     }
 
     #Table Headers
+    echo '<div class="popularity_row">';
     echo '<div class="popularity_title">&nbsp;</div>';
     echo '<div class="popularity_rank"><a href="?layout=popular&order=week">Week</a></div>';
     echo '<div class="popularity_rank"><a href="?layout=popular&order=month">Month</a></div>';
     echo '<div class="popularity_rank"><a href="?layout=popular&order=year">Year</a></div>';
     echo '<div class="popularity_rank"><a href="?layout=popular&order=alltime">All Time</a></div>';
-    echo '<div style="clear: both"></div>';
+    echo '</div>';
   
     #Table data
     $num_row = 0;
@@ -381,7 +382,9 @@ function display_layout_popular($myposts) {
           $row_style = 'even_row';
         }
 
-        echo '<div class="' . $row_style . '">';
+#        echo '<div class="' . $row_style . '">';
+        echo '<div class="popularity_row">';
+
         echo '<div class="popularity_title"><a href="' . $value['post_permalink'] . '">' . $value['post_title'] . '</a></div>';
 
         echo '<div class="popularity_rank">' . $value['week_rank'];
@@ -407,6 +410,7 @@ function display_layout_popular($myposts) {
           echo ':' . number_format($value['alltime']);
         }
         echo '</div>';
+
         echo '</div>';
 
         $num_row += 1;

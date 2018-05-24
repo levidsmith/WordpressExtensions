@@ -455,6 +455,7 @@ function get_game_structured_data() {
 
   }
 
+
   return $strText;
 
 }
@@ -660,6 +661,13 @@ function get_game_structured_data() {
        $strText = "";
 
        if (get_post_type(get_the_ID()) == 'games') {
+
+          $strText .= 'Created by <span class="author vcard"><a class="url fn n" href="https://levidsmith.com/author/levidsmith/">Levi D. Smith</a></span><br/>';
+
+          $strText .= 'Released <time class="entry-date published" datetime="' . get_the_time('c', $post->ID) . '">' . get_the_time('F d, Y', $post->ID) . '</time>';
+          $strText .= '<time class="updated" datetime="' . get_the_time('c', $post->ID) . '">' . get_the_time('F d, Y', $post->ID) . '</time>';
+
+
           $meta_key = '_games_engine';
           $engine_value = get_post_meta(get_the_ID(), $meta_key, true);
 
@@ -670,6 +678,9 @@ function get_game_structured_data() {
             }
 
        }
+
+
+
        return $strText;
   }
 
