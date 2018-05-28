@@ -109,6 +109,9 @@ function game_save_post_class_meta($post_id, $post) {
 # Update blurb 
   game_update_text_meta_value('_games_blurb', $post_id);
 
+# Update Dream Build Play 
+  game_update_text_meta_value('_games_dreambuildplay', $post_id);
+
 
 # VideoGame Structured Data
 # Update structured enabled 
@@ -215,6 +218,7 @@ function game_post_class_meta_box( $post ) {
   create_checkbox_meta_field('Display Web Game (game files must be in /web-games/' . $post->post_name . ') ', '_games_displaywebgame');
 
   create_text_meta_field('Blurb', '_games_blurb');
+  create_text_meta_field('Dream Build Play', '_games_dreambuildplay');
 
 
   echo '&nbsp;<br/>&nbsp;<br/>';
@@ -513,6 +517,9 @@ function get_game_structured_data() {
           $meta_key = '_games_kongregate';
           $kongregate_link = get_post_meta(get_the_ID(), $meta_key, true);
 
+          $meta_key = '_games_dreambuildplay';
+          $dreambuildplay_link = get_post_meta(get_the_ID(), $meta_key, true);
+
 
             $strText = "";
 
@@ -616,22 +623,15 @@ function get_game_structured_data() {
                           "/assets/images/icon_gm48.jpg\" title=\"GM48 Entry\"></a> ";
             }
 
+            #Display Dream Build Play link 
+            if ($dreambuildplay_link != "") {
+              $strText .= "<a href=\"" . $dreambuildplay_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_dreambuildplay.jpg\" title=\"Dream Build Play Page\"></a> ";
+            }
 
+    }
 
-  #      if (get_post_type(get_the_ID()) == 'games') {
-#          return "game content";
-
-
-# LDS - Uncomment below to display date published for game
-#          $strText .= '<div class="entry-meta"><time class="entry-date published" datetime="' . get_the_date('c') . '">' . get_the_date() . '</time></div><br/>';
-
-#          $content = $strText . '<br/>' . $content;
-        }
-
-#        return $content;
-#    $strText .= '</div>';
-
-#    return $strText . '<br/>' . $content;
     return $strText;
   }
 

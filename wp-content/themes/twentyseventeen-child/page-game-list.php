@@ -46,6 +46,7 @@ get_header(); ?>
         echo '<a href="?jam=ludumdare">Ludum Dare</a> | ';
         echo '<a href="?jam=gm48">GM48</a> | ';
         echo '<a href="?jam=minild">MiniLD</a> | ';
+        echo '<a href="?jam=dreambuildplay">Dream Build Play</a> | ';
         echo '<a href="?jam=warmup">Warmup</a>';
         echo '<br/>';
 
@@ -468,6 +469,8 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
              return;
           } elseif ($jam == 'warmup' && get_post_meta($post->ID, '_games_warmup', true) == '') {
              return;
+          } elseif ($jam == 'dreambuildplay' && get_post_meta($post->ID, '_games_dreambuildplay', true) == '') {
+             return;
           }
 
 
@@ -533,7 +536,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
           if ($indiedb == 'true' && get_post_meta($post->ID, $meta_key, true) == '') {
              return;
           }
-
 
         ?>
 
@@ -611,6 +613,22 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 ?>
 
 <?php
+#Display Dream Build Play icon
+  if ($jam == 'dreambuildplay') {
+    echo '<td width="40">';
+    $meta_key = '_games_dreambuildplay';
+    $dreambuildplay_link = get_post_meta($post->ID, $meta_key, true);
+    if ($dreambuildplay_link != "") {
+      echo "<a href=\"" . $dreambuildplay_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_small_dreambuildplay.jpg\" title=\"View " . get_the_title() . " Dream Build Play entry\"></a>";
+        } 
+    echo '</td>';
+  }
+
+?>
+
+<?php
 #Display LD Warmup icon
   if ($jam == 'warmup') {
     echo '<td width="40">';
@@ -658,6 +676,22 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   }
 ?>
 
+<?php
+#Display Dream Build Play icon
+  if ($dreambuildplay == 'true') {
+    echo '<td width="40">';
+    $meta_key = '_games_dreambuildplay';
+    $dreambuildplay_link = get_post_meta($post->ID, $meta_key, true);
+    if ($dreambuildplay_link != "") {
+      echo "<a href=\"" . $dreambuildplay_link . "\"><img src=\"" .
+                          get_stylesheet_directory_uri() .
+                          "/assets/images/icon_small_dreambuildplay.jpg\" title=\"View " . get_the_title() . " on Dream Build Play\"></a>";
+        } 
+    echo '</td>';
+  }
+
+?>
+
 
 
 <?php
@@ -680,7 +714,8 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 # Start Download links
   if (! isset($soundcloud) && $jam != 'ludumdare' && 
        $jam != 'gm48' && $jam != 'minild' &&
-       $jam != 'warmup' && !isset($unityconnect) && !isset($indiedb)) {
+       $jam != 'warmup' && $jam != 'dreambuildplay' &&
+       !isset($unityconnect) && !isset($indiedb) ) {
 ?>
 
 
