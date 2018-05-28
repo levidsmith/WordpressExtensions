@@ -235,7 +235,7 @@ function display_layout_popular($myposts) {
     $ranked_games_array[$thepost->ID]['post_title'] = $thepost->post_title;
     $ranked_games_array[$thepost->ID]['post_permalink'] = get_permalink($thepost);
   endforeach;
-  echo '<div class="popularity_table">';
+  echo '<table class="popularity_table">';
 
 #    echo "Game: " . get_the_title($thepost->ID);
     if (function_exists('stats_get_csv')) {
@@ -366,13 +366,13 @@ function display_layout_popular($myposts) {
     }
 
     #Table Headers
-    echo '<div class="popularity_row">';
-    echo '<div class="popularity_title">&nbsp;</div>';
-    echo '<div class="popularity_rank"><a href="?layout=popular&order=week">Week</a></div>';
-    echo '<div class="popularity_rank"><a href="?layout=popular&order=month">Month</a></div>';
-    echo '<div class="popularity_rank"><a href="?layout=popular&order=year">Year</a></div>';
-    echo '<div class="popularity_rank"><a href="?layout=popular&order=alltime">All Time</a></div>';
-    echo '</div>';
+    echo '<tr class="popularity_row">';
+    echo '<td class="popularity_title">&nbsp;</td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=week">Week</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=month">Month</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=year">Year</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=alltime">All Time</a></td>';
+    echo '</tr>';
   
     #Table data
     $num_row = 0;
@@ -384,42 +384,42 @@ function display_layout_popular($myposts) {
         }
 
 #        echo '<div class="' . $row_style . '">';
-        echo '<div class="popularity_row">';
+        echo '<tr class="popularity_row">';
 
-        echo '<div class="popularity_title"><a href="' . $value['post_permalink'] . '">' . $value['post_title'] . '</a></div>';
+        echo '<td class="popularity_title"><a href="' . $value['post_permalink'] . '">' . $value['post_title'] . '</a></td>';
 
-        echo '<div class="popularity_rank">' . $value['week_rank'];
+        echo '<td class="popularity_rank">' . $value['week_rank'];
         if (current_user_can("administrator")) {
           echo ':' . number_format($value['week']);
         }
-        echo '</div>';
+        echo '</td>';
 
-        echo '<div class="popularity_rank">' . $value['month_rank'];
+        echo '<td class="popularity_rank">' . $value['month_rank'];
         if (current_user_can("administrator")) {
           echo ':' . number_format($value['month']);
         }
-        echo '</div>';
+        echo '</td>';
 
-        echo '<div class="popularity_rank">' . $value['year_rank'];
+        echo '<td class="popularity_rank">' . $value['year_rank'];
         if (current_user_can("administrator")) {
           echo ':' . number_format($value['year']);
         }
-        echo '</div>';
+        echo '</td>';
 
-        echo '<div class="popularity_rank">' . $value['alltime_rank'];
+        echo '<td class="popularity_rank">' . $value['alltime_rank'];
         if (current_user_can("administrator")) {
           echo ':' . number_format($value['alltime']);
         }
-        echo '</div>';
+        echo '</td>';
 
-        echo '</div>';
+        echo '</tr>';
 
         $num_row += 1;
    
     }
 
 
-  echo '</div>';
+  echo '</table>';
 
 
 #      $month_count = absint($response[0]['views']);
