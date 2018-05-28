@@ -710,8 +710,16 @@ function games_pre_posts($q) {
     return;
   }
   $q->set('post_type', array('post', 'games'));
-#  $q->set('year', '2015');
 
+}
+
+add_filter('pre_get_posts', 'exclude_tag');
+function exclude_tag($q) {
+  if (is_admin() || !$q->is_main_query() || !$q->is_home()) {
+    return;
+  }
+    $query_args = array('tag__not_in' => array(1));
+    $q->set('tag__not_in', array(86)); 
 }
 
 #Add games to the listing of posts by tag
