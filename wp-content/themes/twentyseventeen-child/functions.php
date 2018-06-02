@@ -20,17 +20,6 @@ function create_posttype() {
   );
 
 
-  register_post_type('hats',
-    array(
-      'labels' => array(
-        'name' => __('Hats'),
-        'singular_name' => __('Hat'),
-        'edit' => 'Edit Hat'
-      ),
-      'description' => 'Collection of Hats',
-      'public' => true
-    )
-  );
 }
 add_action('init', 'create_posttype');
 
@@ -827,7 +816,7 @@ function add_custom_game_content($content) {
 
 #For some reason this messes up oembed links on the first or last line, so you just have to put those in the [embed][/embed] tags
   if ( is_main_query()) {
-    $content = get_game_structured_data() . display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
+    $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<br/>' . display_game_links() . '<br/>' . display_game_appendix(); 
   }
   return $content;
 }
