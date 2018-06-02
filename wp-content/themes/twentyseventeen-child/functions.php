@@ -18,6 +18,19 @@ function create_posttype() {
       'supports' => array('title', 'editor', 'custom-fields', 'publicize', 'comments', 'author' )
     )
   );
+
+
+  register_post_type('hats',
+    array(
+      'labels' => array(
+        'name' => __('Hats'),
+        'singular_name' => __('Hat'),
+        'edit' => 'Edit Hat'
+      ),
+      'description' => 'Collection of Hats',
+      'public' => true
+    )
+  );
 }
 add_action('init', 'create_posttype');
 
@@ -636,12 +649,6 @@ function get_game_structured_data() {
   }
 
 
-#  function display_content($content) {
-
-#    echo $content;
-#  }
-#add_action('the_content', 'display_content', 1);
-
 
 ### END DISPLAY GAME LINKS ###
 
@@ -694,15 +701,6 @@ function fix_hentry() {
 }
 ### END FIX HENTRY ###
 
-/*
-function custom_game_feed($query) {
-  if ($query->is_feed()) {
-    $query->set('post_type', array('post', 'games'));
-  }
-  return $query;
-}
-add_filter('pre_get_posts', 'custom_game_feed');
-*/
 
 add_action('pre_get_posts', 'games_pre_posts');
 function games_pre_posts($q) {
@@ -711,19 +709,22 @@ function games_pre_posts($q) {
   }
   $q->set('post_type', array('post', 'games'));
 
+  exclude_tag($q);
 }
 
-add_filter('pre_get_posts', 'exclude_tag');
+#add_filter('pre_get_posts', 'exclude_tag');
 function exclude_tag($q) {
   if (is_admin() || !$q->is_main_query() || !$q->is_home()) {
     return;
   }
     $query_args = array('tag__not_in' => array(1));
     $q->set('tag__not_in', array(86)); 
+
+
 }
 
 #Add games to the listing of posts by tag
-add_action('parse_tax_query', 'games_tax_query');
+#add_action('parse_tax_query', 'games_tax_query');
 function games_tax_query($q) {
   if ($q->is_main_query()) {
 #    if ($q->query_vars['tag'] == 'dream-build-play') {
@@ -732,12 +733,6 @@ function games_tax_query($q) {
   }
 }
 
-/*
-add_action('pre_get_posts', 'popular_games');
-function popular_games($q) {
-  echo "<div>popular games</div>";
-}
-*/
 
 
 function my_body_class($class) {
@@ -820,40 +815,23 @@ function display_embed_game() {
 }
 
 
-#function display_embed_game_head($head) {
-#  $strText = '' . "\n";
-#  $strText .= '<!-- LDS - START - Embed Unity WebGL game information in the head tag -->' . "\n";
-#   $strText .= '   <link rel="stylesheet" href="/web-games/amish-brothers/TemplateData/style.css">' . "\n";
-#   $strText .= '   <script src="/web-games/amish-brothers/TemplateData/UnityProgress.js"></script>' . "\n";
-#   $strText .= '   <script src="/web-games/amish-brothers/Build/UnityLoader.js"></script>' . "\n";
-#   $strText .= '   <script>' . "\n";
-#   $strText .= '     var gameInstance = UnityLoader.instantiate("gameContainer", "/web-games/amish-brothers/Build/AmishBrothersWebGL.json", {onProgress: UnityProgress});' . "\n";
-#   $strText .= '   </script>' . "\n";
-
-
-#  $strText .= '<!-- LDS - END Embed Unity WebGL game information in the head tag -->'. "\n";
-#  $strText .= '' . "\n";
-#  echo $strText;
-#}
-#add_action('wp_head', 'display_embed_game_head');
-
 
 
 
 function add_custom_game_content($content) {
 
-  return get_game_structured_data() . display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
+#  return get_game_structured_data() . display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
+#    return $content;
+#  if (is_singular() && is_main_query()) {
 
+
+#For some reason this messes up oembed links on the first or last line, so you just have to put those in the [embed][/embed] tags
+  if ( is_main_query()) {
+    $content = get_game_structured_data() . display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
+  }
+  return $content;
 }
 add_filter('the_content', 'add_custom_game_content', 5);
-
-#function add_custom_game_title($title) {
-#       if (get_post_type(get_the_ID()) == 'games') {
-#         $title = 'abc';
-#       }
-#  return $title; 
-#}
-#add_filter('the_title', 'add_custom_game_title', 10); 
 
 
 ?>
