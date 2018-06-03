@@ -713,7 +713,7 @@ function exclude_tag($q) {
 }
 
 #Add games to the listing of posts by tag
-#add_action('parse_tax_query', 'games_tax_query');
+add_action('parse_tax_query', 'games_tax_query');
 function games_tax_query($q) {
   if ($q->is_main_query()) {
 #    if ($q->query_vars['tag'] == 'dream-build-play') {
