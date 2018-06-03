@@ -698,7 +698,8 @@ function games_pre_posts($q) {
   }
   $q->set('post_type', array('post', 'games'));
 
-  exclude_tag($q);
+  exclude_tag($q); #remove wrestling podcast posts
+#  add_custom_types_to_tax($q);
 }
 
 #add_filter('pre_get_posts', 'exclude_tag');
@@ -707,12 +708,13 @@ function exclude_tag($q) {
     return;
   }
     $query_args = array('tag__not_in' => array(1));
-    $q->set('tag__not_in', array(86)); 
+    $q->set('tag__not_in', array(86));  #remove wrestling podcasts from main query, without completely deleting them
 
 
 }
 
 #Add games to the listing of posts by tag
+/*
 add_action('parse_tax_query', 'games_tax_query');
 function games_tax_query($q) {
   if ($q->is_main_query()) {
@@ -721,6 +723,20 @@ function games_tax_query($q) {
 #    }
   }
 }
+*/
+function add_custom_types_to_tax($q) {
+#  if (is_admin() || !$q->is_main_query() || !$q->is_home()) {
+#    return;
+#  }
+#  if (is_category() || is_tag() && empty($q->query_vars['suppress_filters'])) {
+  if (is_category() || is_tag() ) {
+#    $post_types = get_post_types();
+#    $post_types = array('post', 'games');
+    $q->set('post_type', array('post', 'games'));
+    return $q;
+  }
+}
+add_filter('pre_get_posts', 'add_custom_types_to_tax');
 
 
 
