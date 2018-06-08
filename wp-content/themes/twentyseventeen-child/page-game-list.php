@@ -29,16 +29,18 @@ get_header(); ?>
 
         <?php
 #        echo 'Game Index<br/><br/>';
-        echo '<a href="?web=true&layout=thumbnail">Web Games</a><br/>';
-        echo 'Popularity ';
-        echo '<a href="?layout=popular&order=week">Week</a> |';
-        echo '<a href="?layout=popular&order=month">Month</a> |';
-        echo '<a href="?layout=popular&order=year">Year</a> |';
+        echo '<a href="?web=true&layout=thumbnail">Web Games</a> | ';
+        echo '<a href="?download=true">Downloads</a>';
+        echo '<br/>';
+        echo 'Popularity Ranking: ';
+        echo '<a href="?layout=popular&order=week">7 Days</a> | ';
+        echo '<a href="?layout=popular&order=month">30 Days</a> | ';
+        echo '<a href="?layout=popular&order=year">365 Days</a> | ';
         echo '<a href="?layout=popular&order=alltime">All Time</a>';
         echo '<br/>';
         echo 'Order all by: ';
         echo '<a href="?orderby=name">Name</a> | ';
-        echo '<a href="?orderby=newest">Newest</a> |';
+        echo '<a href="?orderby=newest">Newest</a> | ';
         echo '<a href="?orderby=oldest">Oldest</a>';
         echo '<br/>';
 
@@ -59,21 +61,21 @@ get_header(); ?>
         echo '<br/>';
 
         echo 'Engines: ';
-        echo '<a href="?engine=unity">Unity</a> |';
-        echo '<a href="?engine=gamemaker">GameMaker</a> |';
-        echo '<a href="?engine=xna_monogame">XNA / MonoGame</a> |';
-        echo '<a href="?engine=sdl">SDL</a> |';
-        echo '<a href="?engine=stencyl">Stencyl</a> |';
-        echo '<a href="?engine=6502">6502</a> |';
-        echo '<a href="?engine=godot">Godot</a> |';
-        echo '<a href="?engine=pico8">Pico-8</a> |';
-        echo '<a href="?engine=construct">Construct</a> |';
-        echo '<a href="?engine=unreal">Unreal Engine</a> |';
-        echo '<a href="?engine=scratch">Scratch</a> |';
+        echo '<a href="?engine=unity">Unity</a> | ';
+        echo '<a href="?engine=gamemaker">GameMaker</a> | ';
+        echo '<a href="?engine=xna_monogame">XNA / MonoGame</a> | ';
+        echo '<a href="?engine=sdl">SDL</a> | ';
+        echo '<a href="?engine=stencyl">Stencyl</a> | ';
+        echo '<a href="?engine=6502">6502</a> | ';
+        echo '<a href="?engine=godot">Godot</a> | ';
+        echo '<a href="?engine=pico8">Pico-8</a> | ';
+        echo '<a href="?engine=construct">Construct</a> | ';
+        echo '<a href="?engine=unreal">Unreal Engine</a> | ';
+        echo '<a href="?engine=scratch">Scratch</a>';
         echo '<br/>';
 
         echo 'Promotion: ';
-        echo '<a href="?unityconnect=true">Unity Connect | </a>';
+        echo '<a href="?unityconnect=true">Unity Connect </a> | ';
         echo '<a href="?indiedb=true">IndieDB</a>';
         echo '<br/>';
 
@@ -368,9 +370,9 @@ function display_layout_popular($myposts) {
     #Table Headers
     echo '<tr class="popularity_row">';
     echo '<td class="popularity_title">&nbsp;</td>';
-    echo '<td class="popularity_rank"><a href="?layout=popular&order=week">Week</a></td>';
-    echo '<td class="popularity_rank"><a href="?layout=popular&order=month">Month</a></td>';
-    echo '<td class="popularity_rank"><a href="?layout=popular&order=year">Year</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=week">7 Days</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=month">30 Days</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=year">365 Days</a></td>';
     echo '<td class="popularity_rank"><a href="?layout=popular&order=alltime">All Time</a></td>';
     echo '</tr>';
   
@@ -550,7 +552,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
             echo "<tr class=\"odd_row\">";
           }
         ?>
-          <td><?php echo $iGameNumber + 1 ?></td>
+          <td class="game_row_number"><?php echo $iGameNumber + 1 ?></td>
         
 <?php
           echo '<td><span class="game_list"><a href="' . get_the_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></span></td>';
@@ -712,7 +714,8 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 
 <?php
 # Start Download links
-  if (! isset($soundcloud) && $jam != 'ludumdare' && 
+  $download = $_GET['download'];
+  if ($download == 'true' && !isset($soundcloud) && $jam != 'ludumdare' && 
        $jam != 'gm48' && $jam != 'minild' &&
        $jam != 'warmup' && $jam != 'dreambuildplay' &&
        !isset($unityconnect) && !isset($indiedb) ) {

@@ -4394,6 +4394,19 @@ object {
     height: 40px;
 }
 
+td.game_row_number {
+  width: 128px;
+  padding: 4px 16px 4px 16px;
+  background-color: #D0D0D080;
+  text-align: left;
+}
+
+td.game_row_rank {
+  width: 128px;
+  padding: 4px 16px 4px 16px;
+
+}
+
 .game_list a {
   color: #ffffff;
   font-weight: bold;  
@@ -4539,9 +4552,8 @@ li {
 }
 
 
-.popularity_rank {
-      width: 64px; 
-      float: left;
-      padding: 4px 4px;
+td.popularity_rank {
+  width: 128px;
+  padding: 4px 16px 4px 16px;
 
 }

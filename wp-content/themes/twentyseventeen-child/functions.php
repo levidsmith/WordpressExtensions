@@ -15,7 +15,7 @@ function create_posttype() {
       'public' => true,
       'has_archive' => true,
       'rewrite' => array('slug' => 'games'),
-      'supports' => array('title', 'editor', 'custom-fields', 'publicize', 'comments', 'author' )
+      'supports' => array('title', 'editor', 'custom-fields', 'publicize', 'comments', 'author', 'thumbnail' )
     )
   );
 
@@ -837,6 +837,26 @@ function add_custom_game_content($content) {
   return $content;
 }
 add_filter('the_content', 'add_custom_game_content', 5);
+
+/*
+function get_redirects() {
+  if (get_permalink() == 'https://levidsmith.com/blasting-bits/') {
+    wp_redirect( "https://levidsmith.com/games/blasting-bits", 301 );
+  } else if (get_permalink() == 'https://levidsmith.com/gigaguy/') {
+    wp_redirect( "https://levidsmith.com/games/giga-guy", 301 );
+ 
+  }
+}
+*/
+
+function my_post_image_html($html, $post_id, $post_image_id) {
+  if (is_category() || is_tag() || is_single()) {
+    return '';
+  } else {
+    return $html;
+  }
+}
+add_filter('post_thumbnail_html', 'my_post_image_html', 10, 3);
 
 
 ?>
