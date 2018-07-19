@@ -858,5 +858,10 @@ function my_post_image_html($html, $post_id, $post_image_id) {
 }
 add_filter('post_thumbnail_html', 'my_post_image_html', 10, 3);
 
+function make_rank_json() {
+  $json_file = get_home_path . 'rank_stats.json';
+  file_put_contents($json_file, '***json data***');
+}
+add_action('wp', 'make_rank_json');
 
 ?>

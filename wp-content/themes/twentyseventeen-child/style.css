@@ -4525,11 +4525,12 @@ li {
 }
 
 .popularity_table {
-  display: table;
+//  display: table;
 }
 
 .popularity_row {
-  display: table-row;
+//  display: table-row;
+    height: 40px;
 }
 
 .popularity_row:nth-child(even) {
@@ -4541,19 +4542,19 @@ li {
 }
 
 .popularity_cell {
-  display: table-cell;
+//  display: table-cell;
 }
 
-.popularity_title {
+td.popularity_title {
      width: 400px; 
      float: left; 
      clear: left;
-     padding: 4px 4px;
+     padding: 4px 4px 4px 32px;
 }
 
 
 td.popularity_rank {
   width: 128px;
   padding: 4px 16px 4px 16px;
-
+  text-align: right;
 }

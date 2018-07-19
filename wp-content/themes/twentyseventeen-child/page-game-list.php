@@ -32,12 +32,6 @@ get_header(); ?>
         echo '<a href="?web=true&layout=thumbnail">Web Games</a> | ';
         echo '<a href="?download=true">Downloads</a>';
         echo '<br/>';
-        echo 'Popularity Ranking: ';
-        echo '<a href="?layout=popular&order=week">7 Days</a> | ';
-        echo '<a href="?layout=popular&order=month">30 Days</a> | ';
-        echo '<a href="?layout=popular&order=year">365 Days</a> | ';
-        echo '<a href="?layout=popular&order=alltime">All Time</a>';
-        echo '<br/>';
         echo 'Order all by: ';
         echo '<a href="?orderby=name">Name</a> | ';
         echo '<a href="?orderby=newest">Newest</a> | ';
@@ -77,6 +71,13 @@ get_header(); ?>
         echo 'Promotion: ';
         echo '<a href="?unityconnect=true">Unity Connect </a> | ';
         echo '<a href="?indiedb=true">IndieDB</a>';
+        echo '<br/>';
+
+        echo 'Popularity Ranking: ';
+        echo '<a href="?layout=popular&order=7days">7 Days</a> | ';
+        echo '<a href="?layout=popular&order=30days">30 Days</a> | ';
+        echo '<a href="?layout=popular&order=365days">365 Days</a> | ';
+        echo '<a href="?layout=popular&order=alltime">All Time</a>';
         echo '<br/>';
 
         echo '<br/>';
@@ -123,7 +124,10 @@ get_header(); ?>
         } elseif ($layout == 'videos') {
           display_layout_videos($myposts, $args['video_type']);
         } elseif ($layout == 'popular') {
-          display_layout_popular($myposts);
+#          $json = file_get_contents('https://levidsmith.com/stats/rank_stats.json'); 
+          $json = get_rank_json($myposts); 
+#          echo "JSON: " . $json;
+          display_layout_popular($json);
         } else {
           display_layout_list($myposts, $jam, $showDate);
         }
@@ -222,12 +226,24 @@ get_header(); ?>
 
 <?php
 ### Display games by views ###
-function display_layout_popular($myposts) {
+function get_rank_json($myposts) {
+  $json = '';
   $ranked_games_array = array();
   
   $game_ids = '';
   $game_count = 0;
+
+
+
+  $json .= '{' . "\n"; 
+  $json .= '  "games": [' . "\n"; 
+
+
+
+
   foreach( $myposts as $thepost) : setup_postdata( $thepost); 
+
+
     if ($game_ids != '') {
     $game_ids .= ',';
     }
@@ -237,7 +253,6 @@ function display_layout_popular($myposts) {
     $ranked_games_array[$thepost->ID]['post_title'] = $thepost->post_title;
     $ranked_games_array[$thepost->ID]['post_permalink'] = get_permalink($thepost);
   endforeach;
-  echo '<table class="popularity_table">';
 
 #    echo "Game: " . get_the_title($thepost->ID);
     if (function_exists('stats_get_csv')) {
@@ -248,8 +263,6 @@ function display_layout_popular($myposts) {
 
       $response = stats_get_csv('postviews', array('post_id' => $game_ids, 'days' => -1, 'limit' => $game_count));
       foreach ($response as &$response_entry) {
-#          $ranked_games_array[$response_entry['post_id']]['post_title'] = $response_entry['post_title'];
-#          $ranked_games_array[$response_entry['post_id']]['post_permalink'] = $response_entry['post_permalink'];
         $ranked_games_array[$response_entry['post_id']]['alltime'] = $response_entry['views'];
         if ($current_views == -1) {
           $current_views = $response_entry['views'];
@@ -286,7 +299,7 @@ function display_layout_popular($myposts) {
         $ranked_games_array[$response_entry['post_id']]['year_rank'] = $current_rank;
         
       }
-      #Set the rank for games wilth null (zero) views
+      #Set the rank for games with null (zero) views
       foreach (explode(',', $game_ids) as $id) {
         if (is_null($ranked_games_array[$id]['year_rank'])) {
           $ranked_games_array[$id]['year_rank'] = $current_rank + 1;
@@ -343,21 +356,54 @@ function display_layout_popular($myposts) {
       }
 
 
-    if ($_GET['order'] == 'week') {
+  }
+
+  foreach ($ranked_games_array as $game) {
+
+    $json .= '    {' . "\n"; 
+    $json .= '      "name": "' . $game['post_title'] . '",' . "\n"; 
+    $json .= '      "link": "' . $game['post_permalink'] . '",' . "\n";  
+    $json .= '      "7days_rank": ' . $game['week_rank'] . ',' . "\n";  
+    $json .= '      "30days_rank": ' . $game['month_rank'] . ',' . "\n";  
+    $json .= '      "365days_rank": ' . $game['year_rank'] . ',' . "\n";  
+    $json .= '      "alltime_rank": ' . $game['alltime_rank'] . '' . "\n";  
+    $json .= '    }' . "\n"; 
+    if ($game != end($ranked_games_array)) {
+      $json .= ','; 
+    }
+  }
+
+
+  $json .= '  ]' . "\n"; 
+  $json .= '}' . "\n"; 
+
+  return $json;
+
+}
+
+function display_layout_popular($json_rank_stats) {
+#  $ranked_games_array = array();
+#  $json_rank_stats = file_get_contents('https://levidsmith.com/stats/rank_stats.json');
+  $json = json_decode($json_rank_stats, true);
+#  echo '<pre>' . print_r($json, true) . '</pre>';
+
+  $ranked_games_array = $json['games'];
+
+    if ($_GET['order'] == '7days') {
       usort($ranked_games_array, function($a, $b) {
-          return $a['week_rank'] - $b['week_rank'];
+          return $a['7days_rank'] - $b['7days_rank'];
       });
     }
 
-    if ($_GET['order'] == 'month') {
+    if ($_GET['order'] == '30days') {
       usort($ranked_games_array, function($a, $b) {
-        return $a['month_rank'] - $b['month_rank'];
+        return $a['30days_rank'] - $b['30days_rank'];
       });
     }
 
-    if ($_GET['order'] == 'year') {
+    if ($_GET['order'] == '365days') {
       usort($ranked_games_array, function($a, $b) {
-        return $a['year_rank'] - $b['year_rank'];
+        return $a['365days_rank'] - $b['365days_rank'];
       });
     }
 
@@ -367,12 +413,15 @@ function display_layout_popular($myposts) {
       });
     }
 
+
+  echo '<table class="popularity_table">';
+
     #Table Headers
     echo '<tr class="popularity_row">';
     echo '<td class="popularity_title">&nbsp;</td>';
-    echo '<td class="popularity_rank"><a href="?layout=popular&order=week">7 Days</a></td>';
-    echo '<td class="popularity_rank"><a href="?layout=popular&order=month">30 Days</a></td>';
-    echo '<td class="popularity_rank"><a href="?layout=popular&order=year">365 Days</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=7days">7 Days</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=30days">30 Days</a></td>';
+    echo '<td class="popularity_rank"><a href="?layout=popular&order=365days">365 Days</a></td>';
     echo '<td class="popularity_rank"><a href="?layout=popular&order=alltime">All Time</a></td>';
     echo '</tr>';
   
@@ -385,34 +434,13 @@ function display_layout_popular($myposts) {
           $row_style = 'even_row';
         }
 
-#        echo '<div class="' . $row_style . '">';
         echo '<tr class="popularity_row">';
+        echo '<td class="popularity_title"><span class="game_list"><a href="' . $value['link'] . '">' . $value['name'] . '</a></span></td>';
+        echo '<td class="popularity_rank">' . $value['7days_rank'] . '</td>';
+        echo '<td class="popularity_rank">' . $value['30days_rank'] . '</td>';
+        echo '<td class="popularity_rank">' . $value['365days_rank'] . '</td>';
+        echo '<td class="popularity_rank">' . $value['alltime_rank'] . '</td>';
 
-        echo '<td class="popularity_title"><a href="' . $value['post_permalink'] . '">' . $value['post_title'] . '</a></td>';
-
-        echo '<td class="popularity_rank">' . $value['week_rank'];
-        if (current_user_can("administrator")) {
-          echo ':' . number_format($value['week']);
-        }
-        echo '</td>';
-
-        echo '<td class="popularity_rank">' . $value['month_rank'];
-        if (current_user_can("administrator")) {
-          echo ':' . number_format($value['month']);
-        }
-        echo '</td>';
-
-        echo '<td class="popularity_rank">' . $value['year_rank'];
-        if (current_user_can("administrator")) {
-          echo ':' . number_format($value['year']);
-        }
-        echo '</td>';
-
-        echo '<td class="popularity_rank">' . $value['alltime_rank'];
-        if (current_user_can("administrator")) {
-          echo ':' . number_format($value['alltime']);
-        }
-        echo '</td>';
 
         echo '</tr>';
 
@@ -424,23 +452,8 @@ function display_layout_popular($myposts) {
   echo '</table>';
 
 
-#      $month_count = absint($response[0]['views']);
 
-      
-
-#      $response = stats_get_csv('postviews', array('post_id' => $thepost->ID, 
-#      'days' => 365, 'limit' => 1));
-#      $year_count = absint($response[0]['views']);
-
-#      $response = stats_get_csv('postviews', array('post_id' => $thepost->ID, 
-#      'days' => -1, 'limit' => 1));
-#      $alltime_count = absint($response[0]['views']);
-
-#      echo ' Views: ' . $month_count . ', ' . $year_count . ', ' . $all_time;
-#      echo ' Views: ' . $month_count;
-    }
     echo "<br/>";
-#  endforeach;    
 }
 ?>
 
