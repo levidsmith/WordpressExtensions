@@ -146,6 +146,9 @@ function game_save_post_class_meta($post_id, $post) {
 # Update structured trailer date 
   game_update_text_meta_value('_games_structured_trailer_date', $post_id);
 
+# Update small capsule image
+  game_update_text_meta_value('_games_img_small_capsule', $post_id);
+
 
 }
 
@@ -231,11 +234,6 @@ function game_post_class_meta_box( $post ) {
 
   create_text_meta_field('Structured Data - description', '_games_structured_description');
 
-#  echo 'Structured Data - description';
-#  $meta_key = '_games_structured_description';
-#  echo '<input type="text" name="' . $meta_key . '" id="' . $meta_key . '" value="' . get_post_meta(get_the_ID(), $meta_key, true)  . '" size="64">';
-#  echo '<br/>';
-
   create_text_meta_field('Structured Data - genre', '_games_structured_genre');
 
   create_text_meta_field('Structured Data - image (cover image?)', '_games_structured_image');
@@ -247,7 +245,11 @@ function game_post_class_meta_box( $post ) {
   create_text_meta_field('Structured Data - trailer url', '_games_structured_trailer_url');
   create_text_meta_field('Structured Data - trailer date', '_games_structured_trailer_date');
 
+  echo '&nbsp;<br/>&nbsp;<br/>';
+  echo '<strong>Images</strong><br/>';
 
+  create_text_meta_field('Image Small Capsule', '_games_img_small_capsule');
+  display_img_meta_field('_games_img_small_capsule');
 
 }
 
@@ -259,6 +261,20 @@ function create_text_meta_field($label, $meta_key) {
 
 
 }
+
+function display_img_meta_field($meta_key) {
+  $img_url = get_post_meta(get_the_ID(), $meta_key, true);
+  if ($img_url != '') {
+  echo '<img src="' . $img_url . '"/>';
+  } else {
+    echo 'No image';
+  }
+  echo '<br/>';
+
+
+
+}
+
 
 function create_checkbox_meta_field($label, $meta_key) {
   echo $label; 
@@ -386,9 +402,6 @@ function get_game_structured_data() {
   if ($indiedb_link != '') {
     $strText .= '    "' . $indiedb_link . '"';
   }
-#  $strText .= '    "http://www.indiedb.com/games/slowbot",';
-#  $strText .= '    "https://gatechgrad.itch.io/slowbot",';
-#  $strText .= '    "http://gamejolt.com/games/slowbot/274288"';
   $strText .= '  ],';
   $strText .= '  "trailer":{';
   $strText .= '    "@type":"VideoObject",';
@@ -641,16 +654,6 @@ function get_game_structured_data() {
 
 ### END DISPLAY GAME LINKS ###
 
-### DISPLAY GAME TITLE ###
-#  function display_game_title( $title ) {
-#       if (get_post_type(get_the_ID()) == 'games') {
-#         $title = "Hello: " . $title;
-#       }
-#    return $title;
-#  }
-#  add_action('the_title', 'display_game_title');
-
-### END DISPLAY GAME TITLE ###
 
 ### START DISPLAY GAME APPENDIX ###
   function display_game_appendix() {
