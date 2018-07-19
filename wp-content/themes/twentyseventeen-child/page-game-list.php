@@ -867,7 +867,8 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
   #Structured Data disabled
   if (current_user_can("administrator")) {
     $meta_key = '_games_structured_enabled';
-    if (get_post_meta($post->ID, $meta_key, true) == '') {
+    $meta_value = get_post_meta($post->ID, $meta_key, true);
+    if ($meta_value == '' || $meta_value == 'false') {
           echo "<td>Structured Data Disabled</td>";
     } else {
       echo "<td></td>";
