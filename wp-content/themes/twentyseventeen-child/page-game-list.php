@@ -128,6 +128,8 @@ get_header(); ?>
           $json = get_rank_json($myposts); 
 #          echo "JSON: " . $json;
           display_layout_popular($json);
+        } elseif ($layout == 'capsule') {
+          display_layout_capsule($myposts);
         } else {
           display_layout_list($myposts, $jam, $showDate);
         }
@@ -161,6 +163,28 @@ get_header(); ?>
 
       echo  '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
 
+
+
+        endforeach;
+        wp_reset_postdata();
+    echo '</div>';
+ 
+  }
+
+  function display_layout_capsule($myposts) {
+    echo '<div class="capsule_games">';
+        foreach( $myposts as $thepost) : setup_postdata( $thepost); 
+
+
+    $game_name = get_the_title($thepost->ID); 
+    $game_url = get_the_permalink($thepost->ID);
+    $game_img_capsule = $thepost->_games_img_small_capsule;
+
+    echo '<div class="capsule_game"><a href="' . $game_url . '">';
+    if ($game_img_capsule != '') {
+      echo '<img src="' . $game_img_capsule . '">';
+    }
+    echo '</a></div>';
 
 
         endforeach;

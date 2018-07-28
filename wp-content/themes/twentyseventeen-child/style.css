@@ -4343,6 +4343,21 @@ object {
   clear: both; 
 }
 
+.capsule_games {
+  float: left;
+  padding: 0px 4px;
+  position: relative;
+  left: 0px;
+  top: 0px;
+  clear: both; 
+}
+
+.capsule_game {
+  float: left;
+  padding: 4px;
+  position: relative;
+}
+
 /*
 .featured_games::after {
   clear: both; 
