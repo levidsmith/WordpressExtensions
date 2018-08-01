@@ -232,7 +232,7 @@ function game_post_class_meta_box( $post ) {
 
   create_checkbox_meta_field('Structured Data - enabled', '_games_structured_enabled');
 
-  create_text_meta_field('Structured Data - description', '_games_structured_description');
+  create_text_meta_field('Structured Data - description (500 characters or less)', '_games_structured_description');
 
   create_text_meta_field('Structured Data - genre', '_games_structured_genre');
 
@@ -246,9 +246,9 @@ function game_post_class_meta_box( $post ) {
   create_text_meta_field('Structured Data - trailer date', '_games_structured_trailer_date');
 
   echo '&nbsp;<br/>&nbsp;<br/>';
-  echo '<strong>Images</strong><br/>';
+  echo '<strong>Steam Style Images</strong><br/>';
 
-  create_text_meta_field('Image Small Capsule', '_games_img_small_capsule');
+  create_text_meta_field('Image Small Capsule (231x87)', '_games_img_small_capsule');
   display_img_meta_field('_games_img_small_capsule');
 
 }
@@ -303,6 +303,7 @@ function get_engines() {
     "gamemaker" => "GameMaker",
     "godot" => "Godot",
     "pico8" => "Pico-8",
+    "projectspark" => "Project Spark",
     "scratch" => "Scratch",
     "sdl" => "SDL",
     "stencyl" => "Stencyl",
@@ -835,7 +836,7 @@ function add_custom_game_content($content) {
 
 #For some reason this messes up oembed links on the first or last line, so you just have to put those in the [embed][/embed] tags
   if ( is_main_query()) {
-    $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<br/>' . display_game_links() . '<br/>' . display_game_appendix(); 
+    $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<div style="clear: both;"></div>' . display_game_links() . '<br/>' . display_game_appendix(); 
   }
   return $content;
 }

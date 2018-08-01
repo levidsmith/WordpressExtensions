@@ -4354,8 +4354,11 @@ object {
 
 .capsule_game {
   float: left;
-  padding: 4px;
+  padding: 2px;
   position: relative;
+  width: 235px;
+  height: 91px;
+  background: #E0E0E0;
 }
 
 /*

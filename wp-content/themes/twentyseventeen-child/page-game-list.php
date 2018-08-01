@@ -100,8 +100,9 @@ get_header(); ?>
           $args['order'] = 'ASC'; 
           $showDate = true;
         } else {
-          $args['orderby'] = 'title'; 
-          $args['order'] = 'ASC'; 
+//          $args['orderby'] = 'title'; 
+          $args['orderby'] = 'date'; 
+          $args['order'] = 'DESC'; 
         }
        
         $jam = $_GET['jam'];
@@ -116,8 +117,21 @@ get_header(); ?>
 
 
         $layout = $_GET['layout'];
+
+        $download = $_GET['download'];
+        $soundcloud = $_GET['soundcloud'];
+        $indiedb = $_GET['indiedb'];
+        $unityconnect = $_GET['unityconnect'];
+
         if ($layout == 'thumbnail') {
           display_layout_thumbnail($myposts, true);
+
+        } elseif ($download == 'true' ||
+                  $soundcloud == 'true' ||
+                  $indiedb == 'true' ||
+                  $unityconnect == 'true'
+                 ) {
+          display_layout_list($myposts, $jam, $showDate);
 
         } elseif ($layout == 'list') {
           display_layout_list($myposts, $jam, $showDate);
@@ -130,8 +144,11 @@ get_header(); ?>
           display_layout_popular($json);
         } elseif ($layout == 'capsule') {
           display_layout_capsule($myposts);
-        } else {
+        } elseif ($layout == 'list') {
           display_layout_list($myposts, $jam, $showDate);
+        } else {
+//          display_layout_list($myposts, $jam, $showDate);
+          display_layout_capsule($myposts);
         }
 
 
@@ -172,8 +189,41 @@ get_header(); ?>
   }
 
   function display_layout_capsule($myposts) {
+    $jam = $_GET['jam'];
+    $engine = $_GET['engine'];
     echo '<div class="capsule_games">';
         foreach( $myposts as $thepost) : setup_postdata( $thepost); 
+
+
+
+
+          if ($jam == 'ludumdare' && $thepost->_games_ludumdare == '') {
+            continue;
+          }
+
+          if ($jam == 'gm48' && $thepost->_games_gm48 == '') {
+            continue;
+          }
+
+          if ($jam == 'minild' && $thepost->_games_minild == '') {
+            continue;
+          }
+
+          if ($jam == 'dreambuildplay' && $thepost->_games_dreambuildplay == '') {
+            continue;
+          }
+
+          if ($jam == 'warmup' && $thepost->_games_warmup == '') {
+            continue;
+          }
+
+          if ($engine != '' && $engine != $thepost->_games_engine) {
+            continue;
+          }
+
+
+
+
 
 
     $game_name = get_the_title($thepost->ID); 
@@ -182,7 +232,9 @@ get_header(); ?>
 
     echo '<div class="capsule_game"><a href="' . $game_url . '">';
     if ($game_img_capsule != '') {
-      echo '<img src="' . $game_img_capsule . '">';
+      echo '<img src="' . $game_img_capsule . '" alt="' . $game_name . '" title="' . $game_name . '">';
+    } else {
+      echo $game_name;
     }
     echo '</a></div>';
 
