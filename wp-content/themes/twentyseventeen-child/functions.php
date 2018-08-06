@@ -1,5 +1,7 @@
 <?php
 
+define('WEBGAME_WIDTH_DEFAULT', '1500');
+define('WEBGAME_HEIGHT_DEFAULT', '760');
 
 ### START CUSTOM GAME TYPE ###
 function create_posttype() {
@@ -107,6 +109,8 @@ function game_save_post_class_meta($post_id, $post) {
 
 # Update Display Web Game 
   game_update_checkbox_meta_value('_games_displaywebgame', $post_id);
+  game_update_text_meta_value('_games_displaywebgame_width', $post_id);
+  game_update_text_meta_value('_games_displaywebgame_height', $post_id);
 
 # Update blurb 
   game_update_text_meta_value('_games_blurb', $post_id);
@@ -221,6 +225,9 @@ function game_post_class_meta_box( $post ) {
 
 
   create_checkbox_meta_field('Display Web Game (game files must be in /web-games/' . $post->post_name . ') ', '_games_displaywebgame');
+
+  create_text_meta_field('Web Game width (default ' . constant('WEBGAME_WIDTH_DEFAULT') . ')', '_games_displaywebgame_width');
+  create_text_meta_field('Web Game height (default ' . constant('WEBGAME_HEIGHT_DEFAULT') . ')', '_games_displaywebgame_height');
 
   create_text_meta_field('Blurb', '_games_blurb');
   create_text_meta_field('Dream Build Play', '_games_dreambuildplay');
@@ -792,14 +799,44 @@ function display_embed_game() {
 
   $meta_key = '_games_displaywebgame';
   $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
-
+  $webgame_width =  get_post_meta(get_the_ID(), "_games_displaywebgame_width", true);
+  if ($webgame_width == null) {
+    $webgame_width = constant('WEBGAME_WIDTH_DEFAULT');
+  }
+  $webgame_height =  get_post_meta(get_the_ID(), "_games_displaywebgame_height", true);
+  if ($webgame_height == null) {
+    $webgame_height = constant('WEBGAME_HEIGHT_DEFAULT');
+  }
 
   if (!wp_is_mobile() && !is_home() && $displaywebgame == 'true') {
   $game_identifier = get_post(get_the_ID())->post_name;
 
   $strText .= '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
+//  $strText .= '<script type="text/javascript">';
+//  $strText .= 'window.addEventListener("keydown", function(e) {';
+//  $strText .= '  alert(\'key pressed\');';
+//  $strText .= '  if (e.keyCode == 32) {';
+//  $strText .= '    e.preventDefault();';
+//  $strText .= '  }';
+//  $strText .= ');';
+//  $strText .= '</script>';
+
+//  $strText .= '<script type="text/javascript">';
+//  $strText .= 'document.onkeydown = function(evt) {';
+//  $strText .= 'alert(\'key: \' + evt.keyCode);';
+//  $strText .= 'evt = evt || window.event';
+//  $strText .= 'var keyCode = evt.keyCode;';
+//  $strText .= 'if (keyCode >= 37 && keyCode <= 40) {';
+//  $strText .= 'return false;';
+//  $strText .= '}';
+//  $strText .= '}';
+//  $strText .= '</script>';
+  
+
+//  $strText .= '<div style="position: fixed; left: 100px; top: 150px;">';
   $strText .= '<div>';
-  $strText .= '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="1500" height="760" frameborder="0" allowfullscreen="allowfullscreen">';
+//  $strText .= '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="1500" height="760" frameborder="0" allowfullscreen="allowfullscreen">';
+  $strText .= '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="' . $webgame_width . '" height="' . $webgame_height . '" frameborder="0" allowfullscreen="allowfullscreen">';
   $strText .= '</iframe>';
   $strText .= '</div>';
   $strText .= '<!-- LDS - END - Embed Unity WebGL game using iframe -->' . "\n";
