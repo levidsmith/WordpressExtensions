@@ -819,7 +819,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         if ($itch_link != "") {
           echo "<a href=\"" . $itch_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_itchio.jpg\" title=\"Play " . get_the_title() . " on Itch.io\"></a>";
+                          "/assets/images/icon_small_itchio.jpg\" title=\"Play " . $post->post_title . " on Itch.io\"></a>";
         } 
         echo '</td>';
 ?>
@@ -833,7 +833,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         if ($gamejolt_link != "") {
           echo "<a href=\"" . $gamejolt_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_gamejolt.jpg\" title=\"Play " . get_the_title() . " on GameJolt\"></a>";
+                          "/assets/images/icon_small_gamejolt.jpg\" title=\"Play " . $post->post_title . " on GameJolt\"></a>";
         } 
         echo '</td>';
 ?>
@@ -846,7 +846,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         if ($microsoftstore_link != "") {
           echo "<a href=\"" . $microsoftstore_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_microsoftstore.jpg\" title=\"Play " . get_the_title() . " on Microsoft Store\"></a>";
+                          "/assets/images/icon_small_microsoftstore.jpg\" title=\"Play " . $post->post_title . " on Microsoft Store\"></a>";
         } 
         echo '</td>';
 ?>
@@ -859,7 +859,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         if ($googleplay_link != "") {
           echo "<a href=\"" . $googleplay_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_googleplay.jpg\" title=\"Play " . get_the_title() . " on Google Play\"></a>";
+                          "/assets/images/icon_small_googleplay.jpg\" title=\"Play " . $post->post_title . " on Google Play\"></a>";
         } 
         echo '</td>';
 ?>
@@ -872,7 +872,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         if ($kongregate_link != "") {
           echo "<a href=\"" . $kongregate_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_kongregate.jpg\" title=\"Play " . get_the_title() . " on Kongregate\"></a>";
+                          "/assets/images/icon_small_kongregate.jpg\" title=\"Play " . $post->post_title . " on Kongregate\"></a>";
         } 
         echo '</td>';
 ?>
@@ -888,7 +888,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
     if ($timelapse_link != "") {
       echo "<a href=\"" . $timelapse_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_timelapse.jpg\" title=\"Wathc " . get_the_title() . " time lapse development video\"></a>";
+                          "/assets/images/icon_small_timelapse.jpg\" title=\"Watch " . $post->post_title . " time lapse development video\"></a>";
         } 
     echo '</td>';
 #  }
@@ -905,7 +905,7 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
           #echo "<a href=\"" . $youtube_playlist_link . "\">Playlist</a>";
           echo "<a href=\"" . $youtube_playlist_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_small_youtube.jpg\" title=\"View " . get_the_title() . " playlist on YouTube\"></a>";
+                          "/assets/images/icon_small_youtube.jpg\" title=\"View " . $post->post_title . " playlist on YouTube\"></a>";
         } 
         echo '</td>';
 ?>

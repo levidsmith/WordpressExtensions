@@ -1517,7 +1517,8 @@ html {
 body {
 	background: #fff;
 	/* Fallback for when there is no custom background color defined. */
-        font-family: 'Share Tech', sans-serif;
+        font-family: 'Share Tech', sans-serif; 
+/*        font-size: 80px;  */
 }
 
 #page {
@@ -3116,7 +3117,8 @@ object {
 .no-svg .search-submit .screen-reader-text {
 	clip: auto;
 	font-size: 16px;
-	font-size: 1rem;
+/*	font-size: 1rem; */
+	font-size: 1rem; 
 	font-weight: 400;
 	height: auto;
 	position: relative !important; /* overrides previous !important styles */
@@ -3272,8 +3274,9 @@ object {
 	input,
 	select,
 	textarea {
-		font-size: 16px;
-		font-size: 1rem;
+/*		font-size: 16px; */
+		font-size: 20px; 
+		font-size: 1.5rem; 
 		line-height: 1.5;
 	}
 
