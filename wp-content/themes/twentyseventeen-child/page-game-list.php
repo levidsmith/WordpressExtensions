@@ -171,6 +171,8 @@ get_header(); ?>
     echo '<div class="featured_game"><a href="' . $game_url . '">';
     if ($game_img != '') {
       echo '<img src="' . $game_img . '">';
+    } else {
+      echo '<img src="' . 'https://levidsmith.com/blog/wp-content/uploads/2018/09/game_thumbnail_missing_256x144.jpg' . '">';
     }
     echo '</a>';
     if ($game_blurb != '') {
