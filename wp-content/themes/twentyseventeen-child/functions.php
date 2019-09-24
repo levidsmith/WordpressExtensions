@@ -666,13 +666,14 @@ function get_game_structured_data() {
 ### START DISPLAY GAME APPENDIX ###
   function display_game_appendix() {
        $strText = "";
+       $game_id = get_the_ID();
 
-       if (get_post_type(get_the_ID()) == 'games') {
+       if (isset($game_id) && get_post_type(get_the_ID()) == 'games') {
 
           $strText .= 'Created by <span class="author vcard"><a class="url fn n" href="https://levidsmith.com/author/levidsmith/">Levi D. Smith</a></span><br/>';
 
-          $strText .= 'Released <time class="entry-date published" datetime="' . get_the_time('c', $post->ID) . '">' . get_the_time('F d, Y', $post->ID) . '</time>';
-          $strText .= '<time class="updated" datetime="' . get_the_time('c', $post->ID) . '">' . get_the_time('F d, Y', $post->ID) . '</time>';
+          $strText .= 'Released <time class="entry-date published" datetime="' . get_the_time('c', $game_id) . '">' . get_the_time('F d, Y', $game_id) . '</time>';
+          $strText .= '<time class="updated" datetime="' . get_the_time('c', $game_id) . '">' . get_the_time('F d, Y', $game_id) . '</time>';
 
 
           $meta_key = '_games_engine';
@@ -719,30 +720,14 @@ function exclude_tag($q) {
     return;
   }
     $query_args = array('tag__not_in' => array(1));
-    $q->set('tag__not_in', array(86));  #remove wrestling podcasts from main query, without completely deleting them
+    $q->set('tag__not_in', array(99));  #remove wrestling podcasts from main query, without completely deleting them
 
 
 }
 
 #Add games to the listing of posts by tag
-/*
-add_action('parse_tax_query', 'games_tax_query');
-function games_tax_query($q) {
-  if ($q->is_main_query()) {
-#    if ($q->query_vars['tag'] == 'dream-build-play') {
-      $q->set('post_type', array('post', 'games'));
-#    }
-  }
-}
-*/
 function add_custom_types_to_tax($q) {
-#  if (is_admin() || !$q->is_main_query() || !$q->is_home()) {
-#    return;
-#  }
-#  if (is_category() || is_tag() && empty($q->query_vars['suppress_filters'])) {
   if (is_category() || is_tag() ) {
-#    $post_types = get_post_types();
-#    $post_types = array('post', 'games');
     $q->set('post_type', array('post', 'games'));
     return $q;
   }
@@ -751,43 +736,28 @@ add_filter('pre_get_posts', 'add_custom_types_to_tax');
 
 
 
-function my_body_class($class) {
-#  $class[] = 'foo';
-  return "";
-}
-add_filter('body_class', 'my_body_class');
 
 function get_featured_game_blurbs() {
 
   if (!is_home()) {
-#    echo "<div>Home Page</div>";
     return;
   }
 
   echo '<div class="featured_games">';
-
-  $game_name = 'Kitty\'s Adventure';
-  $game_url = 'https://levidsmith.com/games/kittys-adventure/'; 
-  $game_img = 'https://levidsmith.com/blog/wp-content/uploads/2018/03/kittysadventure_256x144.jpg';
-  $game_blurb = 'Popular on XBox One';
-  echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
-
-
-  $game_name = 'Turn Back the Clocks 4';
-  $game_url = 'https://levidsmith.com/games/turn-back-clocks-4/'; 
-  $game_img = 'https://levidsmith.com/blog/wp-content/uploads/2018/03/turnbacktheclocks4_256x144.jpg';
-  $game_blurb = 'Latest on XBox One';
-  echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
-
-
-  $game_name = 'TTY GFX ADVNTR';
-  $game_url = 'https://levidsmith.com/games/tty-gfx-advntr/'; 
-  $game_img = 'https://levidsmith.com/blog/wp-content/uploads/2018/03/tty_gfx_advntr_256x144.jpg';
-  $game_blurb = 'Classic Favorite';
-  echo '<div class="featured_game"><a href="' . $game_url . '"><img src="' . $game_img . '"></a>' . '<div class="featured_game_blurb">' . $game_blurb . '</div>' . '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
-
+//  echo '<h2>Recently Updated</h2>';
+  echo 'Recently Updated<br/>';
+  display_game_thumbnail(4252);
+  display_game_thumbnail(2827);
+  display_game_thumbnail(4014);
+/*  display_game_thumbnail(3030); */
   echo '</div>';
 
+//  echo '<h2>XBox One Games</h2>';
+  echo '<div class="featured_games">';
+  echo 'XBox One Games<br/>';
+  display_game_thumbnail(3435);
+  display_game_thumbnail(5391);
+  echo '</div>';
 
 
 }
@@ -795,7 +765,6 @@ function get_featured_game_blurbs() {
 
 function display_embed_game() {
   $strText = '' . "\n";
-#  $strText .= get_the_ID();
 
   $meta_key = '_games_displaywebgame';
   $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
@@ -812,44 +781,11 @@ function display_embed_game() {
   $game_identifier = get_post(get_the_ID())->post_name;
 
   $strText .= '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
-//  $strText .= '<script type="text/javascript">';
-//  $strText .= 'window.addEventListener("keydown", function(e) {';
-//  $strText .= '  alert(\'key pressed\');';
-//  $strText .= '  if (e.keyCode == 32) {';
-//  $strText .= '    e.preventDefault();';
-//  $strText .= '  }';
-//  $strText .= ');';
-//  $strText .= '</script>';
-
-//  $strText .= '<script type="text/javascript">';
-//  $strText .= 'document.onkeydown = function(evt) {';
-//  $strText .= 'alert(\'key: \' + evt.keyCode);';
-//  $strText .= 'evt = evt || window.event';
-//  $strText .= 'var keyCode = evt.keyCode;';
-//  $strText .= 'if (keyCode >= 37 && keyCode <= 40) {';
-//  $strText .= 'return false;';
-//  $strText .= '}';
-//  $strText .= '}';
-//  $strText .= '</script>';
-  
-
-//  $strText .= '<div style="position: fixed; left: 100px; top: 150px;">';
   $strText .= '<div>';
-//  $strText .= '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="1500" height="760" frameborder="0" allowfullscreen="allowfullscreen">';
   $strText .= '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="' . $webgame_width . '" height="' . $webgame_height . '" frameborder="0" allowfullscreen="allowfullscreen">';
   $strText .= '</iframe>';
   $strText .= '</div>';
   $strText .= '<!-- LDS - END - Embed Unity WebGL game using iframe -->' . "\n";
-
-#  $strText .= '<!-- LDS - START - Embed Unity WebGL game information in the body -->' . "\n";
-#     $strText .= '    <div class="webgl-content">';
-#     $strText .= '     <div class="footer">';
-#     $strText .= '       <div class="webgl-logo"></div>';
-#     $strText .= '       <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>';
-#     $strText .= '       <div class="title">AmishBrothers</div>';
-#     $strText .= '     </div>';
-#     $strText .= '   </div>';
-#  $strText .= '<!-- LDS - END - Embed Unity WebGL game information in body -->' . "\n";
 
 
   } else {
@@ -866,29 +802,42 @@ function display_embed_game() {
 
 function add_custom_game_content($content) {
 
-#  return get_game_structured_data() . display_game_links() . "<br/>" . display_embed_game() . "<br/>" . $content . "<br/>" . display_game_appendix(); 
-#    return $content;
-#  if (is_singular() && is_main_query()) {
-
-
 #For some reason this messes up oembed links on the first or last line, so you just have to put those in the [embed][/embed] tags
   if ( is_main_query()) {
+//    $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<div style="clear: both;"></div>' . display_game_links() . '<br/>' . display_game_appendix(); 
     $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<div style="clear: both;"></div>' . display_game_links() . '<br/>' . display_game_appendix(); 
+#    $content .= "Post ID: " . get_the_ID() . "end";
   }
   return $content;
 }
 add_filter('the_content', 'add_custom_game_content', 5);
 
-/*
-function get_redirects() {
-  if (get_permalink() == 'https://levidsmith.com/blasting-bits/') {
-    wp_redirect( "https://levidsmith.com/games/blasting-bits", 301 );
-  } else if (get_permalink() == 'https://levidsmith.com/gigaguy/') {
-    wp_redirect( "https://levidsmith.com/games/giga-guy", 301 );
- 
+
+  function display_game_thumbnail($game_id) {
+
+    $post = get_post($game_id);
+
+    $game_name = get_the_title($game_id);
+    $game_url = get_the_permalink($game_id);
+    $game_img = $post->_games_thumbnail;
+    $game_blurb = $post->_games_blurb;
+    echo '<div class="featured_game"><a href="' . $game_url . '">';
+    if ($game_img != '') {
+      echo '<img src="' . $game_img . '">';
+    } else {
+      echo '<img src="' . 'https://levidsmith.com/blog/wp-content/uploads/2018/09/game_thumbnail_missing_256x144.jpg' . '">';
+    }
+    echo '</a>';
+    if ($game_blurb != '') {
+      echo '<div class="featured_game_blurb">' . $game_blurb . '</div>';
+    }
+
+
+      echo  '<div class="featured_game_name"><a href="' . $game_url . '">' . $game_name . '</a></div>' . '</div>';
+
+
   }
-}
-*/
+
 
 function my_post_image_html($html, $post_id, $post_image_id) {
   if (is_category() || is_tag() || is_single()) {
@@ -898,11 +847,5 @@ function my_post_image_html($html, $post_id, $post_image_id) {
   }
 }
 add_filter('post_thumbnail_html', 'my_post_image_html', 10, 3);
-
-function make_rank_json() {
-  $json_file = get_home_path . 'rank_stats.json';
-  file_put_contents($json_file, '***json data***');
-}
-add_action('wp', 'make_rank_json');
 
 ?>

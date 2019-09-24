@@ -1514,10 +1514,18 @@ html {
 	box-sizing: inherit;
 }
 
+/*
+@font-face {
+    font-family: 'marianas';
+    src: url('fonts/Marianas.ttf') format('truetype');
+}
+*/
+
 body {
 	background: #fff;
 	/* Fallback for when there is no custom background color defined. */
-        font-family: 'Share Tech', sans-serif; 
+/*        font-family: 'marianas', sans-serif;  */
+        font-family: 'Share Tech', sans-serif;
 /*        font-size: 80px;  */
 }
 
@@ -1576,8 +1584,12 @@ body {
 
 .site-title {
 	clear: none;
+
+/* Safari on iPhone uses these */
 	font-size: 24px;
-	font-size: 1.5rem;
+	font-size: 2rem;
+
+/*        font-size: 48pt; */
 	font-weight: 800;
 	line-height: 1.25;
 	letter-spacing: 0.08em;
@@ -1688,7 +1700,8 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	height: auto;
 	left: 50%;
 	max-width: 1000%;
-	min-height: 100%;
+	min-height: 100%; 
+	min-height: 20px;
 	min-width: 100%;
 	min-width: 100vw; /* vw prevents 1px gap on left that 100% has */
 	width: auto;
@@ -1742,7 +1755,9 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	.has-header-video .custom-header-media video,
 	.has-header-video .custom-header-media iframe,
 	.has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-media img {
-		height: 100%;
+/*		height: 100%;  */
+/* Fix header image -LDS July 23, 2019 */
+                height: 200px;
 		left: 0;
 		-o-object-fit: cover;
 		object-fit: cover;
@@ -3375,9 +3390,14 @@ object {
 	}
 
 	.site-title {
-		font-size: 36px;
-		font-size: 2.25rem;
+/*
+		font-size: 36px; 
+		font-size: 2.25rem; 
+*/
+		font-size: 36px; 
+		font-size: 2.8rem; 
 	}
+
 
 	.site-description {
 		font-size: 16px;
@@ -3635,9 +3655,11 @@ object {
 	.twentyseventeen-front-page.has-header-video .site-branding,
 	.home.blog.has-header-image .site-branding,
 	.home.blog.has-header-video .site-branding {
-		margin-bottom: 70px;
+/* Get rid of the extra space below -LDS */
+/*		margin-bottom: 70px; */
 	}
 
+/*
 	.twentyseventeen-front-page.has-header-image .custom-header-media,
 	.twentyseventeen-front-page.has-header-video .custom-header-media,
 	.home.blog.has-header-image .custom-header-media,
@@ -3671,8 +3693,10 @@ object {
 		height: 100vh;
 		max-height: 1200px;
 	}
+*/
 
 	/* With panel images 100% of the screen height, we're going to fix the background image where supported to create a parallax-like effect. */
+/*
 	.background-fixed .panel-image {
 		background-attachment: fixed;
 	}
@@ -3686,6 +3710,7 @@ object {
 		float: right;
 		width: 58%;
 	}
+*/
 
 	/* Front Page - Recent Posts */
 
@@ -4289,7 +4314,7 @@ object {
 
 .site-title {
     text-transform: none;
-    font-style: italic;
+/*    font-style: italic; */
     text-shadow: 4px 4px 2px #000000;
 }
 
@@ -4325,12 +4350,12 @@ object {
 .featured_games {
 /*  background: #ff000040;  */
   float: left;
-  padding: 0px;
+  padding: 0px 16px 0px 16px;
   position: relative;
   left: 0px;
   top: 0px;
-  width: 800px;
-  height: 144px;
+/*  width: 100%; */
+/*  height: 200px; */
 /*  clear: both; */
 }
 
@@ -4578,4 +4603,26 @@ td.popularity_rank {
   width: 128px;
   padding: 4px 16px 4px 16px;
   text-align: right;
+}
+
+
+/* YouTube Player */
+.youtube_player {
+  position: relative;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.youtube_thumb {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.youtube_arrow {
+  position: absolute;
+/*  top: 97px; */
+  top: 172px;
+  left: 272px;
 }

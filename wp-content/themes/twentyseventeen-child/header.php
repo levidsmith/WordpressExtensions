@@ -28,6 +28,53 @@
 
 </script>
 <!-- End Google Analytics -->
+
+
+<!-- Start YouTube embed -->
+<script>
+
+    /* Light YouTube Embeds by @labnol */
+    /* Web: http://labnol.org/?p=27941 */
+
+    document.addEventListener("DOMContentLoaded",
+        function() {
+            var div, n,
+                v = document.getElementsByClassName("youtube-player");
+            for (n = 0; n < v.length; n++) {
+                div = document.createElement("div");
+                div.setAttribute("data-id", v[n].dataset.id);
+                div.innerHTML = labnolThumb(v[n].dataset.id);
+                div.onclick = labnolIframe;
+                v[n].appendChild(div);
+            }
+        });
+
+    function labnolThumb(id) {
+/*
+        var thumb = '<img src="https://levidsmith.com/blog/wp-content/uploads/2019/08/hqdefault.jpg">',
+            play = '<div class="play"></div>';
+*/
+            var strThumb = '<img class="youtube_thumb" width="800" src="https://i.ytimg.com/vi/ID/hqdefault.jpg">'.replace("ID", id);
+            var strArrow = '<img class="youtube_arrow" width="256" height="256" src="https://levidsmith.com/blog/wp-content/uploads/2019/08/play_arrow.png">';
+            var strPlayer = '<div class="youtube_player">' + strThumb + strArrow + '</div>';
+          return strPlayer;
+/*        return thumb.replace("ID", id) + play; */
+    }
+
+    function labnolIframe() {
+        var iframe = document.createElement("iframe");
+        var embed = "https://www.youtube.com/embed/ID?autoplay=1";
+        iframe.setAttribute("src", embed.replace("ID", this.dataset.id));
+        iframe.setAttribute("frameborder", "0");
+        iframe.setAttribute("width", "800px");
+        iframe.setAttribute("height", "450px");  
+        iframe.setAttribute("allowfullscreen", "1");
+        this.parentNode.replaceChild(iframe, this);
+    }
+
+</script>
+
+<!-- End YouTube embed -->
 	
 	<!-- Start Google Font -->
 	<link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet"> 
@@ -49,7 +96,7 @@
 
 	<header id="masthead" class="site-header" role="banner">
 
-		<?php get_template_part( 'template-parts/header/header', 'image' ); ?>
+		<?php  get_template_part( 'template-parts/header/header', 'image' ); ?>
 
 		<?php if ( has_nav_menu( 'top' ) ) : ?>
 			<div class="navigation-top">
@@ -63,6 +110,7 @@
 
 	<?php
 	// If a regular post or page, and not the front page, show the featured image.
+
 /*
 	if ( has_post_thumbnail() && ( is_single() || ( is_page() && ! twentyseventeen_is_frontpage() ) ) ) :
 		echo '<div class="single-featured-image-header">';
@@ -70,6 +118,8 @@
 		echo '</div><!-- .single-featured-image-header -->';
 	endif;
 */
+
+
 	?>
 
 	<div class="site-content-contain">

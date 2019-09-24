@@ -100,7 +100,6 @@ get_header(); ?>
           $args['order'] = 'ASC'; 
           $showDate = true;
         } else {
-//          $args['orderby'] = 'title'; 
           $args['orderby'] = 'date'; 
           $args['order'] = 'DESC'; 
         }
@@ -138,16 +137,13 @@ get_header(); ?>
         } elseif ($layout == 'videos') {
           display_layout_videos($myposts, $args['video_type']);
         } elseif ($layout == 'popular') {
-#          $json = file_get_contents('https://levidsmith.com/stats/rank_stats.json'); 
           $json = get_rank_json($myposts); 
-#          echo "JSON: " . $json;
           display_layout_popular($json);
         } elseif ($layout == 'capsule') {
           display_layout_capsule($myposts);
         } elseif ($layout == 'list') {
           display_layout_list($myposts, $jam, $showDate);
         } else {
-//          display_layout_list($myposts, $jam, $showDate);
           display_layout_capsule($myposts);
         }
 
@@ -266,7 +262,6 @@ get_header(); ?>
     echo '</div>';
 
     echo '<div class="game_list_video_embed">';
-#    echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $timelapse_youtube_id . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
     echo '<iframe width="256" height="144" src="https://www.youtube.com/embed/' . $timelapse_youtube_id . '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
     echo '</div>';
 
@@ -289,7 +284,6 @@ get_header(); ?>
         foreach( $myposts as $thepost) : setup_postdata( $thepost); 
 
           $doIncrementNumber = display_game_row($thepost, $jam, $showDate, $iGameNumber);
-#          $doIncrementNumber = display_game_text($thepost, $jam, $showDate, $iGameNumber);
           if ($doIncrementNumber) {
             $iGameNumber += 1;
           }
@@ -332,7 +326,6 @@ function get_rank_json($myposts) {
     $ranked_games_array[$thepost->ID]['post_permalink'] = get_permalink($thepost);
   endforeach;
 
-#    echo "Game: " . get_the_title($thepost->ID);
     if (function_exists('stats_get_csv')) {
 
       #All Time Views
@@ -460,10 +453,7 @@ function get_rank_json($myposts) {
 }
 
 function display_layout_popular($json_rank_stats) {
-#  $ranked_games_array = array();
-#  $json_rank_stats = file_get_contents('https://levidsmith.com/stats/rank_stats.json');
   $json = json_decode($json_rank_stats, true);
-#  echo '<pre>' . print_r($json, true) . '</pre>';
 
   $ranked_games_array = $json['games'];
 
@@ -540,7 +530,6 @@ function display_layout_popular($json_rank_stats) {
 <?php
 ### Display game text ###
 function display_game_text($post, $jam, $showDate, $iGameNumber) {
-#  echo "Game: " . $post->post_title . " " . $post->ID . "<br/>";
   echo "Game: " . get_the_title($post->ID) . "<br/>";
 }
 ?>
@@ -883,7 +872,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
 
 <?php
 #Display time lapse icon
-#  if ($timelapse == 'true') {
     echo '<td width="40">';
     $meta_key = '_games_timelapse';
     $timelapse_link = get_post_meta($post->ID, $meta_key, true);
@@ -893,7 +881,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
                           "/assets/images/icon_small_timelapse.jpg\" title=\"Watch " . $post->post_title . " time lapse development video\"></a>";
         } 
     echo '</td>';
-#  }
 
 ?>
 
@@ -904,7 +891,6 @@ function display_game_row($post, $jam, $showDate, $iGameNumber) {
         $meta_key = '_games_youtube_playlist';
         $youtube_playlist_link = get_post_meta($post->ID, $meta_key, true);
         if ($youtube_playlist_link != "") {
-          #echo "<a href=\"" . $youtube_playlist_link . "\">Playlist</a>";
           echo "<a href=\"" . $youtube_playlist_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
                           "/assets/images/icon_small_youtube.jpg\" title=\"View " . $post->post_title . " playlist on YouTube\"></a>";
