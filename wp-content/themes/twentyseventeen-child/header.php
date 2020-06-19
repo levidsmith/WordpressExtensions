@@ -80,6 +80,13 @@
 	<link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet"> 
 	<!-- End Google Font -->
 
+<!-- Start Leaderboard CSS -->
+<link rel="stylesheet" type="text/css" href="https://levidsmith.com/scores/leaderboard.css">
+
+<!-- End Leaderboard CSS -->
+
+
+
 <meta charset="<?php bloginfo( 'charset' ); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?php
@@ -95,18 +102,24 @@
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'twentyseventeen' ); ?></a>
 
 	<header id="masthead" class="site-header" role="banner">
+<!-- Before get_template_part -->
 
 		<?php  get_template_part( 'template-parts/header/header', 'image' ); ?>
+<!-- After get_template_part -->
 
 		<?php if ( has_nav_menu( 'top' ) ) : ?>
 			<div class="navigation-top">
 				<div class="wrap">
 					<?php get_template_part( 'template-parts/navigation/navigation', 'top' ); ?>
-				</div><!-- .wrap -->
-			</div><!-- .navigation-top -->
+				</div>
+			</div>
 		<?php endif; ?>
 
-	</header><!-- #masthead -->
+	</header>
+
+
+
+
 
 	<?php
 	// If a regular post or page, and not the front page, show the featured image.

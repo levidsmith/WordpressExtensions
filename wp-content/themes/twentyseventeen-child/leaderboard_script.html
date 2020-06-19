@@ -1,0 +1,58 @@
+<script>
+
+<!--
+var xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    var myObj = JSON.parse(this.responseText);
+    var strGame = "";
+
+    for ( var i = 0; i < myObj.games.length; i++) {
+      strGame += '<div class="game">';
+      strGame += '<div class="game_name">';
+      strGame += myObj.games[i].name + ' Leaderboard';
+      strGame += '</div>' + "\n";
+      strGame += '<div class="game_metric">' + myObj.games[i].metric + '</div>' + "\n";
+
+      if (myObj.games[i].scores) {
+
+        for ( var j = 0; j < myObj.games[i].scores.length; j++) {
+          if (j == 0) {
+            strGame += '<div class="score_first_place">';
+          } else if (j == 1) {
+            strGame += '<div class="score_second_place">';
+          } else if (j == 2) {
+            strGame += '<div class="score_third_place">';
+          } else {
+            strGame += '<div class="score_other">';
+          }
+          strGame += '<div class="score_name">';
+          strGame += myObj.games[i].scores[j].name + "\n";
+          strGame += '</div>';
+          strGame += '<div class="score_score">';
+          strGame += myObj.games[i].scores[j].score + "\n";
+          strGame += '</div>';
+          strGame += '</div>';
+
+        }
+      } else {
+        strGame += "<div>No Scores</div>";
+      }
+
+      strGame += '</div>';
+      strGame += '<div style="clear: both"></div>';
+    }
+
+        document.getElementById("leaderboard_display").innerHTML = strGame;
+  }
+};
+
+        document.getElementById("leaderboard_display").innerHTML = "Loading Leaderboard";
+
+
+xmlhttp.open("GET", "<LEADERBOARD_JSON>", true);
+xmlhttp.send();
+-->
+
+</script>
+

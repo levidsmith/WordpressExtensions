@@ -23,7 +23,8 @@ get_header(); ?>
 
 <?php
 
-  $secretKey="****************";
+  include('leaderboard_key.php');
+#  $secretKey="ks0YJ53A4jq3Ocmy";
 
 
 
@@ -44,7 +45,8 @@ get_header(); ?>
     $game_url = get_the_permalink($thepost->ID);
     $game_id = $thepost->ID;
 //    $download_url = get_post_meta($thepost->ID, '_games_itchio', true);
-    $download_url = $thepost->_games_itchio;
+//    $download_url = $thepost->_games_itchio;
+    $download_url = get_the_permalink($thepost->ID);
 
 //    echo urlencode($game_name) . $game_id . $secretKey; 
 
@@ -55,7 +57,11 @@ get_header(); ?>
     if (current_user_can("administrator")) {
       $str_date = date("Ymd");
       $hash = md5(urlencode($game_name) . $game_id . $str_date . $secretKey);
-      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' .      '<a href="/scores/AddGame.php?name=' . urlencode($game_name) . '&id=' . $thepost->ID . '&download_url=' . urlencode($download_url) . '&hash=' . $hash . '">Add Game</a></div>';
+#      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' .      '<a href="/scores/AddGame.php?name=' . urlencode($game_name) . '&id=' . $thepost->ID . '&download_url=' . urlencode($download_url) . '&hash=' . $hash . '">Add Game</a></div>';
+      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">';
+#      echo urlencode($game_name) . $game_id . $str_date . $secretKey;
+      echo '<a href="/scores/AddGame.php?name=' . urlencode($game_name) . '&id=' . $thepost->ID . '&download_url=' . urlencode($download_url) . '&hash=' . $hash . '">Add Game</a>';
+      echo '</div>';
 
       $hash = md5($game_id . $str_date . $secretKey);
       echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' .      '<a href="/scores/ClearScores.php?id=' . $thepost->ID . '&hash=' . $hash . '">Clear Scores</a></div>';

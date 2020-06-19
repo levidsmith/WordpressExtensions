@@ -1662,8 +1662,10 @@ body:not(.title-tagline-hidden) .site-branding-text {
 .has-header-image.home.blog .custom-header,
 .has-header-video.home.blog .custom-header {
 	display: table;
-	height: 300px;
-	height: 75vh;
+/* LDS - prevent dynamic header resizing on he front page */
+	height: 100px; 
+/*	height: 300px; */
+/*	height: 75vh; */
 	width: 100%;
 }
 
@@ -3339,7 +3341,8 @@ object {
 		left: 0;
 		height: auto;
 		padding-top: 0;
-		position: absolute;
+/*		position: absolute; */
+		position: relative; 
 		width: 100%;
 	}
 
@@ -3657,6 +3660,7 @@ object {
 	.home.blog.has-header-video .site-branding {
 /* Get rid of the extra space below -LDS */
 /*		margin-bottom: 70px; */
+          padding: 3em 0;
 	}
 
 /*
@@ -4279,7 +4283,7 @@ object {
 /*Computer screen */
 @media screen and (min-width: 48em) {
     .twentyseventeen-front-page.has-header-image .custom-header-image, .has-header-image.home.blog .custom- header-image {
-        height: 25vh;
+/*        height: 25vh; */
 
     }
 
@@ -4298,7 +4302,8 @@ object {
 
 /* Mobile screen*/
 .has-header-image.twentyseventeen-front-page .custom-header, .has-header-image.home.blog .custom-header {
-    height: 25vh;
+/* LDS - Remove the line below to fix the top banner issue on the front page */
+    /*height: 25vh; */
 }
 
 /* Computer screen with logged in user and admin bar showing on front end*/

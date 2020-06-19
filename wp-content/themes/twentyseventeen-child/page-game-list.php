@@ -481,7 +481,6 @@ function display_layout_popular($json_rank_stats) {
       });
     }
 
-
   echo '<table class="popularity_table">';
 
     #Table Headers

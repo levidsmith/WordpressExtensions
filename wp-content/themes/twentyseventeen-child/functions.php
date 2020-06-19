@@ -304,20 +304,45 @@ function display_option($strDisplay, $strValue, $strCurrent) {
 }
 
 function get_engines() {
-  return array ( 
-    "6502" => "6502",
-    "construct" => "Construct",
-    "gamemaker" => "GameMaker",
-    "godot" => "Godot",
-    "pico8" => "Pico-8",
-    "projectspark" => "Project Spark",
-    "scratch" => "Scratch",
-    "sdl" => "SDL",
-    "stencyl" => "Stencyl",
-    "unity" => "Unity",
-    "unreal" => "Unreal Engine",
-    "xna_monogame" => "XNA / MonoGame"
-  );
+  $array = [];
+  $strFileContents = file_get_contents("json/engines.json", TRUE);
+  $objJSON = json_decode($strFileContents);
+
+#  var_dump($objJSON);
+
+#  echo "Key";
+#  echo $objJSON->engine[0]->key;
+#  echo "Description";
+#  echo $objJSON->engine[0]->description;
+  
+  $array["foo"] = "bar";
+#  $array[$objJSON["engine"]["key"]] = $objJSON["engine"]["description"];
+
+#  foreach ($objJSON["engine"] as $engine) {
+  foreach ($objJSON->engine as $engine) {
+#    echo "foo";
+#    echo $engine["key"] . ": " . $engine["description"];
+#    $array[$engine["key"]] = $engine["description"];
+#    echo $engine->key . " | " . $engine->description;
+    $array[$engine->key] = $engine->description;
+  }
+  
+
+  return $array;
+#  return array ( 
+#    "6502" => "6502",
+#    "construct" => "Construct",
+#    "gamemaker" => "GameMaker",
+#    "godot" => "Godot",
+#    "pico8" => "Pico-8",
+#    "projectspark" => "Project Spark",
+#    "scratch" => "Scratch",
+#    "sdl" => "SDL",
+#    "stencyl" => "Stencyl",
+#    "unity" => "Unity",
+#    "unreal" => "Unreal Engine",
+#    "xna_monogame" => "XNA / MonoGame"
+#  );
 }
 
 ### END CUSTOM GAME TYPE ###
@@ -550,21 +575,21 @@ function get_game_structured_data() {
             if ($itch_link != "") {
               $strText .= "<a href=\"" . $itch_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_itchio.jpg\" title=\"Download on Itch.io\"></a> ";
+                          "/assets/images/icon_download_64x64.png\" title=\"Download on Itch.io\"></a> ";
             }
 
             #Display GameJolt link 
             if ($gamejolt_link != "") {
               $strText .= "<a href=\"" . $gamejolt_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_gamejolt.jpg\" title=\"Download on GameJolt\"></a> ";
+                          "/assets/images/icon_download_64x64.png\" title=\"Download on GameJolt\"></a> ";
             }
 
             #Display Microsoft Store link 
             if ($microsoftstore_link != "") {
               $strText .= "<a href=\"" . $microsoftstore_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_microsoftstore.jpg\" title=\"Download on Microsoft Store\"></a> ";
+                          "/assets/images/icon_download_64x64.png\" title=\"Download on Microsoft Store\"></a> ";
             }
 
             #Display Google Play link 
@@ -586,56 +611,56 @@ function get_game_structured_data() {
             if ($indiedb_link != "") {
               $strText .= "<a href=\"" . $indiedb_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_indiedb.jpg\" title=\"View on IndieDB\"></a> ";
+                          "/assets/images/icon_promotion_64x64.png\" title=\"View on IndieDB\"></a> ";
             }
 
             #Display YouTube playlist
             if ($youtube_playlist_link != "") {
               $strText .= "<a href=\"" . $youtube_playlist_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_youtube.jpg\" title=\"View YouTube Playlist\"></a> ";
+                          "/assets/images/icon_video_64x64.png\" title=\"View YouTube Playlist\"></a> ";
             }
 
             #Display Time Lapse link 
             if ($timelapse_link != "") {
               $strText .= "<a href=\"" . $timelapse_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_timelapse.jpg\" title=\"Time lapse video\"></a> ";
+                          "/assets/images/icon_timelapse_64x64.png\" title=\"Time lapse video\"></a> ";
             }
 
             #Display SoundCloud link 
             if ($soundcloud_link != "") {
               $strText .= "<a href=\"" . $soundcloud_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_soundcloud.jpg\" title=\"Music on SoundCloud\"></a> ";
+                          "/assets/images/icon_music_64x64.png\" title=\"Music on SoundCloud\"></a> ";
             }
 
             #Display Unity Connect link 
             if ($unityconnect_link != "") {
               $strText .= "<a href=\"" . $unityconnect_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_unityconnect.jpg\" title=\"Unity Connect Page\"></a> ";
+                          "/assets/images/icon_promotion_64x64.png\" title=\"Unity Connect Page\"></a> ";
             }
 
             #Display Ludum Dare link 
             if ($ludumdare_link != "") {
               $strText .= "<a href=\"" . $ludumdare_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_ludumdare.jpg\" title=\"Ludum Dare Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Ludum Dare Entry\"></a> ";
             }
 
             #Display MiniLD link 
             if ($minild_link != "") {
               $strText .= "<a href=\"" . $minild_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_minild.jpg\" title=\"Ludum Dare Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Ludum Dare Entry\"></a> ";
             }
 
             #Display MiniLD link 
             if ($warmup_link != "") {
               $strText .= "<a href=\"" . $warmup_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_warmup.jpg\" title=\"Ludum Dare Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Ludum Dare Entry\"></a> ";
             }
 
 
@@ -643,14 +668,14 @@ function get_game_structured_data() {
             if ($gm48_link != "") {
               $strText .= "<a href=\"" . $gm48_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_gm48.jpg\" title=\"GM48 Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"GM48 Entry\"></a> ";
             }
 
             #Display Dream Build Play link 
             if ($dreambuildplay_link != "") {
               $strText .= "<a href=\"" . $dreambuildplay_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_dreambuildplay.jpg\" title=\"Dream Build Play Page\"></a> ";
+                          "/assets/images/icon_jam_64x64.png.jpg\" title=\"Dream Build Play Page\"></a> ";
             }
 
     }
@@ -746,9 +771,11 @@ function get_featured_game_blurbs() {
   echo '<div class="featured_games">';
 //  echo '<h2>Recently Updated</h2>';
   echo 'Recently Updated<br/>';
+
   display_game_thumbnail(4252);
   display_game_thumbnail(2827);
-  display_game_thumbnail(4014);
+  display_game_thumbnail(6313);
+/*  display_game_thumbnail(4014); */
 /*  display_game_thumbnail(3030); */
   echo '</div>';
 
@@ -764,6 +791,31 @@ function get_featured_game_blurbs() {
 
 
 function display_embed_game() {
+  if (in_the_loop()) {
+    $meta_key = '_games_displaywebgame';
+    $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
+    $webgame_width =  get_post_meta(get_the_ID(), "_games_displaywebgame_width", true);
+    if ($webgame_width == null) {
+      $webgame_width = constant('WEBGAME_WIDTH_DEFAULT');
+    }
+    $webgame_height =  get_post_meta(get_the_ID(), "_games_displaywebgame_height", true);
+    if ($webgame_height == null) {
+      $webgame_height = constant('WEBGAME_HEIGHT_DEFAULT');
+    }
+
+    if (!wp_is_mobile() && !is_home() && !is_feed() && $displaywebgame == 'true') {
+      $game_identifier = get_post(get_the_ID())->post_name;
+
+      echo '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
+      echo '<div>';
+      echo '<iframe src="https://levidsmith.com/web-games/' . $game_identifier . '" width="' . $webgame_width . '" height="' . $webgame_height . '" frameborder="0" allowfullscreen="allowfullscreen">';
+      echo '</iframe>';
+      echo '</div>';
+      echo '<!-- LDS - END - Embed Unity WebGL game using iframe -->' . "\n";
+    }
+  }
+
+/*
   $strText = '' . "\n";
 
   $meta_key = '_games_displaywebgame';
@@ -793,9 +845,51 @@ function display_embed_game() {
   }
   
   return $strText;
+*/
 
 }
 
+function display_leaderboard() {
+  if (in_the_loop()) {
+    if (!wp_is_mobile() && !is_home() && !is_feed() && (get_post_type(get_the_ID()) == 'games')) {
+      $game_id = get_the_ID();
+
+  echo '<!-- Start Game Leaderboard -->';
+  echo '<p id="leaderboard_display"></p>';
+    $leaderboard_script = file_get_contents('blog/wp-content/themes/twentyseventeen-child/leaderboard_script.html');
+//    $leaderboard_script = file_get_contents('leaderboard_script.html');
+  $leaderboard_script = str_replace('<LEADERBOARD_JSON>', 'https://levidsmith.com/scores/TopScoresAllJSON.php?game=' . $game_id, $leaderboard_script);
+  echo $leaderboard_script;
+//   echo getcwd();
+  echo '<!-- End Game Leaderboard -->';
+
+/*
+      echo '<!-- LDS - START - leaderboard embed iframe -->' . "\n";
+      echo '<div>';
+      echo 'leaderboard ' . $game_identifier . '<br/>';
+      echo '<iframe src="https://levidsmith.com/scores/TopScoresAllJSON.php?game=' . $game_id . '" width="600" height="400" frameborder="1">';
+      echo '</iframe>';
+      echo '</div>';
+      echo '<!-- LDS - END - leaderboard embed iframe -->' . "\n";
+*/
+
+    }
+  }
+}
+
+
+function display_content_pane() {
+  $strContent = '';
+
+  if (in_the_loop() && !wp_is_mobile() && !is_home() && (get_post_type(get_the_ID()) == 'games')) {
+    require 'game_content.php';
+
+    echo '<a id="music">Music</a>';
+    echo  '<div id="game_content">Game Content</div>';
+  }
+
+  return $strContent;
+}
 
 
 
@@ -803,17 +897,37 @@ function display_embed_game() {
 function add_custom_game_content($content) {
 
 #For some reason this messes up oembed links on the first or last line, so you just have to put those in the [embed][/embed] tags
+
   if ( is_main_query()) {
+
+    display_play_online_link();
+    display_embed_game();
+    display_leaderboard();
+/*    display_content_pane(); */
+
 //    $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<div style="clear: both;"></div>' . display_game_links() . '<br/>' . display_game_appendix(); 
-    $content = get_game_structured_data() . '<br/>' . display_embed_game() . '<br/>' . $content . '<div style="clear: both;"></div>' . display_game_links() . '<br/>' . display_game_appendix(); 
+    $content = get_game_structured_data() . '<br/>' . $content . '<div style="clear: both;"></div>' . display_game_links() . '<br/>' . display_game_appendix(); 
 #    $content .= "Post ID: " . get_the_ID() . "end";
-  }
+  } 
+
+  display_game_links();
   return $content;
 }
 add_filter('the_content', 'add_custom_game_content', 5);
 
+function display_play_online_link() {
+    if (is_front_page() && get_post_type(get_the_ID()) == 'games') {
+      $meta_key = '_games_displaywebgame';
+      $displaywebgame = get_post_meta(get_the_ID(), $meta_key, true);
+      if ($displaywebgame == 'true') {
+        echo '<a href="' . get_the_permalink() . '">Play online</a>' . '<br/>';
+      }
+    }
 
-  function display_game_thumbnail($game_id) {
+
+}
+
+function display_game_thumbnail($game_id) {
 
     $post = get_post($game_id);
 
@@ -847,5 +961,19 @@ function my_post_image_html($html, $post_id, $post_image_id) {
   }
 }
 add_filter('post_thumbnail_html', 'my_post_image_html', 10, 3);
+
+function myfeed_request($qv) {
+  if ( isset( $qv['feed'] ) ) {
+    $qv['post_type'] = get_post_types();
+  }
+  return $qv;
+/*
+  if(isset($qv['feed']) && !isset($qv['post_type'])) {
+    $qv['post_type'] = array('post', 'games');
+    return $qv;
+  }
+*/
+}
+add_filter('request', 'myfeed_request');
 
 ?>

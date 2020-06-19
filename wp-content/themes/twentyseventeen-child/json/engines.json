@@ -1,0 +1,17 @@
+{
+  "engine":[
+    { "key":"6502", "description":"6502" },
+    { "key":"construct", "description":"Construct" },
+    { "key":"gamemaker", "description":"GameMaker" },
+    { "key":"godot", "description":"Godot" },
+    { "key":"pico8", "description":"Pico-8" },
+    { "key":"projectspark", "description":"Project Spark" },
+    { "key":"pygame", "description":"Pygame" },
+    { "key":"scratch", "description":"Scratch" },
+    { "key":"sdl", "description":"SDL" },
+    { "key":"stencyl", "description":"Stencyl" },
+    { "key":"unity", "description":"Unity" },
+    { "key":"unreal", "description":"Unreal Engine" },
+    { "key":"xna_monogame", "description":"XNA / MonoGame" }
+  ]
+}
