@@ -1,0 +1,64 @@
+@import url("style/ldsmith_style.css");
+body {
+      font-family: "Share Tech", Sans-Serif;
+      font-size: 20pt;
+      background-image: url("https://levidsmith.com/blog/wp-content/uploads/2015/03/website_bkg3.jpg");
+      background-repeat: no-repeat;
+      background-color: #15c117;
+      background-size: cover;
+    }
+
+body.winter {
+      background-image: url("https://levidsmith.com/blog/wp-content/uploads/2022/11/website_bkg3_winter.jpg");
+      background-color: #d5d5d5;
+    }
+
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    a:hover {
+      color: green;
+      text-decoration: underline;
+    }
+
+
+   .stats_row {
+     float: none;
+     padding: 2px;
+     width: 80%;
+     height: 32px;
+     background-color: rgba(255, 255, 255, 1);
+     overflow: hidden;
+     margin-left: auto;
+     margin-right: auto;
+   }
+
+   .even_row {
+       background-color: #beeded;
+       height: 40px;
+   }
+
+   .odd_row {
+       background-color: #beedbe;
+       height: 40px;
+   }
+
+   .stats_row .stats_name {
+     float: left;
+     width: 20%;
+   }
+
+   .stats_row .stats_column {
+     float: left;
+     width: 15%;
+   }
+
+   .stats_row .stats_latest {
+     float: none;
+     overflow: auto;
+     width: 20%;
+   }
+

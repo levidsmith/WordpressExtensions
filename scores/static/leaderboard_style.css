@@ -1,0 +1,110 @@
+body {
+      font-family: "Share Tech", Sans-Serif;
+      font-size: 10pt;
+      background-image: url("https://levidsmith.com/blog/wp-content/uploads/2015/03/website_bkg3.jpg");
+      background-repeat: no-repeat;
+      background-color: #15c117;
+      background-size: cover;
+    }
+
+body.winter {
+      background-image: url("https://levidsmith.com/blog/wp-content/uploads/2022/11/website_bkg3_winter.jpg");
+      background-color: #d5d5d5;
+    }
+
+    h2 {
+      color: #FFFF00;
+      font-size: 20pt;
+      text-shadow: 2px 2px 1px #000;
+    }
+
+    a {
+      text-decoration: none;
+      color: black;
+    }
+
+    a:hover {
+      color: green;
+      text-decoration: underline;
+    }
+
+
+    .game {
+      width: 320px;
+      float: left;
+      background-color: #daffdb;
+      border: 2px solid black;
+      padding: 4px;
+      margin: 4px;
+    }
+
+    .game .game_metric {
+      font-style: italic;
+    }
+
+    .game .game_name {
+      width: 100%;
+      font-size: 14pt;
+      color: #000000;
+      float: none;
+    }
+
+    .game .score_first_place {
+      color: #FFFFFF;
+      background-color: #0000FF;
+      font-weight: bold;
+      padding: 4px;
+      overflow: auto;
+    }
+
+    .game .score_second_place {
+      color: #FFFFFF;
+      background-color: #FF0000;
+      font-weight: bold;
+      padding: 4px;
+      overflow: auto;
+    }
+
+    .game .score_third_place {
+      color: #A0A000;
+      background-color: #FFFFFF;
+      font-weight: bold;
+      padding: 4px;
+      overflow: auto;
+    }
+
+    .game .score_other {
+      color: #000000;
+      background-color: #E0E0E0;
+      padding: 4px;
+      overflow: auto;
+    }
+
+    .score_name {
+      width: 96px;
+      float: left;
+    }
+
+    .score_score {
+      width: 128px;
+      float: left;
+      text-align: right;
+    }
+
+    .back {
+      color: #FFFF00;
+      clear: both;
+      background-color:  #53ffff;
+      font-weight: bold;
+      float: left;
+      overflow: auto;
+      padding: 4px;
+      border: 1px solid #000000;
+    }
+
+    a .back {
+      color: #FFFF00;
+
+    }
+
+

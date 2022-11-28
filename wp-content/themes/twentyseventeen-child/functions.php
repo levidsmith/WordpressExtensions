@@ -12,7 +12,7 @@ function create_posttype() {
         'singular_name' => __('Game'),
         'edit' => 'Edit'
       ),
-      'description' => 'Games created by Levi D. Smith',
+      'description' => 'Games created by LD Smith',
       'taxonomies' => array('category', 'post_tag'),
       'public' => true,
       'has_archive' => true,
@@ -369,7 +369,7 @@ function get_game_structured_data() {
   $meta_key = '_games_structured_screenshot';
   $structured_screenshot = get_post_meta(get_the_ID(), $meta_key, true);
 
-  $structured_org_name = 'Levi D. Smith Games';
+  $structured_org_name = 'LD Smith Games';
   $structured_org_url = 'https://levidsmith.com';
 
   $meta_key = '_games_indiedb';
@@ -569,7 +569,7 @@ function get_game_structured_data() {
           $dreambuildplay_link = get_post_meta(get_the_ID(), $meta_key, true);
 
 
-            $strText = "";
+            $strText = "&nbsp;<br/>";
 
             #Display Itch.io link 
             if ($itch_link != "") {
@@ -596,14 +596,14 @@ function get_game_structured_data() {
             if ($googleplay_link != "") {
               $strText .= "<a href=\"" . $googleplay_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_googleplay.jpg\" title=\"Download on Google Play\"></a> ";
+                          "/assets/images/icon_mobile_64x64.png\" title=\"Download on mobile\"></a> ";
             }
 
             #Display Kongregate link 
             if ($kongregate_link != "") {
               $strText .= "<a href=\"" . $kongregate_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_kongregate.jpg\" title=\"Play on Kongregate\"></a> ";
+                          "/assets/images/icon_online_64x64.png\" title=\"Play on Kongregate\"></a> ";
             }
 
 
@@ -611,14 +611,14 @@ function get_game_structured_data() {
             if ($indiedb_link != "") {
               $strText .= "<a href=\"" . $indiedb_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_promotion_64x64.png\" title=\"View on IndieDB\"></a> ";
+                          "/assets/images/icon_promotion_64x64.png\" title=\"Promotion\"></a> ";
             }
 
             #Display YouTube playlist
             if ($youtube_playlist_link != "") {
               $strText .= "<a href=\"" . $youtube_playlist_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_video_64x64.png\" title=\"View YouTube Playlist\"></a> ";
+                          "/assets/images/icon_video_64x64.png\" title=\"View video playlist\"></a> ";
             }
 
             #Display Time Lapse link 
@@ -632,35 +632,38 @@ function get_game_structured_data() {
             if ($soundcloud_link != "") {
               $strText .= "<a href=\"" . $soundcloud_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_music_64x64.png\" title=\"Music on SoundCloud\"></a> ";
+                          "/assets/images/icon_music_64x64.png\" title=\"Music soundtrack\"></a> ";
             }
 
+/*
             #Display Unity Connect link 
             if ($unityconnect_link != "") {
               $strText .= "<a href=\"" . $unityconnect_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
                           "/assets/images/icon_promotion_64x64.png\" title=\"Unity Connect Page\"></a> ";
             }
+*/
+/*
 
             #Display Ludum Dare link 
             if ($ludumdare_link != "") {
               $strText .= "<a href=\"" . $ludumdare_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_jam_64x64.png\" title=\"Ludum Dare Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Game jam entry\"></a> ";
             }
 
             #Display MiniLD link 
             if ($minild_link != "") {
               $strText .= "<a href=\"" . $minild_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_jam_64x64.png\" title=\"Ludum Dare Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Game jam entry\"></a> ";
             }
 
             #Display MiniLD link 
             if ($warmup_link != "") {
               $strText .= "<a href=\"" . $warmup_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_jam_64x64.png\" title=\"Ludum Dare Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Game jam entry\"></a> ";
             }
 
 
@@ -668,16 +671,19 @@ function get_game_structured_data() {
             if ($gm48_link != "") {
               $strText .= "<a href=\"" . $gm48_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_jam_64x64.png\" title=\"GM48 Entry\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Game jam Entry\"></a> ";
             }
+*/
 
             #Display Dream Build Play link 
+/*
             if ($dreambuildplay_link != "") {
               $strText .= "<a href=\"" . $dreambuildplay_link . "\"><img src=\"" .
                           get_stylesheet_directory_uri() .
-                          "/assets/images/icon_jam_64x64.png.jpg\" title=\"Dream Build Play Page\"></a> ";
+                          "/assets/images/icon_jam_64x64.png\" title=\"Dream Build Play Page\"></a> ";
             }
 
+*/
     }
 
     return $strText;
@@ -695,20 +701,23 @@ function get_game_structured_data() {
 
        if (isset($game_id) && get_post_type(get_the_ID()) == 'games') {
 
-          $strText .= 'Created by <span class="author vcard"><a class="url fn n" href="https://levidsmith.com/author/levidsmith/">Levi D. Smith</a></span><br/>';
-
-          $strText .= 'Released <time class="entry-date published" datetime="' . get_the_time('c', $game_id) . '">' . get_the_time('F d, Y', $game_id) . '</time>';
-          $strText .= '<time class="updated" datetime="' . get_the_time('c', $game_id) . '">' . get_the_time('F d, Y', $game_id) . '</time>';
+/*
+          $strText .= 'Created by <span class="author vcard"><a class="url fn n" href="https://levidsmith.com/author/levidsmith/">LD Smith</a></span><br/>';
+*/
+          $strText .= 'Released <time class="entry-date published" datetime="' . get_the_time('c', $game_id) . '">' . get_the_time('F j, Y', $game_id) . '</time>';
+          $strText .= '<time class="updated" datetime="' . get_the_time('c', $game_id) . '">' . get_the_time('F j, Y', $game_id) . '</time>';
 
 
           $meta_key = '_games_engine';
           $engine_value = get_post_meta(get_the_ID(), $meta_key, true);
 
             #Display Engine value 
+/*
             if ($engine_value != "") {
               $engines = get_engines();
               $strText .= "<br/>Built with: " . $engines[$engine_value] . "<br/>";
             }
+*/
 
        }
 
@@ -769,19 +778,28 @@ function get_featured_game_blurbs() {
   }
 
   echo '<div class="featured_games">';
-//  echo '<h2>Recently Updated</h2>';
-  echo 'Recently Updated<br/>';
+  echo 'Random Web Games<br/>';
 
-  display_game_thumbnail(4252);
-  display_game_thumbnail(2827);
-  display_game_thumbnail(6313);
-/*  display_game_thumbnail(4014); */
-/*  display_game_thumbnail(3030); */
+  global $wpdb;
+  $result = $wpdb->get_results("SELECT DISTINCT post_id FROM wp_postmeta, wp_posts WHERE wp_postmeta.post_id = wp_posts.id AND post_status = 'publish' AND meta_key = '_games_displaywebgame' and meta_value = 'true' AND post_id NOT IN (3435, 5391) ORDER BY RAND() LIMIT 3");
+#  $result = $wpdb->get_results("SELECT DISTINCT post_id FROM wp_postmeta WHERE meta_key = '_games_displaywebgame' and meta_value = 'true' and post_id NOT IN (3435, 5391) ORDER BY RAND() LIMIT 3");
+#  $result = $wpdb->get_results("SELECT DISTINCT post_id FROM wp_postmeta WHERE meta_key = '_games_displaywebgame' and meta_value = 'true' ORDER BY post_id");
+  foreach ( $result as $row) {
+#   echo $row->post_id . ", ";
+    display_game_thumbnail($row->post_id);
+  }
+//  echo '<h2>Recently Updated</h2>';
+
+//#  echo 'Recently Updated<br/>';
+
+//  display_game_thumbnail(4252);
+//  display_game_thumbnail(2827);
+//  display_game_thumbnail(6313);
   echo '</div>';
 
 //  echo '<h2>XBox One Games</h2>';
   echo '<div class="featured_games">';
-  echo 'XBox One Games<br/>';
+  echo 'Featured Games<br/>';
   display_game_thumbnail(3435);
   display_game_thumbnail(5391);
   echo '</div>';
@@ -803,8 +821,11 @@ function display_embed_game() {
       $webgame_height = constant('WEBGAME_HEIGHT_DEFAULT');
     }
 
+#      echo 'wp_is_mobile(): ' . (int) wp_is_mobile();
+
     if (!wp_is_mobile() && !is_home() && !is_feed() && $displaywebgame == 'true') {
       $game_identifier = get_post(get_the_ID())->post_name;
+
 
       echo '<!-- LDS - START - Embed Unity WebGL game using iframe -->' . "\n";
       echo '<div>';
@@ -975,5 +996,35 @@ function myfeed_request($qv) {
 */
 }
 add_filter('request', 'myfeed_request');
+
+// remove the SVG icon garbage from the parent theme
+add_action('init', function() {
+  remove_action( 'wp_footer', 'twentyseventeen_include_svg_icons', 9999 );
+  add_action('wp_footer', 'twentyseventeen_include_svg_icons_child', 9999 );
+  }
+);
+
+
+function twentyseventeen_include_svg_icons_child() {
+  require 'assets/images/svg-icons_child.svg';
+}
+
+
+
+//Add games content type to Jetpack
+function jeherve_add_cpt_sitemaps( $post_types ) {
+    $post_types[] = 'games';
+    return $post_types;
+}
+add_filter( 'jetpack_sitemap_post_types', 'jeherve_add_cpt_sitemaps' );
+
+add_filter( 'jetpack_sitemap_post_types', 'games_jetpack_sitemap_post_types' ); 
+ 
+function games_jetpack_sitemap_post_types( $post_types ) {
+    $post_types[] = 'games';
+    return $post_types; 
+}
+
+
 
 ?>

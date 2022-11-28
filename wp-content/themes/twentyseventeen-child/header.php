@@ -16,69 +16,15 @@
 <html <?php language_attributes(); ?> class="no-js no-svg">
 <head>
 
-<!-- Start Google Analytics -->
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-62497279-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-<!-- End Google Analytics -->
+<!-- Start Site Verification -->
+<meta name="p:domain_verify" content="f6572e5e5e31c15808105ecbb7169245"/>
+<!-- End Site Verification -->
 
 
-<!-- Start YouTube embed -->
-<script>
-
-    /* Light YouTube Embeds by @labnol */
-    /* Web: http://labnol.org/?p=27941 */
-
-    document.addEventListener("DOMContentLoaded",
-        function() {
-            var div, n,
-                v = document.getElementsByClassName("youtube-player");
-            for (n = 0; n < v.length; n++) {
-                div = document.createElement("div");
-                div.setAttribute("data-id", v[n].dataset.id);
-                div.innerHTML = labnolThumb(v[n].dataset.id);
-                div.onclick = labnolIframe;
-                v[n].appendChild(div);
-            }
-        });
-
-    function labnolThumb(id) {
-/*
-        var thumb = '<img src="https://levidsmith.com/blog/wp-content/uploads/2019/08/hqdefault.jpg">',
-            play = '<div class="play"></div>';
-*/
-            var strThumb = '<img class="youtube_thumb" width="800" src="https://i.ytimg.com/vi/ID/hqdefault.jpg">'.replace("ID", id);
-            var strArrow = '<img class="youtube_arrow" width="256" height="256" src="https://levidsmith.com/blog/wp-content/uploads/2019/08/play_arrow.png">';
-            var strPlayer = '<div class="youtube_player">' + strThumb + strArrow + '</div>';
-          return strPlayer;
-/*        return thumb.replace("ID", id) + play; */
-    }
-
-    function labnolIframe() {
-        var iframe = document.createElement("iframe");
-        var embed = "https://www.youtube.com/embed/ID?autoplay=1";
-        iframe.setAttribute("src", embed.replace("ID", this.dataset.id));
-        iframe.setAttribute("frameborder", "0");
-        iframe.setAttribute("width", "800px");
-        iframe.setAttribute("height", "450px");  
-        iframe.setAttribute("allowfullscreen", "1");
-        this.parentNode.replaceChild(iframe, this);
-    }
-
-</script>
-
-<!-- End YouTube embed -->
 	
-	<!-- Start Google Font -->
-	<link href="https://fonts.googleapis.com/css?family=Share+Tech" rel="stylesheet"> 
-	<!-- End Google Font -->
+	<!-- Start Custom Font -->
+	<link href="https://levidsmith.com/style/ldsmith_style.css" rel="stylesheet"> 
+	<!-- End Custom Font -->
 
 <!-- Start Leaderboard CSS -->
 <link rel="stylesheet" type="text/css" href="https://levidsmith.com/scores/leaderboard.css">

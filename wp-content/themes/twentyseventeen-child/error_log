@@ -1,0 +1,12 @@
+[22-Nov-2021 08:03:34 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/vtjj9rw2kbhz/public_html/blog/wp-content/themes/twentyseventeen-child/index.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/vtjj9rw2kbhz/public_html/blog/wp-content/themes/twentyseventeen-child/index.php on line 18
+[22-Nov-2021 08:03:34 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function language_attributes() in /home/vtjj9rw2kbhz/public_html/blog/wp-content/themes/twentyseventeen-child/header.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/vtjj9rw2kbhz/public_html/blog/wp-content/themes/twentyseventeen-child/header.php on line 16
+[23-Sep-2022 20:31:35 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_header() in /home/vtjj9rw2kbhz/public_html/blog/wp-content/themes/twentyseventeen-child/index.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/vtjj9rw2kbhz/public_html/blog/wp-content/themes/twentyseventeen-child/index.php on line 18

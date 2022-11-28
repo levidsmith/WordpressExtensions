@@ -24,19 +24,19 @@ get_header(); ?>
 <?php
 
   include('leaderboard_key.php');
-#  $secretKey="ks0YJ53A4jq3Ocmy";
 
 
 
   if (current_user_can("administrator")) {
     echo "Leaderboard Management<br>";
   } else {
-    echo "Login to manage leaderboards<br/>";
+    echo "Access denied to leaderboard configuration<br/>";
   }
 
-  $args = array( 'posts_per_page' => 100, 'offset' => 0, 'order' => 'ASC');
+  $args = array( 'posts_per_page' => 200, 'offset' => 0, 'order' => 'ASC');
   $args['orderby'] = 'title';
   $args['post_type'] = 'games';
+  $args['post_status'] = array('publish', 'draft');
   $myposts = get_posts($args);
 
   foreach( $myposts as $thepost) : setup_postdata( $thepost);
@@ -57,15 +57,14 @@ get_header(); ?>
     if (current_user_can("administrator")) {
       $str_date = date("Ymd");
       $hash = md5(urlencode($game_name) . $game_id . $str_date . $secretKey);
-#      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' .      '<a href="/scores/AddGame.php?name=' . urlencode($game_name) . '&id=' . $thepost->ID . '&download_url=' . urlencode($download_url) . '&hash=' . $hash . '">Add Game</a></div>';
       echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">';
-#      echo urlencode($game_name) . $game_id . $str_date . $secretKey;
       echo '<a href="/scores/AddGame.php?name=' . urlencode($game_name) . '&id=' . $thepost->ID . '&download_url=' . urlencode($download_url) . '&hash=' . $hash . '">Add Game</a>';
       echo '</div>';
 
-      $hash = md5($game_id . $str_date . $secretKey);
-      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' .      '<a href="/scores/ClearScores.php?id=' . $thepost->ID . '&hash=' . $hash . '">Clear Scores</a></div>';
+#      $hash = md5($game_id . $str_date . $secretKey);
+#      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' .      '<a href="/scores/ClearScores.php?id=' . $thepost->ID . '&hash=' . $hash . '">Clear Scores</a></div>';
 
+      echo '<div style="width: 200px; background-color: #A0FFFF; float: left;">' . '<a href="/scores/ManageGameLeaderboard.php?id=' . $thepost->ID . '">Manage</a></div>';
     }
 
     echo '</div>';

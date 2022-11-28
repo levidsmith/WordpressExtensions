@@ -4292,7 +4292,7 @@ object {
     }
 
     #primary-game-list {
-        width: 100% !important;
+        width: 100% !important; 
     }
 
     .has-sidebar #secondary {

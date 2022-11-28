@@ -27,7 +27,14 @@ xmlhttp.onreadystatechange = function() {
             strGame += '<div class="score_other">';
           }
           strGame += '<div class="score_name">';
-          strGame += myObj.games[i].scores[j].name + "\n";
+
+          if (myObj.games[i].scores[j].name != "") {
+            strGame += myObj.games[i].scores[j].name + "\n";
+          } else {
+            strGame += "&nbsp;" + "\n";
+          }
+
+
           strGame += '</div>';
           strGame += '<div class="score_score">';
           strGame += myObj.games[i].scores[j].score + "\n";
