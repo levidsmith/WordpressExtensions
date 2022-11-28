@@ -27,8 +27,8 @@
         $download_url = mysqli_real_escape_string($conn, $_GET['download_url']); 
         $hash = $_GET['hash']; 
         
-        //This is your key. You have to fill this in! Go and generate a strong one.
-        //Included from update_key.php
+        //Key ($secretKey) included from update_key.php.  
+        //Create the file if it does not exist
 
         
         //We md5 hash our results.
@@ -39,7 +39,6 @@
         
         //If what we expect is what we have:
         if($expected_hash == $hash) { 
-#            $newKey = bin2hex(random_bytes(8));
             $newKey = getRandomKey(16);
             // Here's our query to insert/update scores!
             $query = 'INSERT INTO game (id, name, order_method, score_format, metric, download_url, leaderboard_key) ' .
