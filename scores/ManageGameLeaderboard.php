@@ -59,9 +59,6 @@ require('../blog/wp-blog-header.php');
   <form action="ManageGameLeaderboardUpdate.php" method="post">
     <input type="hidden" name="id" value="<?php echo $id; ?>"></br>
     Name: <?php echo $strName; ?></br>
-<!--
-    Order Method: <input type="text" name="order_method" value="<?php echo $strOrderMethod; ?>"></br>
--->
 
     Order Method: <select id="order_method" name ="order_method">
                     <option value="0"
@@ -73,9 +70,6 @@ require('../blog/wp-blog-header.php');
                   </select>
 <br/>
 
-<!--
-    Score Format: <input type="text" name="score_format" value="<?php echo $strScoreFormat; ?>"></br>
--->
     Score Format: <select id="score_format" name ="score_format">
                     <option value="normal"
                     <?php if ($strScoreFormat == "") { echo " selected"; }  ?>

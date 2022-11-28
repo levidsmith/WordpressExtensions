@@ -62,7 +62,6 @@ xmlhttp.onreadystatechange = function() {
   if (isset($_SERVER['QUERY_STRING'])) {
     $params = "?" . $_SERVER['QUERY_STRING']; 
   }
-#  echo 'xmlhttp.open("GET", "' . $site_url . '/scores/GameStatsJSON.php' . $params , true);'; 
   echo 'xmlhttp.open("GET", "' . $site_url . '/scores/GameStatsJSON.php' .
         $params . '", true);'; 
 ?>

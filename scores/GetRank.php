@@ -69,11 +69,6 @@ function sanitize($string)
     $MAX_LENGTH = 250; // bytes per chat or text message - fixme?
     $string = substr($string, 0, $MAX_LENGTH);
     $string = no_naughty($string);
-    // breaks apos and quot: // $string = htmlentities($string,ENT_QUOTES);
-    // useless since the above gets rid of quotes...
-    //$string = str_replace("'","&rsquo;",$string);
-    //$string = str_replace("\"","&rdquo;",$string);
-    //$string = str_replace('#','&pound;',$string); // special case
     $string = my_utf8($string);
     $string = safe_typing($string);
     return trim($string);

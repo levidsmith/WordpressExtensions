@@ -13,7 +13,6 @@
         $strMetric = $_POST['metric'];
         $strDownloadURL = $_POST['download_url'];
 
-#        $strQuery = 'SELECT name, order_method, score_format, metric, download_url FROM game WHERE id = ' . $id;
 
         $strQuery = 'UPDATE game SET order_method = ' . $strOrderMethod . ', ' .
                     'score_format = \'' . $strScoreFormat . '\', ' .
@@ -22,7 +21,6 @@
                     'WHERE id = ' . $id;
 
          echo 'query: ' . $strQuery;
-#        $result = mysqli_query($conn, $strQuery) or die('Query failed: ' . mysqli_error());
 
         $result = mysqli_query($conn, $strQuery) or die('Query failed: ' . mysqli_error());
 ?>

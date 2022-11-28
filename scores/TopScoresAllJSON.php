@@ -103,10 +103,6 @@
 
            $score_display = $row_scores['score'];
            if ($row['score_format'] == 'stopwatch') {
-#             $mins = floor($score_display / 6000);
-#             $secs = floor($score_display / 100) % 60; 
-#             $hundredths = $score_display % 100; 
-#             $score_display = $mins . ":" . str_pad($secs, 2, "0", STR_PAD_LEFT) . "." . str_pad($hundredths, 2, "0", STR_PAD_LEFT);
              $score_display = getStopwatchFormat($score_display);
            }
 

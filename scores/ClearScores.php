@@ -19,13 +19,11 @@
             //And finally we send our query.
             $result = mysqli_query($conn, $query) or die('Query failed: ' . mysqli_error()); 
             echo "<html><head>";
-//            echo '<meta http-equiv="refresh" content="0; url=' . $redirect_url . '" />';
             echo "</head><body>";
             echo "Game " . $id . " Scores Cleared";
             echo "</body></html>";
         }  else {
             echo "Invalid hash value<br/>";
-//            echo "Expected: ". $expected_hash . " got: " . $hash;
         }
 
 

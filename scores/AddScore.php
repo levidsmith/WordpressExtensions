@@ -15,14 +15,13 @@
         //This is the polite version of our name
         $politestring = sanitize($name);
         
-        //This is your key. You have to fill this in! Go and generate a strong one.
-#        $secretKey="****************";
+        //Set the key in the update_key.php.  This file should not be checked in source code repository, and it should be added to .gitignore
+
         //Query the game's leaderboard key from the database
         $query_leaderboard_key = "SELECT leaderboard_key FROM game WHERE id = " . $game;
         $result = mysqli_query($conn, $query_leaderboard_key) or die('Query failed: ' . mysqli_error());
         $row = mysqli_fetch_row($result);
         $secretKey = trim($row[0]);
-#        echo "***" . $secretKey . "***<br>";
         
         //We md5 hash our results.
         $expected_hash = md5($name . $score . $game . $secretKey); 
@@ -94,12 +93,6 @@ function sanitize($string)
     $MAX_LENGTH = 250; // bytes per chat or text message - fixme?
     $string = substr($string, 0, $MAX_LENGTH);
     $string = no_naughty($string);
-    // breaks apos and quot: // $string = htmlentities($string,ENT_QUOTES);
-    // useless since the above gets rid of quotes...
-    //$string = str_replace("'","&rsquo;",$string);
-    //$string = str_replace("\"","&rdquo;",$string);
-    //$string = str_replace('#','&pound;',$string); // special case
-//    $string = my_utf8($string);
     $string = safe_typing($string);
     return trim($string);
 }
